@@ -89,13 +89,14 @@ public class SystemController {
      */
     @PostMapping("/logout/{token}")
     public Result logout(@Valid @NotBlank(message = "参数为空") @PathVariable String token) {
-        if (!WsTokenUtils.validateToken(token) || !WsTokenUtils.validateUserWs(token)) {
+        if (!WsTokenUtils.validateToken(token)) {
             return Result.error(ResultEnum.ERROR_TOKEN);
         }
+        Long userId = WsTokenUtils.getUserId(token);
         // 删除登录token
         WsTokenUtils.deleteToken(token);
         // 删除用户的服务器信息
-        WsTokenUtils.delUserWs(token);
+        WsTokenUtils.delUserWs(userId);
         return Result.success();
     }
 

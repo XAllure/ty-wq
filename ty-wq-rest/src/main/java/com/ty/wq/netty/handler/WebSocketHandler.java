@@ -1,10 +1,8 @@
 package com.ty.wq.netty.handler;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.ty.wq.constant.MsgType;
-import com.ty.wq.pojo.vo.netty.Message;
-import com.ty.wq.utils.OrikaUtils;
+import com.ty.wq.pojo.vo.netty.MsgVo;
+import com.ty.wq.utils.MessageUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
@@ -27,6 +25,8 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
     @Autowired
     private WebSocketMsgHandler webSocketMsgHandler;
 
+
+
     /** 连接数 */
     private static final AtomicInteger CON_COUNT = new AtomicInteger(0);
 
@@ -34,15 +34,13 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) {
         log.debug("------------------- webSocket读取并处理消息 ------------------------");
         // 打印请求日志
-        String text = msg.text();
-        JSONObject object = JSON.parseObject(text);
-        Message message = OrikaUtils.convert(object, Message.class);
-        if (!MsgType.HEART_BEAT.equals(message.getType())) {
+        MsgVo msgVo = MessageUtils.msgVo(msg);
+        if (!msgVo.getType().equals(MsgType.HEART_BEAT)) {
             log.info("WebSocket[channelId-{}]请求参数", ctx.channel().id().asLongText());
             log.info("IP: {}", ctx.channel().remoteAddress());
-            log.info("Parameter: {}", message);
+            log.info("Parameter: {}", msgVo);
         }
-        webSocketMsgHandler.handler(ctx, message);
+        webSocketMsgHandler.handler(ctx, msgVo);
         ctx.flush();
     }
 

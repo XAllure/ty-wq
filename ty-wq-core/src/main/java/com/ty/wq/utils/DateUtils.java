@@ -21,7 +21,7 @@ import java.util.TimeZone;
  * @author: qiao
  * @create: 2020/10/18 13:09
  */
-public class DateUtil {
+public class DateUtils {
   /**
    * 获取当前时间的0点毫秒值
    *
@@ -257,8 +257,8 @@ public class DateUtil {
 
   public static void main(String[] args) {
     // String time = "2019-03-15 10:17:00";
-    Date utcTime = DateUtil.localToUTC(System.currentTimeMillis());
-    long cstTime = DateUtil.utcToCST(utcTime.getTime());
+    Date utcTime = DateUtils.localToUTC(System.currentTimeMillis());
+    long cstTime = DateUtils.utcToCST(utcTime.getTime());
     Timestamp timestamp = new Timestamp(cstTime);
     System.out.println(timestamp.toString());
   }

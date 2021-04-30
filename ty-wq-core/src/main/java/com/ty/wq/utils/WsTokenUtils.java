@@ -62,6 +62,15 @@ public class WsTokenUtils {
     }
 
     /**
+     * 获取通过 token 存储的 userId
+     * @param token
+     * @return
+     */
+    public static Long getUserId(String token) {
+        return (long) RedisUtils.getValue(Constants.WQ_LOGIN_KEY.concat(token));
+    }
+
+    /**
      * 校验token
      * @param token
      * @return
@@ -96,37 +105,37 @@ public class WsTokenUtils {
 
     /**
      * 保存用户服务器的信息
-     * @param token
+     * @param userId
      * @param wsServer
      */
-    public static void saveUserWs(String token, WsServer wsServer) {
-        RedisUtils.setValue(Constants.WS_USER_SERVER.concat(token), wsServer.getId());
+    public static void saveUserWs(Long userId, WsServer wsServer) {
+        RedisUtils.setValue(Constants.WS_USER_SERVER.concat(String.valueOf(userId)), wsServer.getId());
     }
 
     /**
      * 删除用户服务器的信息
-     * @param token
+     * @param userId
      */
-    public static void delUserWs(String token) {
-        RedisUtils.delete(Constants.WS_USER_SERVER.concat(token));
+    public static void delUserWs(Long userId) {
+        RedisUtils.delete(Constants.WS_USER_SERVER.concat(String.valueOf(userId)));
     }
 
     /**
      * 校验用户服务器的信息
-     * @param token
+     * @param userId
      * @return
      */
-    public static boolean validateUserWs(String token){
-        return RedisUtils.hasKey(Constants.WS_USER_SERVER.concat(token));
+    public static boolean validateUserWs(Long userId){
+        return RedisUtils.hasKey(Constants.WS_USER_SERVER.concat(String.valueOf(userId)));
     }
 
     /**
      * 获取用户服务器的信息
-     * @param token
+     * @param userId
      * @return
      */
-    public static WsServer getUserWs(String token) {
-        String id = (String) RedisUtils.getValue(Constants.WS_USER_SERVER.concat(token));
+    public static WsServer getUserWs(Long userId) {
+        String id = (String) RedisUtils.getValue(Constants.WS_USER_SERVER.concat(String.valueOf(userId)));
         return (WsServer) RedisUtils.getValue(Constants.WS_SERVER_INFO.concat(id));
     }
 

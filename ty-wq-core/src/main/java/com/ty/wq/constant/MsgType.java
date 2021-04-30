@@ -5,7 +5,11 @@ package com.ty.wq.constant;
  * @author Administrator
  */
 public interface MsgType {
-    String ERROR = "Error";
-    String HEART_BEAT = "HeartBeat";
-    String RECEIVED = "Received";
+    String
+            LOGIN = "Login",
+            ERROR = "Error",
+            HEART_BEAT = "HeartBeat",
+            RECEIVED = "Received"
+
+    ;
 }

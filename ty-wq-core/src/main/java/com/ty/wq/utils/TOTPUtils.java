@@ -17,7 +17,7 @@ public class TOTPUtils {
     }
 
     /**
-     * This method uses the JCE to provide the crypto algorithm. HMAC computes a Hashed Message
+     * This method uses the JCE to provide the crypto algorithm. HMAC computes a Hashed MsgVo
      * Authentication Code with the crypto hash algorithm as a parameter.
      *
      * @param crypto   : the crypto algorithm (HmacSHA1, HmacSHA256, HmacSHA512)

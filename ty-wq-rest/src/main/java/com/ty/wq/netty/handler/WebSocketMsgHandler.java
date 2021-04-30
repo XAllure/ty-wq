@@ -1,15 +1,16 @@
 package com.ty.wq.netty.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ty.wq.constant.MsgType;
 import com.ty.wq.enums.ResultEnum;
-import com.ty.wq.netty.handler.websocket.LoginHandler;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.netty.Message;
+import com.ty.wq.pojo.vo.netty.MsgVo;
+import com.ty.wq.utils.MessageUtils;
 import com.ty.wq.utils.OrikaUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,24 +20,32 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class WebSocketMsgHandler {
 
-    @Autowired
-    private LoginHandler loginHandler;
 
-
-    public void handler(ChannelHandlerContext ctx, Message message) {
-        if (message != null) {
+    public void handler(ChannelHandlerContext ctx, MsgVo msgVo) {
+        if (msgVo != null) {
             try {
-                loginHandler.handler(ctx, message);
-                //ctx.channel().writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(message)));
+                switch (msgVo.getType()) {
+                    case MsgType.LOGIN: {
+                        log.info("LOGIN 操作， 跳过");
+                        break;
+                    }
+                    case MsgType.HEART_BEAT: {
+                        log.info("HEARTBEAT 操作");
+                        break;
+                    }
+                    case MsgType.RECEIVED: {
+                        log.info("RECEIVED 操作");
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
             } catch (Exception e) {
-                message.setData(Result.error(ResultEnum.ERROR_PARAMETER));
-                JSONObject obj = OrikaUtils.convert(message, JSONObject.class);
-                ctx.channel().writeAndFlush(new TextWebSocketFrame(obj.toJSONString()));
-                log.error("参数传入错误！");
-                e.printStackTrace();
+                MessageUtils.writeJson(ctx.channel(), Message.error(MsgType.ERROR, ResultEnum.ERROR_SERVER));
             }
         } else {
-            log.info("空");
+            MessageUtils.writeJson(ctx.channel(), Message.error(MsgType.ERROR, ResultEnum.ERROR_PARAMETER));
         }
     }
 

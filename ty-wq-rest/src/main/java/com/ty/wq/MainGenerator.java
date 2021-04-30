@@ -1,6 +1,5 @@
 package com.ty.wq;
 
-import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import com.ty.wq.dao.BaseDao;
 import com.ty.wq.pojo.po.BasePo;
 import com.ty.wq.pojo.vo.BaseReqVo;
@@ -9,7 +8,7 @@ import com.ty.wq.pojo.vo.BaseSearchVo;
 import com.ty.wq.service.base.BaseService;
 import com.ty.wq.service.base.impl.BaseServiceImpl;
 import com.ty.wq.utils.CommonUtils;
-import com.ty.wq.utils.DateUtil;
+import com.ty.wq.utils.DateUtils;
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;
 
@@ -775,7 +774,7 @@ public class MainGenerator {
                 .replace("${tableName}",tableName)
                 .replace("${name}",pojoName)
                 .replace("${path}", CommonUtils.toFirstLowerCase(pojoName))
-                .replace("${time}", DateUtil.parseLongToDate(System.currentTimeMillis(),null))
+                .replace("${time}", DateUtils.parseLongToDate(System.currentTimeMillis(),null))
                 .replace("${fieldList}",fieldBuilder.toString());
         RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
         while (randomAccessFile.getFilePointer() < randomAccessFile.length()) {

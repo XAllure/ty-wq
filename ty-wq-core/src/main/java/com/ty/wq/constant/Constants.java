@@ -23,9 +23,6 @@ public interface Constants {
     int REG_TIMEOUT = 80;
 
     /** 屏蔽词文件名 */
-    String BADWORDS_FILE_NAME = "badwords.txt";
-
-    /** 用户连接 netty 进行登录时 绑定的 token 属性 */
-    AttributeKey<String> WS_TOKEN = AttributeKey.valueOf("token");
+    String BAD_WORDS_FILE_NAME = "badwords.txt";
 
 }

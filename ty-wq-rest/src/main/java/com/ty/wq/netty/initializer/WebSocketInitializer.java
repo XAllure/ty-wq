@@ -2,18 +2,15 @@ package com.ty.wq.netty.initializer;
 
 import com.ty.wq.netty.handler.WebSocketHandler;
 import com.ty.wq.netty.handler.WebSocketLogHandler;
-import io.netty.channel.Channel;
+import com.ty.wq.netty.handler.WebSocketAuthHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
-import io.netty.handler.timeout.IdleStateHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Administrator
@@ -23,6 +20,9 @@ public class WebSocketInitializer extends ChannelInitializer<SocketChannel> {
 
     @Autowired
     private WebSocketHandler webSocketHandler;
+
+    @Autowired
+    private WebSocketAuthHandler webSocketAuthHandler;
 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
@@ -34,6 +34,8 @@ public class WebSocketInitializer extends ChannelInitializer<SocketChannel> {
                 .addLast(new HttpObjectAggregator(65536))
                 .addLast(new WebSocketServerProtocolHandler("/"))
                 .addLast(new WebSocketLogHandler())
+                // 自定义验证的 handler
+                .addLast(webSocketAuthHandler)
                 // 添加自定义的 handler
                 .addLast(webSocketHandler);
     }

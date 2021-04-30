@@ -84,9 +84,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
         // 保存用户登录的token
         WsTokenUtils.saveAlwaysToken(token, user.getId());
         // 保存用户服务器的信息
-        WsTokenUtils.saveUserWs(token, ws);
+        WsTokenUtils.saveUserWs(user.getId(), ws);
         log.info("为用户[{}]创建的token为: {}", user.getUsername(), token);
-        log.info("为用户[{}]保存的服务器信息为: {}", user.getUsername(), WsTokenUtils.getUserWs(token));
+        log.info("为用户[{}]保存的服务器信息为: {}", user.getUsername(), WsTokenUtils.getUserWs(user.getId()));
         return respVo;
     }
 
