@@ -29,7 +29,7 @@ public interface BaseService<E extends BasePo,D extends BaseDao<E>, SV extends B
      * @param entityList
      * @return
      */
-    int insertBatchSomeColumn(Collection<E> entityList);
+    int inserts(Collection<E> entityList);
 
     /**
      * 根据id删除

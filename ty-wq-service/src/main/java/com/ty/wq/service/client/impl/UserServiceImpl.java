@@ -73,15 +73,15 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
         String key = keys.get((int) (count % keys.size()));
         // 获取服务器信息
         WsServer ws = (WsServer) RedisUtils.getValue(key);
-        ws.setNPort(null);
         ws.setHPort(null);
+        ws.setNIp(null);
         // 创建token
         String token = WsTokenUtils.createToken(user.getSalt());
         LoginRespVo respVo = new LoginRespVo();
         respVo.setToken(token);
         respVo.setUser(OrikaUtils.convert(user, UserRespVo.class));
         respVo.setServer(ws);
-        // 保存用户登录的token
+        // 保存用户登录的 token 与对应的 userId
         WsTokenUtils.saveAlwaysToken(token, user.getId());
         // 保存用户服务器的信息
         WsTokenUtils.saveUserWs(user.getId(), ws);

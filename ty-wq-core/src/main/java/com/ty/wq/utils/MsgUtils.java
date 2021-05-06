@@ -11,7 +11,7 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
  * netty 发送消息
  * @author Administrator
  */
-public class MessageUtils {
+public class MsgUtils {
 
     /**
      * 返回 MsgVo 类型消息
@@ -23,7 +23,7 @@ public class MessageUtils {
     }
 
     /**
-     * 实体转换
+     * 实体转换, 字段相同的转换
      * @param source
      * @param target
      * @param <S>

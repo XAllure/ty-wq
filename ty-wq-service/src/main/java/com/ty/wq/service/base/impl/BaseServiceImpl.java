@@ -44,7 +44,7 @@ public class BaseServiceImpl<E extends BasePo,D extends BaseDao<E>, SV extends B
     }
 
     @Override
-    public int insertBatchSomeColumn(Collection<E> entityList) {
+    public int inserts(Collection<E> entityList) {
         return this.baseDao.insertBatchSomeColumn(entityList);
     }
 

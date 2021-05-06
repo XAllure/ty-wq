@@ -1,16 +1,15 @@
 package com.ty.wq.netty.handler;
 
-import com.alibaba.fastjson.JSONObject;
 import com.ty.wq.constant.MsgType;
 import com.ty.wq.enums.ResultEnum;
-import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.pojo.vo.netty.MsgVo;
-import com.ty.wq.utils.MessageUtils;
-import com.ty.wq.utils.OrikaUtils;
+import com.ty.wq.utils.ChannelUtils;
+import com.ty.wq.utils.MsgUtils;
+import com.ty.wq.utils.WsTokenUtils;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -42,10 +41,10 @@ public class WebSocketMsgHandler {
                     }
                 }
             } catch (Exception e) {
-                MessageUtils.writeJson(ctx.channel(), Message.error(MsgType.ERROR, ResultEnum.ERROR_SERVER));
+                MsgUtils.writeJson(ctx.channel(), Message.error(MsgType.ERROR, ResultEnum.ERROR_SERVER));
             }
         } else {
-            MessageUtils.writeJson(ctx.channel(), Message.error(MsgType.ERROR, ResultEnum.ERROR_PARAMETER));
+            MsgUtils.writeJson(ctx.channel(), Message.error(MsgType.ERROR, ResultEnum.ERROR_PARAMETER));
         }
     }
 

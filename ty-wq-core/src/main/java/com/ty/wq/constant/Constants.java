@@ -25,4 +25,10 @@ public interface Constants {
     /** 屏蔽词文件名 */
     String BAD_WORDS_FILE_NAME = "badwords.txt";
 
+    /**  */
+    String CONTENT_TYPE_JSON = "application/json"
+
+
+    ;
+
 }

@@ -24,7 +24,9 @@ public enum ResultEnum {
 
     ERROR_TOKEN(105, "登录信息错误"),
 
-    ERROR_SERVER_LOGIN(106, "未登录服务器"),
+    SERVER_NOT_LOGIN(106, "未登录服务器"),
+
+    NO_TOKEN(106, "token不存在"),
 
     ERROR_SERVER(500, "服务器内部错误"),
 

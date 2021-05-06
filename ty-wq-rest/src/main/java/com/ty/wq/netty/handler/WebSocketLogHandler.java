@@ -2,7 +2,9 @@ package com.ty.wq.netty.handler;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ty.wq.constant.MsgType;
+import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.pojo.vo.netty.MsgVo;
+import com.ty.wq.utils.MsgUtils;
 import com.ty.wq.utils.OrikaUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
@@ -20,11 +22,10 @@ public class WebSocketLogHandler extends ChunkedWriteHandler {
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         if (msg instanceof TextWebSocketFrame){
             String text = ((TextWebSocketFrame) msg).text();
-            JSONObject object = JSONObject.parseObject(text);
-            MsgVo msgVo = OrikaUtils.convert(object, MsgVo.class);
-            log.info(String.valueOf(msgVo));
+            Message message = MsgUtils.convert(text, Message.class);
+            log.info(String.valueOf(message));
             // 排除应答日志
-            if (!MsgType.RECEIVED.equalsIgnoreCase(msgVo.getType())){
+            if (!MsgType.RECEIVED.equalsIgnoreCase(message.getType())){
                 log.info("webSocket[channelId-"+ ctx.channel().id().asShortText() +"]返回：" + text);
                 log.info("----------------------- webSocket返回结束 -------------------");
             }

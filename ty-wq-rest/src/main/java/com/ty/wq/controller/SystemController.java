@@ -1,13 +1,18 @@
 package com.ty.wq.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ty.wq.constant.Constants;
 import com.ty.wq.enums.ResultEnum;
+import com.ty.wq.pojo.po.client.User;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.user.LoginReqVo;
 import com.ty.wq.pojo.vo.client.user.LoginRespVo;
+import com.ty.wq.pojo.vo.client.user.UserRespVo;
+import com.ty.wq.pojo.vo.client.user.UserSearchVo;
 import com.ty.wq.service.client.UserService;
 import com.ty.wq.utils.CommonUtils;
+import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
 import com.ty.wq.utils.WsTokenUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -89,14 +94,15 @@ public class SystemController {
      */
     @PostMapping("/logout/{token}")
     public Result logout(@Valid @NotBlank(message = "参数为空") @PathVariable String token) {
-        if (!WsTokenUtils.validateToken(token)) {
+        if (!WsTokenUtils.hasToken(token)) {
             return Result.error(ResultEnum.ERROR_TOKEN);
         }
         Long userId = WsTokenUtils.getUserId(token);
         // 删除登录token
-        WsTokenUtils.deleteToken(token);
+        WsTokenUtils.delToken(token);
         // 删除用户的服务器信息
         WsTokenUtils.delUserWs(userId);
+        log.info("用户退出，退出的token[{}]", token);
         return Result.success();
     }
 

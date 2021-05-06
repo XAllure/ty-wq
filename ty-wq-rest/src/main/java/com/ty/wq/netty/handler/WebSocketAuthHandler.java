@@ -6,7 +6,7 @@ import com.ty.wq.netty.handler.websocket.LoginHandler;
 import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.utils.ChannelUtils;
-import com.ty.wq.utils.MessageUtils;
+import com.ty.wq.utils.MsgUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
@@ -33,18 +33,17 @@ public class WebSocketAuthHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         Channel channel = ctx.channel();
-        MsgVo msgVo = MessageUtils.msgVo((TextWebSocketFrame) msg);
+        MsgVo msgVo = MsgUtils.msgVo((TextWebSocketFrame) msg);
         // 如果是登录类型
         if (msgVo.getType().equals(MsgType.LOGIN)) {
             // 进行登录
             loginHandler.handler(channel, msgVo);
-            channel.pipeline().remove(this);
             return;
         } else {
             //如果没有登录，则提醒用户登录
             if (StringUtils.isBlank(ChannelUtils.getToken(channel))) {
                 log.info("用户[{}]没有登录， 提醒用户登录！！！", channel.id().asLongText());
-                MessageUtils.writeJson(channel, Message.error(MsgType.ERROR, ResultEnum.ERROR_SERVER_LOGIN));
+                MsgUtils.writeJson(channel, Message.error(MsgType.ERROR, ResultEnum.SERVER_NOT_LOGIN));
                 return;
             }
         }

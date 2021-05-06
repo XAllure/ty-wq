@@ -19,18 +19,19 @@ public class WsTokenUtils {
      * 创建token
      * @return 返回token
      */
+    public static String createToken(){
+        return GenerateUtils.generateString(32);
+    }
+
+    /**
+     * 创建 token
+     * @param salt 盐
+     * @return 返回 token
+     */
     public static String createToken(String salt){
         String token = GenerateUtils.generateString(32);
         token = Md5Utils.encryptSalt(token, salt);
         return token;
-    }
-
-    /**
-     * 创建token
-     * @return 返回token
-     */
-    public static String createToken(){
-        return GenerateUtils.generateString(32);
     }
 
     /**
@@ -40,7 +41,7 @@ public class WsTokenUtils {
      * @param expire
      */
     public static void saveToken(String token, Long userId, long expire){
-        RedisUtils.setValueHours(Constants.WQ_LOGIN_KEY.concat(token),userId,expire);
+        RedisUtils.setValueHours(Constants.WQ_LOGIN_KEY.concat(token), userId, expire);
     }
 
     /**
@@ -58,7 +59,7 @@ public class WsTokenUtils {
      * @param userId
      */
     public static void saveAlwaysToken(String token, Long userId){
-        RedisUtils.setValue(Constants.WQ_LOGIN_KEY.concat(token),userId);
+        RedisUtils.setValue(Constants.WQ_LOGIN_KEY.concat(token), userId);
     }
 
     /**
@@ -67,7 +68,7 @@ public class WsTokenUtils {
      * @return
      */
     public static Long getUserId(String token) {
-        return (long) RedisUtils.getValue(Constants.WQ_LOGIN_KEY.concat(token));
+        return Long.parseLong(String.valueOf(RedisUtils.getValue(Constants.WQ_LOGIN_KEY.concat(token))));
     }
 
     /**
@@ -75,7 +76,7 @@ public class WsTokenUtils {
      * @param token
      * @return
      */
-    public static boolean validateToken(String token){
+    public static boolean hasToken(String token){
         return RedisUtils.hasKey(Constants.WQ_LOGIN_KEY.concat(token));
     }
 
@@ -83,7 +84,7 @@ public class WsTokenUtils {
      * 删除token
      * @param token
      */
-    public static void deleteToken(String token) {
+    public static void delToken(String token) {
         RedisUtils.delete(Constants.WQ_LOGIN_KEY.concat(token));
     }
 
@@ -91,7 +92,7 @@ public class WsTokenUtils {
      * 更新token时效
      * @param token
      */
-    public static void refreshToken(String token){
+    public static void refreshExpire(String token){
         RedisUtils.setExpire(Constants.WQ_LOGIN_KEY.concat(token), 2, TimeUnit.HOURS);
     }
 
@@ -109,7 +110,7 @@ public class WsTokenUtils {
      * @param wsServer
      */
     public static void saveUserWs(Long userId, WsServer wsServer) {
-        RedisUtils.setValue(Constants.WS_USER_SERVER.concat(String.valueOf(userId)), wsServer.getId());
+        RedisUtils.setValue(Constants.WS_USER_SERVER + userId, wsServer.getId());
     }
 
     /**
@@ -117,7 +118,7 @@ public class WsTokenUtils {
      * @param userId
      */
     public static void delUserWs(Long userId) {
-        RedisUtils.delete(Constants.WS_USER_SERVER.concat(String.valueOf(userId)));
+        RedisUtils.delete(Constants.WS_USER_SERVER + userId);
     }
 
     /**
@@ -125,8 +126,8 @@ public class WsTokenUtils {
      * @param userId
      * @return
      */
-    public static boolean validateUserWs(Long userId){
-        return RedisUtils.hasKey(Constants.WS_USER_SERVER.concat(String.valueOf(userId)));
+    public static boolean hasUserWs(Long userId){
+        return RedisUtils.hasKey(Constants.WS_USER_SERVER + userId);
     }
 
     /**
@@ -135,7 +136,7 @@ public class WsTokenUtils {
      * @return
      */
     public static WsServer getUserWs(Long userId) {
-        String id = (String) RedisUtils.getValue(Constants.WS_USER_SERVER.concat(String.valueOf(userId)));
+        String id = (String) RedisUtils.getValue(Constants.WS_USER_SERVER + userId);
         return (WsServer) RedisUtils.getValue(Constants.WS_SERVER_INFO.concat(id));
     }
 

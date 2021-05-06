@@ -31,17 +31,17 @@ public class Message implements Serializable {
      * @return
      */
     private static Message msgRespVo(Object data) {
-        Message result = new Message();
+        Message message = new Message();
         if (data instanceof ResultEnum){
             ResultEnum resultEnum = (ResultEnum)data;
-            result.setCode(resultEnum.getCode());
-            result.setMsg(resultEnum.getMsg());
+            message.setCode(resultEnum.getCode());
+            message.setMsg(resultEnum.getMsg());
         }else {
-            result.setCode(ResultEnum.SUCCESS.getCode());
-            result.setMsg(ResultEnum.SUCCESS.getMsg());
-            result.setData(data);
+            message.setCode(ResultEnum.SUCCESS.getCode());
+            message.setMsg(ResultEnum.SUCCESS.getMsg());
+            message.setData(data);
         }
-        return result;
+        return message;
     }
 
     /**
@@ -60,9 +60,9 @@ public class Message implements Serializable {
      * @return 返回成功信息
      */
     public static Message success(MsgVo msgVo, Object data){
-        Message result = msgRespVo(data);
-        result.setType(msgVo.getType());
-        return result;
+        Message message = msgRespVo(data);
+        message.setType(msgVo.getType());
+        return message;
     }
 
     /**
@@ -72,9 +72,9 @@ public class Message implements Serializable {
      * @return
      */
     public static Message success(String type, Object data){
-        Message result = msgRespVo(data);
-        result.setType(type);
-        return result;
+        Message message = msgRespVo(data);
+        message.setType(type);
+        return message;
     }
 
     /**
@@ -120,11 +120,11 @@ public class Message implements Serializable {
      * @return 返回错误信息
      */
     public static Message error(String type, Integer code, String msg){
-        Message result = new Message();
-        result.setType(type);
-        result.setCode(code);
-        result.setMsg(msg);
-        return result;
+        Message message = new Message();
+        message.setType(type);
+        message.setCode(code);
+        message.setMsg(msg);
+        return message;
     }
 
     /**

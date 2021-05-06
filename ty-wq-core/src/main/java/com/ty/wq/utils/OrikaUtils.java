@@ -1,5 +1,6 @@
 package com.ty.wq.utils;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 import lombok.SneakyThrows;
 import ma.glasnost.orika.MapperFacade;
@@ -54,7 +55,7 @@ public class OrikaUtils {
      * @param toClass 映射类对象 DTO对象
      * @return 映射类对象
      */
-    public static <S, D> S convert(D source, Class<S> toClass) {
+    public static <S, D> D convert(S source, Class<D> toClass) {
         return MAPPER_FACADE.map(source, toClass);
     }
 
@@ -92,6 +93,19 @@ public class OrikaUtils {
      */
     public static <S, D> List<D> converts(Iterable<S> sources, Class<D> targetClass) {
         return MAPPER_FACADE.mapAsList(sources, targetClass);
+    }
+
+    /**
+     * 映射 mybatis 分页字段集合，需要字段一样
+     * 映射为集合的形式
+     * @param targetClass 映射类对象 DTO对象
+     * @param source    数据（集合） DO对象
+     * @return 映射类对象
+     */
+    public static <S, D> Page<D> page(Page<S> source, Class<D> targetClass) {
+        Page<D> dPage = convert(source, Page.class);
+        dPage.setRecords(converts(source.getRecords(), targetClass));
+        return dPage;
     }
 
     /**

@@ -3,9 +3,9 @@ package com.ty.wq.enums;
 /**
  * @author Administrator
  * @version 1.0
- * @program: ty-article
+ * @program: ty-wq
  * @description:
- * @date 2020/1/15 16:18
+ * @date 2020/4/27 16:18
  */
 public enum CompareEnum {
     // 相等

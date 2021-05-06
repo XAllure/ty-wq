@@ -20,17 +20,19 @@ public class ChannelUtils {
     public static final AttributeKey<String> WS_TOKEN = AttributeKey.valueOf("token");
 
     /**
+     * 保存 Channel 对应的 token
      * 保存 userId 与 Channel 的对应关系
      * @param userId
      * @param channel
      */
-    public static void save(Long userId, Channel channel) {
+    public static void save(Long userId, String token, Channel channel) {
         if (CHANNEL.containsKey(userId)) {
             Channel old = CHANNEL.get(userId);
-            String token = old.attr(WS_TOKEN).get();
-            RedisUtils.delete(Constants.WQ_LOGIN_KEY.concat(token));
+            String oldToken = old.attr(WS_TOKEN).get();
+            RedisUtils.delete(Constants.WQ_LOGIN_KEY.concat(oldToken));
             old.close();
         }
+        channel.attr(ChannelUtils.WS_TOKEN).set(token);
         CHANNEL.put(userId, channel);
     }
 

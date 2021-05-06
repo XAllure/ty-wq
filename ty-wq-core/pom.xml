@@ -24,6 +24,7 @@
         <orika.version>1.26.0</orika.version>
         <swagger.version>3.0.0</swagger.version>
         <netty.version>4.1.63.Final</netty.version>
+        <httpclient.version>4.5.13</httpclient.version>
     </properties>
 
     <dependencies>
@@ -192,6 +193,11 @@
             <version>${netty.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
 
     </dependencies>
 
