@@ -23,11 +23,10 @@ public class WebSocketLogHandler extends ChunkedWriteHandler {
         if (msg instanceof TextWebSocketFrame){
             String text = ((TextWebSocketFrame) msg).text();
             Message message = MsgUtils.convert(text, Message.class);
-            log.info(String.valueOf(message));
             // 排除应答日志
             if (!MsgType.RECEIVED.equalsIgnoreCase(message.getType())){
                 log.info("webSocket[channelId-"+ ctx.channel().id().asShortText() +"]返回：" + text);
-                log.info("----------------------- webSocket返回结束 -------------------");
+                log.info("---------------------------------- webSocket返回结束 ------------------------------");
             }
         }
         super.write(ctx,msg,promise);

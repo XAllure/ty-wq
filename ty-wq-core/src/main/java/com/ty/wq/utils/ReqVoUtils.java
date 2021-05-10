@@ -1,6 +1,6 @@
 package com.ty.wq.utils;
 
-import com.ty.wq.enums.ResultEnum;
+import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.exception.WqException;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.CollectionUtils;
@@ -20,7 +20,7 @@ public class ReqVoUtils {
         if (!CollectionUtils.isEmpty(validateSet)){
             for (ConstraintViolation<Q> constraintViolation : validateSet){
                 if (StringUtils.isNotBlank(constraintViolation.getMessage())){
-                    throw new WqException(ResultEnum.ERROR_PARAMETER.getCode(),constraintViolation.getMessage());
+                    throw new WqException(CodeEnum.ERROR_PARAMETER.getCode(),constraintViolation.getMessage());
                 }
             }
         }

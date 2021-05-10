@@ -25,10 +25,10 @@ public class UserSearchVo extends BaseSearchVo {
     @SearchCondition(compare = CompareEnum.LIKE, filed = "phone")
     private String phone;
 
-    @SearchCondition(compare = CompareEnum.GE,filed = "createTime")
+    @SearchCondition(compare = CompareEnum.GE,filed = "create_time")
     private String startTime;
 
-    @SearchCondition(compare = CompareEnum.LE,filed = "createTime")
+    @SearchCondition(compare = CompareEnum.LE,filed = "create_time")
     private String endTime;
 
 }

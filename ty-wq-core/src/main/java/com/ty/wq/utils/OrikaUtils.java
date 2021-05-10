@@ -119,7 +119,7 @@ public class OrikaUtils {
         if (source.iterator().next() == null) {
             return null;
         }
-        /*S t = source.stream().findFirst().orElseThrow(() -> new WqException(ResultEnum.ERROR));
+        /*S t = source.stream().findFirst().orElseThrow(() -> new WqException(CodeEnum.ERROR));
         MapperFacade mapperFacade = getMapperFacade(targetClass, t.getClass(), configMap);*/
         MapperFacade mapperFacade = getMapperFacade(targetClass, source.iterator().next().getClass(), configMap);
         return mapperFacade.mapAsList(source, targetClass);

@@ -1,8 +1,7 @@
 package com.ty.wq.netty.handler.websocket;
 
 import com.ty.wq.constant.MsgType;
-import com.ty.wq.enums.ResultEnum;
-import com.ty.wq.netty.handler.WebSocketAuthHandler;
+import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.utils.ChannelUtils;
@@ -25,11 +24,11 @@ public class LoginHandler {
     public void handler(Channel channel, MsgVo msgVo) {
         log.info("用户[{}]执行登录服务器操作！！！", channel.remoteAddress());
         if (!WsTokenUtils.hasToken(msgVo.getToken())) {
-            MsgUtils.writeJson(channel, Message.error(MsgType.ERROR, ResultEnum.NO_TOKEN));
+            MsgUtils.writeJson(channel, Message.error(MsgType.ERROR, CodeEnum.NO_TOKEN));
             return;
         }
         Long userId = WsTokenUtils.getUserId(msgVo.getToken());
-        ChannelUtils.save(userId, msgVo.getToken(), channel);
+        ChannelUtils.saveUserChannel(userId, msgVo.getToken(), channel);
         MsgUtils.writeJson(channel, Message.success(msgVo.getType()));
     }
 

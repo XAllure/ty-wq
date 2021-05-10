@@ -131,4 +131,13 @@ public interface BaseService<E extends BasePo,D extends BaseDao<E>, SV extends B
      */
     Page<E> findPage(SV sv);
 
+    /**
+     * 分页 PO 转换成 VO，只会转换字段名一致的字段
+     * @param sv 查询条件
+     * @param targetClass 目标对象类名
+     * @param <T> 目标对象
+     * @return 返回转换后的目标对象
+     */
+    <T> Page<T> findPage(SV sv, Class<T> targetClass);
+
 }

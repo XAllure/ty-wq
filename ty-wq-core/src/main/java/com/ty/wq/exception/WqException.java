@@ -1,6 +1,6 @@
 package com.ty.wq.exception;
 
-import com.ty.wq.enums.ResultEnum;
+import com.ty.wq.enums.CodeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,7 +30,7 @@ public class WqException extends RuntimeException {
         this(code, null);
     }
 
-    public WqException(ResultEnum errorCodeEnum) {
+    public WqException(CodeEnum errorCodeEnum) {
         this(errorCodeEnum.getCode(), errorCodeEnum.getMsg());
     }
 

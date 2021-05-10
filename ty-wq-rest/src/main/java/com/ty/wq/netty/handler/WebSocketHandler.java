@@ -13,6 +13,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) {
-        log.debug("------------------- webSocket读取并处理消息 ------------------------");
+        log.debug("------------------------------ webSocket读取并处理消息 -----------------------------------");
         // 打印请求日志
         MsgVo msgVo = MsgUtils.msgVo(msg);
         if (!msgVo.getType().equals(MsgType.HEART_BEAT)) {
@@ -58,19 +59,19 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
     public void handlerRemoved(ChannelHandlerContext ctx) {
         CONNECT_COUNT.decrementAndGet();
         log.info("用户[{}]断开服务器连接", ctx.channel().id().asLongText());
+        ChannelUtils.exit(ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        //super.channelInactive(ctx);
         String token = ChannelUtils.getToken(ctx.channel());
-        Long userId = WsTokenUtils.getUserId(token);
-        log.info("userId: {}", userId);
-        ChannelUtils.delete(userId);
+        if (StringUtils.isBlank(token)) {
+            return;
+        }
+        Long userId = ChannelUtils.getUserId(ctx.channel());
         WsServer wsServer = WsTokenUtils.getUserWs(userId);
         String url = "http://" + wsServer.getNIp() + ":" + wsServer.getHPort() + "/system/logout/" + token;
         HttpUtils.post(url, new LinkedHashMap<>());
-        log.info("channelInactive");
     }
 
     @Override
@@ -79,6 +80,6 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
         log.error("客户端[" + channel.remoteAddress() + "]异常");
         log.error("异常原因：" + cause);
         cause.printStackTrace();
-        channel.close();
+        ctx.close();
     }
 }

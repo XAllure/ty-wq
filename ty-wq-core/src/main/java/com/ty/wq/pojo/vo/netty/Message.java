@@ -1,6 +1,6 @@
 package com.ty.wq.pojo.vo.netty;
 
-import com.ty.wq.enums.ResultEnum;
+import com.ty.wq.enums.CodeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -30,27 +30,27 @@ public class Message implements Serializable {
      * @param data 数据
      * @return
      */
-    private static Message msgRespVo(Object data) {
+    private static Message reMessage(Object data) {
         Message message = new Message();
-        if (data instanceof ResultEnum){
-            ResultEnum resultEnum = (ResultEnum)data;
-            message.setCode(resultEnum.getCode());
-            message.setMsg(resultEnum.getMsg());
-        }else {
-            message.setCode(ResultEnum.SUCCESS.getCode());
-            message.setMsg(ResultEnum.SUCCESS.getMsg());
-            message.setData(data);
+        if (data instanceof CodeEnum){
+            CodeEnum codeEnum = (CodeEnum)data;
+            message.setCode(codeEnum.getCode());
+            message.setMsg(codeEnum.getMsg());
+            return message;
         }
+        message.setCode(CodeEnum.SUCCESS.getCode());
+        message.setMsg(CodeEnum.SUCCESS.getMsg());
+        message.setData(data);
         return message;
     }
 
     /**
      * 成功回执 自定义 type 和 data 字段
-     * @param resultEnum
+     * @param codeEnum
      * @return
      */
-    public static Message success(ResultEnum resultEnum) {
-        return msgRespVo(resultEnum);
+    public static Message success(CodeEnum codeEnum) {
+        return reMessage(codeEnum);
     }
 
     /**
@@ -60,7 +60,7 @@ public class Message implements Serializable {
      * @return 返回成功信息
      */
     public static Message success(MsgVo msgVo, Object data){
-        Message message = msgRespVo(data);
+        Message message = reMessage(data);
         message.setType(msgVo.getType());
         return message;
     }
@@ -72,7 +72,7 @@ public class Message implements Serializable {
      * @return
      */
     public static Message success(String type, Object data){
-        Message message = msgRespVo(data);
+        Message message = reMessage(data);
         message.setType(type);
         return message;
     }
@@ -97,20 +97,20 @@ public class Message implements Serializable {
 
     /**
      * 错误回执
-     * @param resultEnum 枚举信息
+     * @param codeEnum 枚举信息
      * @return 返回错误信息
      */
-    public static Message error(MsgVo msgVo, ResultEnum resultEnum){
-        return error(msgVo.getType(), resultEnum.getCode(),resultEnum.getMsg());
+    public static Message error(MsgVo msgVo, CodeEnum codeEnum){
+        return error(msgVo.getType(), codeEnum.getCode(), codeEnum.getMsg());
     }
 
     /**
      * 错误回执
-     * @param resultEnum 枚举信息
+     * @param codeEnum 枚举信息
      * @return 返回错误信息
      */
-    public static Message error(String type, ResultEnum resultEnum){
-        return error(type, resultEnum.getCode(),resultEnum.getMsg());
+    public static Message error(String type, CodeEnum codeEnum){
+        return error(type, codeEnum.getCode(), codeEnum.getMsg());
     }
 
     /**
@@ -133,7 +133,7 @@ public class Message implements Serializable {
      * @return 返回错误信息
      */
     public static Message error(MsgVo msgVo){
-        return error(msgVo, ResultEnum.ERROR);
+        return error(msgVo, CodeEnum.ERROR);
     }
 
     /**
@@ -142,7 +142,7 @@ public class Message implements Serializable {
      * @return 返回错误信息
      */
     public static Message error(String type){
-        return error(type, ResultEnum.ERROR);
+        return error(type, CodeEnum.ERROR);
     }
 
     /**
@@ -152,7 +152,7 @@ public class Message implements Serializable {
      * @return 返回错误信息
      */
     public static Message error(MsgVo msgVo, String msg){
-        return error(msgVo.getType(), ResultEnum.ERROR.getCode(), msg);
+        return error(msgVo.getType(), CodeEnum.ERROR.getCode(), msg);
     }
 
     /**
@@ -162,7 +162,7 @@ public class Message implements Serializable {
      * @return 返回错误信息
      */
     public static Message error(String type, String msg){
-        return error(type, ResultEnum.ERROR.getCode(), msg);
+        return error(type, CodeEnum.ERROR.getCode(), msg);
     }
 
 }

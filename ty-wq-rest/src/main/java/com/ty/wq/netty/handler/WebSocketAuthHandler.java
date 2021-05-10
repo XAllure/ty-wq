@@ -1,7 +1,7 @@
 package com.ty.wq.netty.handler;
 
 import com.ty.wq.constant.MsgType;
-import com.ty.wq.enums.ResultEnum;
+import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.netty.handler.websocket.LoginHandler;
 import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.pojo.vo.netty.Message;
@@ -39,18 +39,23 @@ public class WebSocketAuthHandler extends ChannelInboundHandlerAdapter {
             // 进行登录
             loginHandler.handler(channel, msgVo);
             return;
-        } else {
-            //如果没有登录，则提醒用户登录
-            if (StringUtils.isBlank(ChannelUtils.getToken(channel))) {
-                log.info("用户[{}]没有登录， 提醒用户登录！！！", channel.id().asLongText());
-                MsgUtils.writeJson(channel, Message.error(MsgType.ERROR, ResultEnum.SERVER_NOT_LOGIN));
-                return;
-            }
+        }
+        // 如果是心跳检测
+        if (msgVo.getType().equals(MsgType.HEART_BEAT)) {
+            // 传给下一个handler处理
+            super.channelRead(ctx, msg);
+            return;
+        }
+        // 如果没有登录，则提醒用户登录
+        if (StringUtils.isBlank(ChannelUtils.getToken(channel))) {
+            log.info("用户[{}]没有登录， 提醒用户登录！！！", channel.id().asLongText());
+            MsgUtils.writeJson(channel, Message.error(MsgType.ERROR, CodeEnum.SERVER_NOT_LOGIN));
+            return;
         }
         // 否则的话就直接传给下一个 handler 处理, 并删除该 handler（也可不删除，只是重复验证会影响性能）
         // 移除该handler
         channel.pipeline().remove(this);
-        //传给下一个handler处理
+        // 传给下一个handler处理
         super.channelRead(ctx, msg);
     }
 

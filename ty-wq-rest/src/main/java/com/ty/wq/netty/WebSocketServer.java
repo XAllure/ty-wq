@@ -25,8 +25,8 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class WebSocketServer {
 
-    ThreadPoolExecutor threadPool = new ThreadPoolExecutor(5, 10, 100,
-            TimeUnit.SECONDS, new LinkedBlockingQueue<>(10));
+    ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(5, 10, 100, TimeUnit.SECONDS, new LinkedBlockingQueue<>(10));
+
     @Autowired
     private NettyInfoConfig config;
 
@@ -39,7 +39,7 @@ public class WebSocketServer {
     }
 
     public void run() {
-        threadPool.execute(() -> {
+        poolExecutor.execute(() -> {
             // 用于处理服务器端接收客户端连接
             EventLoopGroup boosGroup = new NioEventLoopGroup();
             // 用于进行网络通信（网络读写）

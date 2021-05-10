@@ -1,6 +1,6 @@
 package com.ty.wq.exception;
 
-import com.ty.wq.enums.ResultEnum;
+import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -46,11 +46,11 @@ public class GlobalExceptionHandler {
             if (!errors.isEmpty()){
                 FieldError fieldError = (FieldError) errors.get(0);
                 String message = fieldError.getDefaultMessage();
-                message = StringUtils.isEmpty(message) ? ResultEnum.ERROR_PARAMETER.getMsg() : message;
-                return Result.error(ResultEnum.ERROR_PARAMETER.getCode(), message);
+                message = StringUtils.isEmpty(message) ? CodeEnum.ERROR_PARAMETER.getMsg() : message;
+                return Result.error(CodeEnum.ERROR_PARAMETER.getCode(), message);
             }
         }
-        return Result.error(ResultEnum.ERROR_PARAMETER);
+        return Result.error(CodeEnum.ERROR_PARAMETER);
     }
 
     /**
@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public Result parameterTypeExceptionHandler(HttpServletRequest req, MethodArgumentTypeMismatchException e){
         recordExceptionLog(req,e);
-        return Result.error(ResultEnum.ERROR_PARAMETER.getCode(), "参数类型不匹配");
+        return Result.error(CodeEnum.ERROR_PARAMETER.getCode(), "参数类型不匹配");
     }
 
     /**
@@ -78,11 +78,11 @@ public class GlobalExceptionHandler {
         if (constraintViolations != null && constraintViolations.size() > 0){
             for (ConstraintViolation<?> constraintViolation : constraintViolations) {
                 String message = constraintViolation.getMessageTemplate();
-                message = StringUtils.isBlank(message) ? ResultEnum.ERROR_PARAMETER.getMsg() : message;
-                return Result.error(ResultEnum.ERROR_PARAMETER.getCode(), message);
+                message = StringUtils.isBlank(message) ? CodeEnum.ERROR_PARAMETER.getMsg() : message;
+                return Result.error(CodeEnum.ERROR_PARAMETER.getCode(), message);
             }
         }
-        return Result.error(ResultEnum.ERROR_PARAMETER);
+        return Result.error(CodeEnum.ERROR_PARAMETER);
     }
 
     @ExceptionHandler(BindException.class)
@@ -94,11 +94,11 @@ public class GlobalExceptionHandler {
             if (!errors.isEmpty()){
                 FieldError fieldError = (FieldError) errors.get(0);
                 String message = fieldError.getDefaultMessage();
-                message = StringUtils.isBlank(message) ? ResultEnum.ERROR_PARAMETER.getMsg() : message;
-                return Result.error(ResultEnum.ERROR_PARAMETER.getCode(), message);
+                message = StringUtils.isBlank(message) ? CodeEnum.ERROR_PARAMETER.getMsg() : message;
+                return Result.error(CodeEnum.ERROR_PARAMETER.getCode(), message);
             }
         }
-        return Result.error(ResultEnum.ERROR_PARAMETER);
+        return Result.error(CodeEnum.ERROR_PARAMETER);
     }
 
 
@@ -131,7 +131,7 @@ public class GlobalExceptionHandler {
         if (CommonUtils.isPost(request) || CommonUtils.isAjax(request)) {
             return returnJsonExceptionHandler(response, e);
         } else {
-            return Result.error(ResultEnum.ERROR_SERVER);
+            return Result.error(CodeEnum.ERROR_SERVER);
         }
     }
 

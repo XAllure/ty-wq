@@ -2,8 +2,8 @@ package com.ty.wq.utils;
 
 import com.ty.wq.constant.Constants;
 import com.ty.wq.pojo.vo.netty.WsServer;
-import jdk.nashorn.internal.parser.Token;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 
@@ -14,6 +14,9 @@ import java.util.concurrent.TimeUnit;
 public class WsTokenUtils {
 
     public final static String WQ_TOKEN_HEADER = "TY-WQ-LOGIN-TOKEN";
+
+    /** token保存时间86400秒，即1440分钟，24小时 */
+    private final static int TOKEN_EXPIRE = 86400;
 
     /**
      * 创建token
@@ -41,7 +44,7 @@ public class WsTokenUtils {
      * @param expire
      */
     public static void saveToken(String token, Long userId, long expire){
-        RedisUtils.setValueHours(Constants.WQ_LOGIN_KEY.concat(token), userId, expire);
+        RedisUtils.setValueSeconds(Constants.WQ_LOGIN_KEY.concat(token), userId, expire);
     }
 
     /**
@@ -50,16 +53,7 @@ public class WsTokenUtils {
      * @param userId
      */
     public static void saveToken(String token, Long userId){
-        saveToken(Constants.WQ_LOGIN_KEY.concat(token),userId,2);
-    }
-
-    /**
-     * 存储token
-     * @param token
-     * @param userId
-     */
-    public static void saveAlwaysToken(String token, Long userId){
-        RedisUtils.setValue(Constants.WQ_LOGIN_KEY.concat(token), userId);
+        saveToken(token, userId, TOKEN_EXPIRE);
     }
 
     /**
@@ -68,7 +62,11 @@ public class WsTokenUtils {
      * @return
      */
     public static Long getUserId(String token) {
-        return Long.parseLong(String.valueOf(RedisUtils.getValue(Constants.WQ_LOGIN_KEY.concat(token))));
+        Object userId = RedisUtils.getValue(Constants.WQ_LOGIN_KEY.concat(token));
+        if (Objects.isNull(userId)) {
+            return null;
+        }
+        return Long.parseLong(String.valueOf(userId));
     }
 
     /**
@@ -92,16 +90,16 @@ public class WsTokenUtils {
      * 更新token时效
      * @param token
      */
-    public static void refreshExpire(String token){
-        RedisUtils.setExpire(Constants.WQ_LOGIN_KEY.concat(token), 2, TimeUnit.HOURS);
+    public static void setExpire(String token){
+        setExpire(Constants.WQ_LOGIN_KEY.concat(token), TOKEN_EXPIRE, TimeUnit.SECONDS);
     }
 
     /**
      * 更新token时效
      * @param token
      */
-    public static void refreshToken(String token, long timeout){
-        RedisUtils.setExpire(Constants.WQ_LOGIN_KEY.concat(token), timeout, TimeUnit.HOURS);
+    public static void setExpire(String token, long timeout, TimeUnit timeUnit){
+        RedisUtils.setExpire(Constants.WQ_LOGIN_KEY.concat(token), timeout, timeUnit);
     }
 
     /**
@@ -136,7 +134,7 @@ public class WsTokenUtils {
      * @return
      */
     public static WsServer getUserWs(Long userId) {
-        String id = (String) RedisUtils.getValue(Constants.WS_USER_SERVER + userId);
+        String id = String.valueOf(RedisUtils.getValue(Constants.WS_USER_SERVER + userId));
         return (WsServer) RedisUtils.getValue(Constants.WS_SERVER_INFO.concat(id));
     }
 

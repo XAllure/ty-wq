@@ -3,7 +3,7 @@ package com.ty.wq.service.client.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ty.wq.constant.Constants;
 import com.ty.wq.dao.client.UserDao;
-import com.ty.wq.enums.ResultEnum;
+import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.enums.UserStatusEnum;
 import com.ty.wq.exception.WqException;
 import com.ty.wq.pojo.po.client.User;
@@ -53,21 +53,21 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
         User user = this.findByUsername(vo.getUsername());
         // 没有该账号
         if (user == null) {
-            throw new WqException(ResultEnum.ERROR_ACCOUNT);
+            throw new WqException(CodeEnum.ERROR_ACCOUNT);
         }
         // 禁止登录
         if (user.getStatus().equals(UserStatusEnum.LOCKED.getCode())) {
-            throw new WqException(ResultEnum.LOCKED_ACCOUNT);
+            throw new WqException(CodeEnum.LOCKED_ACCOUNT);
         }
         // 密码不匹配
         if (user.getPassword().equals(Md5Utils.encryptSalt(vo.getPassword(), user.getSalt()))) {
-            throw new WqException(ResultEnum.ERROR_PASSWORD);
+            throw new WqException(CodeEnum.ERROR_PASSWORD);
         }
         // 获取 NettyWebSocket 服务器信息(这里使用策略模式 1--轮询，2--推荐，3--随机，4--权重)
         long count = index.incrementAndGet();
         Set<String> allKeys = RedisUtils.getAllKeys(Constants.WS_SERVER_INFO.concat("*"));
         if (allKeys.isEmpty()) {
-            throw new WqException(ResultEnum.NOT_WS_SERVER);
+            throw new WqException(CodeEnum.NOT_WS_SERVER);
         }
         List<String> keys = new ArrayList<>(allKeys);
         String key = keys.get((int) (count % keys.size()));
@@ -82,7 +82,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
         respVo.setUser(OrikaUtils.convert(user, UserRespVo.class));
         respVo.setServer(ws);
         // 保存用户登录的 token 与对应的 userId
-        WsTokenUtils.saveAlwaysToken(token, user.getId());
+        WsTokenUtils.saveToken(token, user.getId());
         // 保存用户服务器的信息
         WsTokenUtils.saveUserWs(user.getId(), ws);
         log.info("为用户[{}]创建的token为: {}", user.getUsername(), token);

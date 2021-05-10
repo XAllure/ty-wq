@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -37,10 +36,9 @@ public class HttpUtils {
      * 默认的post请求
      * @param url
      * @param params
-     * @return
      */
-    public static String post(String url,Map<String, Object> params){
-        return post(url, Constants.CONTENT_TYPE_JSON, params);
+    public static void post(String url, Map<String, Object> params){
+        post(url, Constants.CONTENT_TYPE_JSON, params);
     }
 
     public static String post(String url, Message message){
@@ -65,14 +63,13 @@ public class HttpUtils {
      * @param url
      * @param contentType application/json
      * @param params
-     * @return
      */
-    public static String post(String url, String contentType, Map<String, Object> params){
+    public static void post(String url, String contentType, Map<String, Object> params){
         HttpHeaders headers = new HttpHeaders();
         if (Constants.CONTENT_TYPE_JSON.equalsIgnoreCase(contentType)){
             headers.setContentType(MediaType.APPLICATION_JSON);
         }
         HttpEntity<String> request = new HttpEntity<>(params.toString(),headers);
-        return REST_TEMPLATE.postForObject(url,request,String.class);
+        REST_TEMPLATE.postForObject(url, request, String.class);
     }
 }

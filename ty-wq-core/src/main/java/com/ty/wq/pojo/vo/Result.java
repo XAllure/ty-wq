@@ -1,6 +1,6 @@
 package com.ty.wq.pojo.vo;
 
-import com.ty.wq.enums.ResultEnum;
+import com.ty.wq.enums.CodeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -28,13 +28,13 @@ public class Result implements Serializable {
      */
     public static Result success(Object data){
         Result result = new Result();
-        if (data instanceof ResultEnum){
-            ResultEnum errorCodeEnum = (ResultEnum)data;
-            result.setCode(errorCodeEnum.getCode());
-            result.setMsg(errorCodeEnum.getMsg());
+        if (data instanceof CodeEnum){
+            CodeEnum codeEnum = (CodeEnum)data;
+            result.setCode(codeEnum.getCode());
+            result.setMsg(codeEnum.getMsg());
         }else {
-            result.setCode(ResultEnum.SUCCESS.getCode());
-            result.setMsg(ResultEnum.SUCCESS.getMsg());
+            result.setCode(CodeEnum.SUCCESS.getCode());
+            result.setMsg(CodeEnum.SUCCESS.getMsg());
             result.setData(data);
         }
         return result;
@@ -50,11 +50,11 @@ public class Result implements Serializable {
 
     /**
      * 错误回执
-     * @param resultEnum 枚举信息
+     * @param codeEnum 枚举信息
      * @return 返回错误信息
      */
-    public static Result error(ResultEnum resultEnum){
-        return error(resultEnum.getCode(),resultEnum.getMsg());
+    public static Result error(CodeEnum codeEnum){
+        return error(codeEnum.getCode(), codeEnum.getMsg());
     }
 
     /**
@@ -75,7 +75,7 @@ public class Result implements Serializable {
      * @return 返回错误信息
      */
     public static Result error(){
-        return error(ResultEnum.ERROR);
+        return error(CodeEnum.ERROR);
     }
 
 
@@ -85,6 +85,6 @@ public class Result implements Serializable {
      * @return 返回错误信息
      */
     public static Result error(String msg){
-        return error(ResultEnum.ERROR.getCode(), msg);
+        return error(CodeEnum.ERROR.getCode(), msg);
     }
 }

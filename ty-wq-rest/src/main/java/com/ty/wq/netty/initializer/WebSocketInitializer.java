@@ -25,7 +25,7 @@ public class WebSocketInitializer extends ChannelInitializer<SocketChannel> {
     private WebSocketAuthHandler webSocketAuthHandler;
 
     @Override
-    protected void initChannel(SocketChannel socketChannel) throws Exception {
+    protected void initChannel(SocketChannel socketChannel) {
         ChannelPipeline pipeline = socketChannel.pipeline();
 
         // websocket协议本身是基于http协议的，所以这边也要使用http解编码器

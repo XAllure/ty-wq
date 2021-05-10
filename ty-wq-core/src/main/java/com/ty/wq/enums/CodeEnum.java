@@ -4,7 +4,7 @@ package com.ty.wq.enums;
  *
  * @author Administrator
  */
-public enum ResultEnum {
+public enum CodeEnum {
 
     // 枚举方法
 
@@ -43,7 +43,7 @@ public enum ResultEnum {
         return this.code;
     }
 
-    ResultEnum(Integer code, String msg){
+    CodeEnum(Integer code, String msg){
         this.code = code;
         this.msg = msg;
     }

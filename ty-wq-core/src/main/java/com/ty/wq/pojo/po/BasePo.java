@@ -23,9 +23,9 @@ public class BasePo implements Serializable {
 
     private static final long serialVersionUID = 4310425468162352984L;
 
-    @TableId(type = IdType.AUTO)// mybatis-plus主键注解
+    @TableId(type = IdType.AUTO) // mybatis-plus主键注解
     @IsAutoIncrement // 自增
-    @IsKey// actable主键注解
+    @IsKey // actable主键注解
     @Column(comment = "主键id", type = MySqlTypeConstant.BIGINT)
     protected Long id;
 

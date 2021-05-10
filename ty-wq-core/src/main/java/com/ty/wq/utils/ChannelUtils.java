@@ -1,47 +1,69 @@
 package com.ty.wq.utils;
 
 import com.ty.wq.constant.Constants;
+import com.ty.wq.pojo.po.client.WeChat;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Administrator
  */
+@Slf4j
 public class ChannelUtils {
 
     /** 定义一个Map结构存储 userID 映射到 channel */
-    private static final Map<Long, Channel> CHANNEL = new ConcurrentHashMap<>();
+    public static final Map<Long, Channel> USER_ID_CHANNEL = new ConcurrentHashMap<>();
 
-    /** 用户连接 netty 进行登录时 绑定的 token 属性 */
+    /** 存储微信id 与 用户的 Channel 的映射，即同一个微信有几个用户登录，存储这些用户的 Channel*/
+    public static final Map<String, List<Channel>> WE_CHAT_ID_CHANNEL = new ConcurrentHashMap<>();
+
+    /** 用户连接 netty 进行登录时, channel 绑定的 token 属性 */
     public static final AttributeKey<String> WS_TOKEN = AttributeKey.valueOf("token");
+
+    /** 用户连接 netty 进行登录时, channel 绑定的 useId 属性 */
+    public static final AttributeKey<String> USER_ID = AttributeKey.valueOf("useId");
 
     /**
      * 保存 Channel 对应的 token
-     * 保存 userId 与 Channel 的对应关系
+     * 保存 Channel 对应的 userId
      * @param userId
      * @param channel
      */
-    public static void save(Long userId, String token, Channel channel) {
-        if (CHANNEL.containsKey(userId)) {
-            Channel old = CHANNEL.get(userId);
-            String oldToken = old.attr(WS_TOKEN).get();
-            RedisUtils.delete(Constants.WQ_LOGIN_KEY.concat(oldToken));
-            old.close();
+    public static synchronized void saveUserChannel(Long userId, String token, Channel channel) {
+        if (USER_ID_CHANNEL.containsKey(userId)) {
+            Channel oldChannel = USER_ID_CHANNEL.get(userId);
+            String oldToken = oldChannel.attr(WS_TOKEN).get();
+            if (!token.equals(oldToken)) {
+                RedisUtils.delete(Constants.WQ_LOGIN_KEY.concat(oldToken));
+                oldChannel.close();
+            } else {
+                return;
+            }
         }
-        channel.attr(ChannelUtils.WS_TOKEN).set(token);
-        CHANNEL.put(userId, channel);
+        channel.attr(WS_TOKEN).set(token);
+        channel.attr(USER_ID).set(String.valueOf(userId));
+        USER_ID_CHANNEL.put(userId, channel);
     }
 
     /**
      * 删除 userId 对应的 Channel
-     * @param userId
+     * @param channel
      */
-    public static void delete(Long userId) {
-        CHANNEL.remove(userId);
+    public static synchronized void delUserChannel(Channel channel) {
+        Long userId = getUserId(channel);
+        if (userId != null) {
+            USER_ID_CHANNEL.remove(userId);
+            log.info("删除 userId[{}] 对应的 Channel", userId);
+        }
     }
 
     /**
@@ -49,16 +71,16 @@ public class ChannelUtils {
      * @param userId
      * @return
      */
-    public static Channel channel(Long userId) {
-        return CHANNEL.get(userId);
+    public static Channel userChannel(Long userId) {
+        return USER_ID_CHANNEL.get(userId);
     }
 
     /**
-     * 获取所有的 Channel
+     * 获取所有 userId 的 Channel
      * @return
      */
-    public static Collection<Channel> channels() {
-        return CHANNEL.values();
+    public static Collection<Channel> userChannels() {
+        return USER_ID_CHANNEL.values();
     }
 
     /**
@@ -68,6 +90,70 @@ public class ChannelUtils {
      */
     public static String getToken(Channel channel) {
         return channel.attr(WS_TOKEN).get();
+    }
+
+    /**
+     * 通过 Channel 获取 userId
+     * @param channel
+     * @return
+     */
+    public static Long getUserId(Channel channel) {
+        /*String token = getToken(channel);
+        if (StringUtils.isBlank(token)) {
+            return null;
+        }
+        return WsTokenUtils.getUserId(token);*/
+        String userId = channel.attr(USER_ID).get();
+        if (StringUtils.isBlank(userId)) {
+            return null;
+        }
+        return Long.valueOf(userId);
+    }
+
+    /**
+     * 根据微信id存储所有用户的Channel通道
+     * @param channel
+     * @param weChats
+     */
+    public static synchronized void saveWeChatChannel(Channel channel, List<WeChat> weChats) {
+        if (weChats != null && !weChats.isEmpty()) {
+            List<Channel> channels;
+            for (WeChat weChat : weChats) {
+                String weChatId = weChat.getWeChatId();
+                if (StringUtils.isNotBlank(weChatId)) {
+                    if (WE_CHAT_ID_CHANNEL.containsKey(weChatId)) {
+                        channels = getChannelByWeChatId(weChatId);
+                    } else {
+                        channels = new ArrayList<>();
+                    }
+                    channels.add(channel);
+                    WE_CHAT_ID_CHANNEL.put(weChatId, channels);
+                }
+            }
+        }
+    }
+
+    /**
+     * 根据微信id获取所有用户的Channel通道
+     * @param weChatId
+     * @return
+     */
+    public static synchronized List<Channel> getChannelByWeChatId(String weChatId) {
+        List<Channel> channels = WE_CHAT_ID_CHANNEL.get(weChatId);
+        if (channels != null && !channels.isEmpty()) {
+            channels.removeIf(channel -> !channel.isActive() || !channel.isOpen());
+        }
+        return channels;
+    }
+
+    /**
+     * 用户退出时调用，清理数据
+     * @param ctx
+     */
+    public static synchronized void exit(ChannelHandlerContext ctx) {
+        Channel channel = ctx.channel();
+        delUserChannel(channel);
+        ctx.close();
     }
 
 }

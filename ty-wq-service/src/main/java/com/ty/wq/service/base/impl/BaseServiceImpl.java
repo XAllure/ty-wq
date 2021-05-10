@@ -9,6 +9,7 @@ import com.ty.wq.dao.BaseDao;
 import com.ty.wq.pojo.po.BasePo;
 import com.ty.wq.pojo.vo.BaseSearchVo;
 import com.ty.wq.service.base.BaseService;
+import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.PageUtils;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.StringUtils;
@@ -110,12 +111,17 @@ public class BaseServiceImpl<E extends BasePo,D extends BaseDao<E>, SV extends B
 
     @Override
     public <P extends IPage<E>> P findPage(P page, SV sv) {
-        return this.baseDao.selectPage(page,buildWrapper(sv));
+        return findPage(page, buildWrapper(sv));
     }
 
     @Override
     public Page<E> findPage(SV sv) {
-        return this.findPage(PageUtils.page(sv), sv);
+        return findPage(PageUtils.page(sv), sv);
+    }
+
+    @Override
+    public <T> Page<T> findPage(SV sv, Class<T> targetClass) {
+        return OrikaUtils.page(findPage(sv), targetClass);
     }
 
     @SneakyThrows

@@ -12,8 +12,8 @@ import java.util.Collection;
 public interface BaseDao<T> extends BaseMapper<T> {
     /**
      * 批量插入 仅适用于mysql
-     * @param entityList 实体列表
+     * @param entities 实体列表
      * @return 影响行数
      */
-    int insertBatchSomeColumn(Collection<T> entityList);
+    int insertBatchSomeColumn(Collection<T> entities);
 }
