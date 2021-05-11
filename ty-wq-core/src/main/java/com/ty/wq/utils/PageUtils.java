@@ -72,7 +72,7 @@ public class PageUtils {
      */
     public static boolean order(String order) {
         if (StringUtils.isNotBlank(order)) {
-            return "asc".equals(order.toUpperCase());
+            return "asc".equals(order.toLowerCase());
         }
         return false;
     }

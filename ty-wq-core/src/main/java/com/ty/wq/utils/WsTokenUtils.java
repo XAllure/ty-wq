@@ -92,6 +92,7 @@ public class WsTokenUtils {
      */
     public static void setExpire(String token){
         setExpire(Constants.WQ_LOGIN_KEY.concat(token), TOKEN_EXPIRE, TimeUnit.SECONDS);
+        RedisUtils.setExpire(Constants.WS_USER_SERVER + getUserId(token), TOKEN_EXPIRE, TimeUnit.SECONDS);
     }
 
     /**
@@ -136,6 +137,15 @@ public class WsTokenUtils {
     public static WsServer getUserWs(Long userId) {
         String id = String.valueOf(RedisUtils.getValue(Constants.WS_USER_SERVER + userId));
         return (WsServer) RedisUtils.getValue(Constants.WS_SERVER_INFO.concat(id));
+    }
+
+    /**
+     * 通过 服务器 id 获取服务器信息
+     * @param serverId
+     * @return
+     */
+    public static WsServer getWsServer(String serverId) {
+        return (WsServer) RedisUtils.getValue(Constants.WS_SERVER_INFO.concat(serverId));
     }
 
 }

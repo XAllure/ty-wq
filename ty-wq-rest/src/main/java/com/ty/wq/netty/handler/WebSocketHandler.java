@@ -69,8 +69,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
             return;
         }
         Long userId = ChannelUtils.getUserId(ctx.channel());
-        WsServer wsServer = WsTokenUtils.getUserWs(userId);
-        String url = "http://" + wsServer.getNIp() + ":" + wsServer.getHPort() + "/system/logout/" + token;
+        String url = HttpUtils.url(userId, "/system/logout/" + token);
         HttpUtils.post(url, new LinkedHashMap<>());
     }
 

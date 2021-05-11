@@ -20,17 +20,17 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class ChannelUtils {
 
-    /** 定义一个Map结构存储 userID 映射到 channel */
-    public static final Map<Long, Channel> USER_ID_CHANNEL = new ConcurrentHashMap<>();
-
-    /** 存储微信id 与 用户的 Channel 的映射，即同一个微信有几个用户登录，存储这些用户的 Channel*/
-    public static final Map<String, List<Channel>> WE_CHAT_ID_CHANNEL = new ConcurrentHashMap<>();
-
     /** 用户连接 netty 进行登录时, channel 绑定的 token 属性 */
     public static final AttributeKey<String> WS_TOKEN = AttributeKey.valueOf("token");
 
     /** 用户连接 netty 进行登录时, channel 绑定的 useId 属性 */
     public static final AttributeKey<String> USER_ID = AttributeKey.valueOf("useId");
+
+    /** 定义一个Map结构存储 userID 映射到 channel */
+    public static final Map<Long, Channel> USER_ID_CHANNEL = new ConcurrentHashMap<>();
+
+    /** 存储微信id 与 用户的 Channel 的映射，即同一个微信有几个用户登录，存储这些用户的 Channel*/
+    public static final Map<String, List<Channel>> WE_CHAT_ID_CHANNEL = new ConcurrentHashMap<>();
 
     /**
      * 保存 Channel 对应的 token
@@ -98,11 +98,6 @@ public class ChannelUtils {
      * @return
      */
     public static Long getUserId(Channel channel) {
-        /*String token = getToken(channel);
-        if (StringUtils.isBlank(token)) {
-            return null;
-        }
-        return WsTokenUtils.getUserId(token);*/
         String userId = channel.attr(USER_ID).get();
         if (StringUtils.isBlank(userId)) {
             return null;
@@ -115,14 +110,14 @@ public class ChannelUtils {
      * @param channel
      * @param weChats
      */
-    public static synchronized void saveWeChatChannel(Channel channel, List<WeChat> weChats) {
-        if (weChats != null && !weChats.isEmpty()) {
+    public static synchronized void saveWeChatChannels(Channel channel, List<WeChat> weChats) {
+        if (weChats != null && weChats.size() > 0) {
             List<Channel> channels;
             for (WeChat weChat : weChats) {
                 String weChatId = weChat.getWeChatId();
                 if (StringUtils.isNotBlank(weChatId)) {
                     if (WE_CHAT_ID_CHANNEL.containsKey(weChatId)) {
-                        channels = getChannelByWeChatId(weChatId);
+                        channels = getChannelsByWeChatId(weChatId);
                     } else {
                         channels = new ArrayList<>();
                     }
@@ -138,9 +133,9 @@ public class ChannelUtils {
      * @param weChatId
      * @return
      */
-    public static synchronized List<Channel> getChannelByWeChatId(String weChatId) {
+    public static synchronized List<Channel> getChannelsByWeChatId(String weChatId) {
         List<Channel> channels = WE_CHAT_ID_CHANNEL.get(weChatId);
-        if (channels != null && !channels.isEmpty()) {
+        if (channels != null && channels.size() > 0) {
             channels.removeIf(channel -> !channel.isActive() || !channel.isOpen());
         }
         return channels;

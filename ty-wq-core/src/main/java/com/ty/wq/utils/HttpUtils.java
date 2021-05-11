@@ -3,6 +3,7 @@ package com.ty.wq.utils;
 import com.alibaba.fastjson.JSONObject;
 import com.ty.wq.constant.Constants;
 import com.ty.wq.pojo.vo.netty.Message;
+import com.ty.wq.pojo.vo.netty.WsServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -72,4 +73,50 @@ public class HttpUtils {
         HttpEntity<String> request = new HttpEntity<>(params.toString(),headers);
         REST_TEMPLATE.postForObject(url, request, String.class);
     }
+
+    /**
+     * 形成 url
+     * @param ip IP地址
+     * @param port 端口
+     * @param suffix 链接后缀
+     * @return 返回 url
+     */
+    public static String url(String ip, Integer port, String suffix) {
+        return "http://" +ip + ":" + port + suffix;
+    }
+
+    /**
+     * 形成 url
+     * @param wsServer 服务器信息
+     * @param suffix 链接后缀
+     * @return 返回 url
+     */
+    public static String url(WsServer wsServer, String suffix) {
+        return url(wsServer.getNIp(), wsServer.getHPort(), suffix);
+    }
+
+    /**
+     * 通过 userId 获取该用户所在的服务器信息后形成 url
+     * @param userId 用户id
+     * @param suffix 链接后缀
+     * @return 返回 url
+     */
+    public static String url(Long userId, String suffix) {
+        // 通过 userId 获取该用户所在的服务器信息
+        WsServer wsServer = WsTokenUtils.getUserWs(userId);
+        return url(wsServer, suffix);
+    }
+
+    /**
+     * 通过服务器id获取服务器信息后形成 url
+     * @param serverId
+     * @param suffix
+     * @return
+     */
+    public static String url(String serverId, String suffix) {
+        // 通过服务器id获取服务器信息
+        WsServer wsServer = WsTokenUtils.getWsServer(serverId);
+        return url(wsServer, suffix);
+    }
+
 }

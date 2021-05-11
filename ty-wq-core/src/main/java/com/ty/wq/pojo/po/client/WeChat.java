@@ -9,7 +9,9 @@ import com.ty.wq.pojo.po.BasePo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
+import java.sql.Timestamp;
+
+/**z
  * @author Administrator
  */
 @EqualsAndHashCode(callSuper = true)
@@ -22,5 +24,44 @@ public class WeChat extends BasePo {
     @IsNotNull
     @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "微信id")
     private String weChatId;
+
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "微信号")
+    private String weChatNo;
+
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "微信昵称")
+    private String weChatNick;
+
+    @Column( type = MySqlTypeConstant.INT, comment = "性别")
+    private Integer gender;
+
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "头像")
+    private String avatar;
+
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "国家")
+    private String country;
+
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "省份")
+    private String province;
+
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "城市")
+    private String city;
+
+    @Column( type = MySqlTypeConstant.INT, comment = "是否在线")
+    private Integer isOnline;
+
+    @Column( type = MySqlTypeConstant.INT, comment = "是否已登录")
+    private Integer isLoggedIn;
+
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "设备ID")
+    private String deviceId;
+
+    @Column( type = MySqlTypeConstant.INT, comment = "客户id")
+    private Integer cid;
+
+    @Column( type = MySqlTypeConstant.BIGINT, comment = "用户id")
+    private Long userId;
+
+    @Column( type = MySqlTypeConstant.DATETIME, comment = "登录时间")
+    private Timestamp loginTime;
 
 }

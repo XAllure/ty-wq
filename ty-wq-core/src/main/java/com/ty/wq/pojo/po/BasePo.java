@@ -34,10 +34,10 @@ public class BasePo implements Serializable {
     private Integer status;
 
     @IsNotNull
-    @Column(name = "create_time",comment = "创建时间", type = MySqlTypeConstant.DATETIME)
+    @Column(comment = "创建时间", type = MySqlTypeConstant.DATETIME)
     protected Timestamp createTime;
 
-    @Column(name = "update_time",comment = "更新时间", type = MySqlTypeConstant.DATETIME)
+    @Column(comment = "更新时间", type = MySqlTypeConstant.DATETIME)
     protected Timestamp updateTime;
 
     @IsNotNull
