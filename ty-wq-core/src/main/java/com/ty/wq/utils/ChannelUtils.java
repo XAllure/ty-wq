@@ -26,7 +26,7 @@ public class ChannelUtils {
     /** 用户连接 netty 进行登录时, channel 绑定的 useId 属性 */
     public static final AttributeKey<String> USER_ID = AttributeKey.valueOf("useId");
 
-    /** 定义一个Map结构存储 userID 映射到 channel */
+    /** 定义一个Map结构, 存储 userID 映射到 channel */
     public static final Map<Long, Channel> USER_ID_CHANNEL = new ConcurrentHashMap<>();
 
     /** 存储微信id 与 用户的 Channel 的映射，即同一个微信有几个用户登录，存储这些用户的 Channel*/
@@ -71,7 +71,7 @@ public class ChannelUtils {
      * @param userId
      * @return
      */
-    public static Channel userChannel(Long userId) {
+    public static synchronized Channel userChannel(Long userId) {
         return USER_ID_CHANNEL.get(userId);
     }
 
@@ -79,7 +79,7 @@ public class ChannelUtils {
      * 获取所有 userId 的 Channel
      * @return
      */
-    public static Collection<Channel> userChannels() {
+    public static synchronized Collection<Channel> userChannels() {
         return USER_ID_CHANNEL.values();
     }
 
@@ -88,7 +88,7 @@ public class ChannelUtils {
      * @param channel
      * @return
      */
-    public static String getToken(Channel channel) {
+    public static synchronized String getToken(Channel channel) {
         return channel.attr(WS_TOKEN).get();
     }
 
@@ -97,7 +97,7 @@ public class ChannelUtils {
      * @param channel
      * @return
      */
-    public static Long getUserId(Channel channel) {
+    public static synchronized Long getUserId(Channel channel) {
         String userId = channel.attr(USER_ID).get();
         if (StringUtils.isBlank(userId)) {
             return null;
