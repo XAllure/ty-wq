@@ -15,36 +15,6 @@ import org.springframework.data.domain.Sort;
  */
 public class PageUtils {
 
-    /*public static Pageable initPage(BaseSearchVo baseSearchVo){
-        Pageable pageable = null;
-
-        // 当前页
-        int pageNumber = baseSearchVo.getPageIndex() == null ? 1 : baseSearchVo.getPageIndex();
-
-        // 页面数
-        int pageSize = baseSearchVo.getPageSize() == null ? 10 : baseSearchVo.getPageSize();
-
-        // 排序字段
-        String sort = StringUtils.isEmpty(baseSearchVo.getSort()) ? "id" : baseSearchVo.getSort();
-
-        // 排序 默认desc降序
-        String order = baseSearchVo.getOrder();
-
-        if (!StringUtils.isEmpty(sort)) {
-            Sort.Direction d;
-            if (StringUtils.isEmpty(order)) {
-                d = Sort.Direction.DESC;
-            } else {
-                d = Sort.Direction.valueOf(order.toUpperCase());
-            }
-            Sort s = Sort.by(new Sort.Order(d,sort));
-            pageable = PageRequest.of(pageNumber - 1, pageSize, s);
-        } else {
-            pageable = PageRequest.of(pageNumber - 1, pageSize);
-        }
-        return pageable;
-    }*/
-
     /**
      * 当前页
      * @param pageNum

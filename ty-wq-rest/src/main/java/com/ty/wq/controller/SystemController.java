@@ -99,7 +99,7 @@ public class SystemController {
         return Result.success();
     }
 
-    @PostMapping("/search")
+    /*@PostMapping("/search")
     public Result search(UserSearchVo searchVo) {
         Page<UserRespVo> userRespVoPage = userService.findPage(searchVo, UserRespVo.class);
         System.out.println(userRespVoPage);
@@ -107,6 +107,6 @@ public class SystemController {
         Channel channel = ChannelUtils.userChannel(user.getId());
         MsgUtils.writeJson(channel, Message.success(MsgType.RECEIVED, userRespVoPage));
         return Result.success(userRespVoPage);
-    }
+    }*/
 
 }
