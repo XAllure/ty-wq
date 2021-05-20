@@ -1,7 +1,6 @@
 package com.ty.wq.utils;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import lombok.Data;
 import lombok.SneakyThrows;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
@@ -149,28 +148,13 @@ public class OrikaUtils {
         String mapKey = targetClass.getCanonicalName() + "_" + sourceClass.getCanonicalName();
         MapperFacade mapperFacade = CACHE_MAPPER_FACADE_MAP.get(mapKey);
         if (Objects.isNull(mapperFacade)) {
-            ClassMapBuilder<D, S> classMapBuilder = MAPPER_FACTORY.classMap(targetClass, sourceClass);
+            ClassMapBuilder<D, S> classMapBuilder = classMap(sourceClass, targetClass);
             configMap.forEach(classMapBuilder::field);
             classMapBuilder.byDefault().register();
             mapperFacade = MAPPER_FACTORY.getMapperFacade();
             CACHE_MAPPER_FACADE_MAP.put(mapKey, mapperFacade);
         }
         return mapperFacade;
-    }
-
-    /**
-     * 简单复制出新对象列表到数组
-     * 通过source.getComponentType() 获得源Class
-     * destinationType
-     * @param <S> 源对象类型
-     * @param <D> 目标对象类型
-     * @param target 目标对象数组
-     * @param source 源对象数组
-     * @param targetClass 目标类型
-     * @return 目标对象对象数组
-     */
-    public static <S, D> D[] convertArray(final S[] source, final D[] target, final Class<D> targetClass) {
-        return MAPPER_FACADE.mapAsArray(target, source, targetClass);
     }
 
     /**
@@ -181,8 +165,8 @@ public class OrikaUtils {
      * @param <D> 目标对象类型
      * @return 处理的目标对象
      */
-    public static <S, D> ClassMapBuilder<S, D> classMap(Class<D> target, Class<S> source) {
-        return MAPPER_FACTORY.classMap(source, target);
+    public static <S, D> ClassMapBuilder<D, S> classMap(Class<S> source, Class<D> target) {
+        return MAPPER_FACTORY.classMap(target, source);
     }
 
     /**
