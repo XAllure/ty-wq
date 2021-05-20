@@ -45,7 +45,7 @@ public class User extends BasePo {
     private String email;
 
     @IsNotNull
-    @Column(type = MySqlTypeConstant.VARCHAR, length = 30, comment = "加密的盐")
+    @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "加密的盐")
     private String salt;
 
     @Column(type = MySqlTypeConstant.DATETIME, comment = "登录时间")

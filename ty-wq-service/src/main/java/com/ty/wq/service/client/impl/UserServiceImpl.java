@@ -60,7 +60,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
             throw new WqException(CodeEnum.LOCKED_ACCOUNT);
         }
         // 密码不匹配
-        if (user.getPassword().equals(Md5Utils.encryptSalt(vo.getPassword(), user.getSalt()))) {
+        if (!user.getPassword().equals(Md5Utils.encryptSalt(vo.getPassword(), user.getSalt()))) {
             throw new WqException(CodeEnum.ERROR_PASSWORD);
         }
         // 获取 NettyWebSocket 服务器信息(这里使用策略模式 1--轮询，2--推荐，3--随机，4--权重)

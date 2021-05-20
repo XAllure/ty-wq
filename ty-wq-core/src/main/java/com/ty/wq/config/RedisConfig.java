@@ -30,14 +30,6 @@ public class RedisConfig extends CachingConfigurerSupport {
         return new GenericJackson2JsonRedisSerializer();
     }
 
-    /*@Bean
-    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory){
-        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(7200));   // 失效时间
-        return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
-                .cacheDefaults(config).build();
-    }*/
-
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory){
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();

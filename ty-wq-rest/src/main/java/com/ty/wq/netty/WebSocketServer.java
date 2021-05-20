@@ -11,10 +11,11 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -33,19 +34,19 @@ public class WebSocketServer {
     @Autowired
     private WebSocketInitializer webSocketInitializer;
 
-    @PostConstruct
-    public void start() {
-            run();
+    @Bean
+    private InitializingBean initializingBean() {
+        return this::run;
     }
 
-    public void run() {
+    private void run() {
         poolExecutor.execute(() -> {
             // 用于处理服务器端接收客户端连接
             EventLoopGroup boosGroup = new NioEventLoopGroup();
             // 用于进行网络通信（网络读写）
             EventLoopGroup workGroup = new NioEventLoopGroup();
             try {
-                //用于服务器通道的一系列配置
+                // 用于服务器通道的一系列配置
                 ServerBootstrap bootstrap = new ServerBootstrap();
                 bootstrap.group(boosGroup, workGroup)
                         // 指定NIO的模式
@@ -69,5 +70,4 @@ public class WebSocketServer {
             }
         });
     }
-
 }
