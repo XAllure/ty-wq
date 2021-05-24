@@ -75,7 +75,7 @@ public class SystemController {
      * @return
      */
     @PostMapping("/login")
-    public Result login(LoginReqVo loginVo) {
+    public Result login(@RequestBody LoginReqVo loginVo) {
         ReqVoUtils.validated(loginVo, BaseReqVo.Login.class);
         LoginRespVo loginRespVo = userService.login(loginVo);
         return Result.success(loginRespVo);

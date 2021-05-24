@@ -42,7 +42,7 @@ public class PageUtils {
      */
     public static boolean order(String order) {
         if (StringUtils.isNotBlank(order)) {
-            return "asc".equals(order.toLowerCase());
+            return "asc".equalsIgnoreCase(order);
         }
         return false;
     }
