@@ -19,4 +19,5 @@ public class UserReqVo extends BaseReqVo {
     private static final long serialVersionUID = -1L;
 
 
+
 }

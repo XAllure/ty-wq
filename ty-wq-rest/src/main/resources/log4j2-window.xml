@@ -9,7 +9,7 @@
         <!-- %logger{36} 表示 Logger 名字最长36个字符 -->
         <property name="LOG_PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %green{[%-5level]} %cyan{[%logger{36}]} - %blue{%msg%n}"/>
         <!-- 定义日志存储的路径，不要配置相对路径 -->
-        <property name="FILE_PATH" value="D:\\logs"/>
+        <property name="FILE_PATH" value="E:\\logs"/>
         <property name="PROJECT_NAME" value="wq"/>
         <property name="CHILD_PROJECT_NAME" value="rest"/>
         <property name="INFO_FILE_NAME" value="info"/>

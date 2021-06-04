@@ -26,7 +26,18 @@ public enum CodeEnum {
 
     SERVER_NOT_LOGIN(106, "未登录服务器"),
 
-    NO_TOKEN(106, "token不存在"),
+    NEED_LOGIN(107,"需要重新登录"),
+
+    NO_TOKEN(108, "token不存在"),
+
+    ERROR_CODE(109, "验证码错误"),
+
+    ERROR_STATUS(110, "状态码错误"),
+
+
+    NO_AUTHENTICATION(401,"认证失败"),
+
+    NO_AUTHORITY(403,"您没有该操作权限"),
 
     ERROR_SERVER(500, "服务器内部错误"),
 

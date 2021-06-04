@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ty.wq.anno.SearchCondition;
 import com.ty.wq.dao.BaseDao;
+import com.ty.wq.enums.StatusEnum;
 import com.ty.wq.pojo.po.BasePo;
 import com.ty.wq.pojo.vo.BaseSearchVo;
 import com.ty.wq.service.base.BaseService;
@@ -41,6 +42,9 @@ public class BaseServiceImpl<E extends BasePo,D extends BaseDao<E>, SV extends B
         entity.setCreateTime(new Timestamp(System.currentTimeMillis()));
         entity.setDeleted(0);
         entity.setVersion(0);
+        if (Objects.isNull(entity.getStatus())) {
+            entity.setStatus(StatusEnum.NORMAL.getCode());
+        }
         return this.baseDao.insert(entity);
     }
 

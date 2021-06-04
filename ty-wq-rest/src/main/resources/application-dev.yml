@@ -55,7 +55,7 @@ mybatis:
     #none 		系统不做任何处理。
     #add		新增表/新增字段/新增索引/新增唯一约束的功能，不做修改和删除 (只在版本1.0.9.RELEASE及以上支持)。
   model:
-    pack: com.ty.wq.pojo.po #扫描用于创建表的对象的包名，多个包用“,”隔开
+    pack: com.ty.wq.pojo.po.client #扫描用于创建表的对象的包名，多个包用“,”隔开
   database:
     type: mysql #数据库类型 目前只支持mysql
 mybatis-plus:
@@ -67,7 +67,9 @@ mybatis-plus:
       logic-delete-field: deleted  # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
-  type-aliases-package: com.ty.wq.pojo.po
+  type-aliases-package: com.ty.wq.pojo.po.client
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #  configuration:
 #    call-setters-on-nulls: true
 

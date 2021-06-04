@@ -19,6 +19,8 @@ public class BaseReqVo implements Serializable {
     public interface Login{}
     public interface Add{}
     public interface Update{}
+    public interface Self{}
     public interface Status{}
+    public interface Reset{}
 
 }

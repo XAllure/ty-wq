@@ -426,7 +426,9 @@ public class MainGenerator {
         StringBuilder sb = new StringBuilder();
         if (!StringUtils.isEmpty(pojoName)){
             // 去掉Po;
-            pojoName = pojoName.substring(0,pojoName.length()-2);
+            if ("Po".equals(pojoName.substring(pojoName.length() -2))) {
+                pojoName = pojoName.substring(0, pojoName.length()-2);
+            }
             // 将第一个字符处理成小写
             sb.append(pojoName.substring(0,1).toLowerCase());
             // 循环处理其他字符

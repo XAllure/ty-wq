@@ -116,13 +116,12 @@ public class GoogleAuthenticatorUtils {
     public static boolean verify(String secretKey, String code)
             throws InvalidKeyException, NoSuchAlgorithmException {
         if ("dev".equals(active)){
-            if ("123456".equals(code)) return true;
-            return false;
+            return "123456".equals(code);
         }
         long time = System.currentTimeMillis() / 1000 / 30;
         for (int i = -timeExcursion; i <= timeExcursion; i++) {
-            String totp = getTOTP(secretKey, time + i);
-            if (code.equals(totp)) {
+            String totP = getTOTP(secretKey, time + i);
+            if (code.equals(totP)) {
                 return true;
             }
         }

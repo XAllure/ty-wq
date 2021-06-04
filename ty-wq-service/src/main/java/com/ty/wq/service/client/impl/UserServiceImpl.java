@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ty.wq.constant.Constants;
 import com.ty.wq.dao.client.UserDao;
 import com.ty.wq.enums.CodeEnum;
-import com.ty.wq.enums.UserStatusEnum;
+import com.ty.wq.enums.StatusEnum;
 import com.ty.wq.exception.WqException;
 import com.ty.wq.pojo.po.client.User;
 import com.ty.wq.pojo.vo.client.user.LoginReqVo;
@@ -56,7 +56,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
             throw new WqException(CodeEnum.ERROR_ACCOUNT);
         }
         // 禁止登录
-        if (user.getStatus().equals(UserStatusEnum.LOCKED.getCode())) {
+        if (user.getStatus().equals(StatusEnum.LOCKED.getCode())) {
             throw new WqException(CodeEnum.LOCKED_ACCOUNT);
         }
         // 密码不匹配

@@ -50,12 +50,12 @@ public class OrikaUtils {
     /**
      * 映射实体（默认字段）
      * 这种映射就是DTO字段名称和实体对象PO之间字段名称一致
-     * @param source 数据（对象）DO对象
-     * @param toClass 映射类对象 DTO对象
+     * @param source 源对象
+     * @param targetClass 目标对象
      * @return 映射类对象
      */
-    public static <S, D> D convert(S source, Class<D> toClass) {
-        return MAPPER_FACADE.map(source, toClass);
+    public static <S, D> D convert(S source, Class<D> targetClass) {
+        return MAPPER_FACADE.map(source, targetClass);
     }
 
     /**
@@ -171,8 +171,8 @@ public class OrikaUtils {
 
     /**
      * 预先获取orika转换所需要的Type，避免每次转换.
-     * @param <S> 对象类型
      * @param rawType 要转换的类型
+     * @param <S> 对象类型
      * @return 转换后的类型
      */
     public static <S> Type<S> getType(final Class<S> rawType) {

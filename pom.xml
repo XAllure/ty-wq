@@ -8,6 +8,7 @@
         <module>ty-wq-dao</module>
         <module>ty-wq-rest</module>
         <module>ty-wq-service</module>
+        <module>ty-wq-manager</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

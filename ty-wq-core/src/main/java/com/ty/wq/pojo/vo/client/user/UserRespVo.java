@@ -23,4 +23,6 @@ public class UserRespVo extends BaseRespVo {
 
     private String createTime;
 
+    private Integer status;
+
 }

@@ -99,14 +99,14 @@ public class SystemController {
         return Result.success();
     }
 
-    /*@PostMapping("/search")
+    @PostMapping("/search")
     public Result search(UserSearchVo searchVo) {
         Page<UserRespVo> userRespVoPage = userService.findPage(searchVo, UserRespVo.class);
-        System.out.println(userRespVoPage);
+        /*System.out.println(userRespVoPage);
         User user = userService.findByUsername(searchVo.getUsername());
         Channel channel = ChannelUtils.userChannel(user.getId());
-        MsgUtils.writeJson(channel, Message.success(MsgType.RECEIVED, userRespVoPage));
+        MsgUtils.writeJson(channel, Message.success(MsgType.RECEIVED, userRespVoPage));*/
         return Result.success(userRespVoPage);
-    }*/
+    }
 
 }

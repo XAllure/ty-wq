@@ -3,7 +3,7 @@ package com.ty.wq.enums;
 /**
  * @author Administrator
  */
-public enum UserStatusEnum {
+public enum StatusEnum {
 
     //枚举类型
 
@@ -32,7 +32,7 @@ public enum UserStatusEnum {
         this.msg = msg;
     }
 
-    UserStatusEnum(Integer code, String msg){
+    StatusEnum(Integer code, String msg){
         this.code = code;
         this.msg = msg;
     }
