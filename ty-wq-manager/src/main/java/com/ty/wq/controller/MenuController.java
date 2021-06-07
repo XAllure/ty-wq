@@ -12,9 +12,6 @@ import com.ty.wq.pojo.vo.manager.menu.MenuRespVo;
 import com.ty.wq.pojo.vo.manager.menu.MenuSearchVo;
 import com.ty.wq.dao.manager.MenuDao;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * @author Administrator
  * @version 1.0

@@ -3,11 +3,13 @@ package com.ty.wq.controller.base;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ty.wq.dao.BaseDao;
 import com.ty.wq.enums.CodeEnum;
+import com.ty.wq.enums.StatusEnum;
 import com.ty.wq.pojo.po.BasePo;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.BaseRespVo;
 import com.ty.wq.pojo.vo.BaseSearchVo;
 import com.ty.wq.pojo.vo.Result;
+import com.ty.wq.pojo.vo.manager.StatusReqVo;
 import com.ty.wq.service.base.BaseService;
 import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
@@ -41,6 +43,7 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
     protected boolean methodList = true;
     protected boolean methodAdd = true;
     protected boolean methodUpdate = true;
+    protected boolean methodStatus = true;
     protected boolean methodDelete = true;
     protected boolean methodDeleteBatch = true;
 
@@ -98,6 +101,26 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
         ReqVoUtils.validated(reqVo, BaseReqVo.Update.class);
         Po po = service.findById(reqVo.getId());
         OrikaUtils.copy(reqVo, po);
+        service.updateById(po);
+        return Result.success();
+    }
+
+    /**
+     * 通用状态修改
+     * @param vo
+     * @return
+     */
+    @PostMapping("/status/update")
+    public Result updateStatus(@RequestBody StatusReqVo vo){
+        if (!methodStatus) {
+            return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
+        }
+        ReqVoUtils.validated(vo, BaseReqVo.Status.class);
+        Po po = service.findById(vo.getId());
+        if (!vo.getStatus().equals(StatusEnum.NORMAL.getCode()) && !vo.getStatus().equals(StatusEnum.LOCKED.getCode())) {
+            return Result.error(CodeEnum.ERROR_STATUS);
+        }
+        po.setStatus(vo.getStatus());
         service.updateById(po);
         return Result.success();
     }

@@ -85,7 +85,7 @@ public class RoleMenuController {
         for (Long roleId : roleIds) {
             menuIds.addAll(roleMenuService.getMenuIdByRoleId(roleId));
         }
-        //去掉重复的菜单id
+        // 去掉重复的菜单id
         HashSet<Long> ids = new HashSet<>(menuIds);
         menuIds.clear();
         menuIds.addAll(ids);

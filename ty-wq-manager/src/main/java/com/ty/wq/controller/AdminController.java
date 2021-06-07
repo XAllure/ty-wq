@@ -73,22 +73,6 @@ public class AdminController extends BaseController<Admin, AdminReqVo, AdminResp
     }
 
     /**
-     * 修改管理员账户状态
-     * @param vo
-     */
-    @PostMapping("/status/update")
-    public Result updateStatus(@RequestBody StatusReqVo vo){
-        ReqVoUtils.validated(vo, BaseReqVo.Status.class);
-        Admin admin = service.findById(vo.getId());
-        if (!vo.getStatus().equals(StatusEnum.NORMAL.getCode()) && !vo.getStatus().equals(StatusEnum.LOCKED.getCode())) {
-            return Result.error(CodeEnum.ERROR_STATUS);
-        }
-        admin.setStatus(vo.getStatus());
-        service.updateById(admin);
-        return Result.success();
-    }
-
-    /**
      * 重置管理员密码
      * @param id
      * @return

@@ -40,7 +40,7 @@ public class AdminRoleController {
      */
     @PostMapping("/roles/{adminId}")
     public Result adminRoles(@NonNull @PathVariable Long adminId){
-        List<RoleRespVo> roleRespVos = OrikaUtils.converts(roleService.findAll(), RoleRespVo.class);
+        List<RoleRespVo> roleRespVos = OrikaUtils.converts(roleService.getAllNormalRole(), RoleRespVo.class);
         List<Long> roleIds = adminRoleService.getRoleIdsByAdminId(adminId);
         AdminRoleRespVo adminRoleRespVo = new AdminRoleRespVo(roleRespVos, roleIds);
         return Result.success(adminRoleRespVo);
