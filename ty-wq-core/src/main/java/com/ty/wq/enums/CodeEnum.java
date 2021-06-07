@@ -34,6 +34,8 @@ public enum CodeEnum {
 
     ERROR_STATUS(110, "状态码错误"),
 
+    METHOD_NOT_SUPPORT(111,"不支持此方法"),
+
 
     NO_AUTHENTICATION(401,"认证失败"),
 

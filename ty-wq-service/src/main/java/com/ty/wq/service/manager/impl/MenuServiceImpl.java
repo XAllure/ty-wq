@@ -25,7 +25,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDao, MenuSearchVo
     @Override
     public List<MenuRespVo> parentMenu() {
         QueryWrapper<Menu> qw = new QueryWrapper<>();
-        qw.isNull("path").or().eq("path", "");
+        qw.isNull("path").or().eq("path", "").or().eq("path", "/");
         return OrikaUtils.converts(findList(qw), MenuRespVo.class);
     }
 

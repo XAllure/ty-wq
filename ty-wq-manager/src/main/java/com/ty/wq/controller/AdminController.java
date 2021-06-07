@@ -24,6 +24,8 @@ import com.ty.wq.pojo.vo.manager.admin.AdminSearchVo;
 import com.ty.wq.dao.manager.AdminDao;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Administrator
@@ -35,6 +37,10 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/admin")
 public class AdminController extends BaseController<Admin, AdminReqVo, AdminRespVo, AdminSearchVo, AdminDao, AdminService> {
+
+    AdminController() {
+        methodAdd = false;
+    }
 
     /**
      * 生成谷歌验证码二维码

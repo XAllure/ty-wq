@@ -52,6 +52,8 @@ public interface BaseService<E extends BasePo,D extends BaseDao<E>, SV extends B
      */
     int delete(E entity);
 
+    int delete(Wrapper<E> qw);
+
     /**
      * 更新一条数据
      * @param entity

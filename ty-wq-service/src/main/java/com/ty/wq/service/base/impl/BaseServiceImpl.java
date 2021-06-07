@@ -49,6 +49,7 @@ public class BaseServiceImpl<E extends BasePo,D extends BaseDao<E>, SV extends B
     }
 
     @Override
+    @Transactional(rollbackFor= Exception.class)
     public int inserts(Collection<E> entityList) {
         return this.baseDao.insertBatchSomeColumn(entityList);
     }
@@ -69,6 +70,12 @@ public class BaseServiceImpl<E extends BasePo,D extends BaseDao<E>, SV extends B
     @Transactional(rollbackFor= Exception.class)
     public int delete(E entity) {
         return this.deleteById(entity.getId());
+    }
+
+    @Override
+    @Transactional(rollbackFor= Exception.class)
+    public int delete(Wrapper<E> qw) {
+        return baseDao.delete(qw);
     }
 
     @Override

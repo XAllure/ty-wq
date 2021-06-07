@@ -2,6 +2,7 @@ package com.ty.wq.controller.base;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ty.wq.dao.BaseDao;
+import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.pojo.po.BasePo;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.BaseRespVo;
@@ -37,6 +38,12 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
 
     private Class<RespVo> respClass;
 
+    protected boolean methodList = true;
+    protected boolean methodAdd = true;
+    protected boolean methodUpdate = true;
+    protected boolean methodDelete = true;
+    protected boolean methodDeleteBatch = true;
+
     public BaseController(){
         Type genericSuperclass = this.getClass().getGenericSuperclass();
         if (genericSuperclass instanceof ParameterizedType){
@@ -55,6 +62,9 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
      */
     @GetMapping("/list/condition")
     public Result listByCondition(SV sv){
+        if (!methodList) {
+            return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
+        }
         Page<RespVo> vPage = service.findPage(sv, respClass);
         return Result.success(vPage);
     }
@@ -66,6 +76,9 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
      */
     @PostMapping("/add")
     public Result add(@RequestBody ReqVo reqVo) {
+        if (!methodAdd) {
+            return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
+        }
         ReqVoUtils.validated(reqVo, BaseReqVo.Add.class);
         Po po = OrikaUtils.convert(reqVo, poClass);
         service.insert(po);
@@ -79,6 +92,9 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
      */
     @PostMapping("/update")
     public Result update(@RequestBody ReqVo reqVo) {
+        if (!methodUpdate) {
+            return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
+        }
         ReqVoUtils.validated(reqVo, BaseReqVo.Update.class);
         Po po = service.findById(reqVo.getId());
         OrikaUtils.copy(reqVo, po);
@@ -93,6 +109,9 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
      */
     @PostMapping("/delete/{id}")
     public Result delete(@Valid @Min(value = 1,message = "id不能小于1") @PathVariable Long id){
+        if (!methodDelete) {
+            return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
+        }
         service.deleteById(id);
         return Result.success();
     }
@@ -104,6 +123,9 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
      */
     @PostMapping("/deleteBatch")
     public Result deleteBatch(@RequestBody @Validated @NotEmpty(message = "id不能为空") List<Long> ids){
+        if (!methodDeleteBatch) {
+            return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
+        }
         service.deleteBatchIds(ids);
         return Result.success();
     }

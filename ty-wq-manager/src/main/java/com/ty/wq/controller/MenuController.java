@@ -26,7 +26,6 @@ import java.util.List;
 @RequestMapping("/menu")
 public class MenuController extends BaseController<Menu, MenuReqVo, MenuRespVo, MenuSearchVo, MenuDao, MenuService> {
 
-
     /**
      * 获取父菜单
      * @return
@@ -46,7 +45,5 @@ public class MenuController extends BaseController<Menu, MenuReqVo, MenuRespVo, 
     public Result allMenu(){
         return Result.success(service.allMenu());
     }
-
-
 
 }
