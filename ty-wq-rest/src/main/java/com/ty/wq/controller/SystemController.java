@@ -98,15 +98,4 @@ public class SystemController {
         WsTokenUtils.delUserWs(userId);
         return Result.success();
     }
-
-    @PostMapping("/search")
-    public Result search(UserSearchVo searchVo) {
-        Page<UserRespVo> userRespVoPage = userService.findPage(searchVo, UserRespVo.class);
-        /*System.out.println(userRespVoPage);
-        User user = userService.findByUsername(searchVo.getUsername());
-        Channel channel = ChannelUtils.userChannel(user.getId());
-        MsgUtils.writeJson(channel, Message.success(MsgType.RECEIVED, userRespVoPage));*/
-        return Result.success(userRespVoPage);
-    }
-
 }

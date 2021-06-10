@@ -2,6 +2,7 @@ package com.ty.wq.service.manager;
 
 import com.ty.wq.dao.manager.RoleMenuDao;
 import com.ty.wq.pojo.po.manager.RoleMenu;
+import com.ty.wq.pojo.vo.manager.menu.MenuRespVo;
 import com.ty.wq.pojo.vo.manager.roleMenu.RoleMenuReqVo;
 import com.ty.wq.service.base.BaseService;
 import com.ty.wq.pojo.vo.manager.roleMenu.RoleMenuSearchVo;
@@ -32,5 +33,11 @@ public interface RoleMenuService extends BaseService<RoleMenu, RoleMenuDao, Role
      * @param reqVo
      */
     void updateRoleMenus(RoleMenuReqVo reqVo);
+
+    /**
+     * 获取管理员所有角色的菜单
+     * @return
+     */
+    List<MenuRespVo> getAdminRolesMenu(Long adminId);
 
 }

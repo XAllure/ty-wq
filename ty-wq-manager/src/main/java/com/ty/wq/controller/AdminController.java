@@ -85,4 +85,37 @@ public class AdminController extends BaseController<Admin, AdminReqVo, AdminResp
         return Result.success();
     }
 
+    /**
+     * 获取个人信息
+     * @return
+     */
+    @PostMapping("/info")
+    public Result info() {
+        AdminRespVo respVo = OrikaUtils.convert(service.findById(ShiroUtils.getAdminId()), AdminRespVo.class);
+        return Result.success(respVo);
+    }
+
+    /**
+     * 更新谷歌验证码秘钥
+     * @return
+     */
+    @PostMapping("/qrCode/update")
+    public Result updateQrCode() {
+        return Result.success(GoogleAuthenticatorUtils.createSecretKey());
+    }
+
+    /**
+     * 修改个人信息
+     * @param adminReqVo
+     * @return
+     */
+    @PostMapping("/info/update")
+    public Result updateInfo(@RequestBody AdminReqVo adminReqVo) {
+        ReqVoUtils.validated(adminReqVo, BaseReqVo.Self.class);
+        Admin admin = service.findById(ShiroUtils.getAdminId());
+        OrikaUtils.copy(adminReqVo, admin);
+        service.updateById(admin);
+        return Result.success();
+    }
+
 }

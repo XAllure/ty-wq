@@ -19,9 +19,9 @@ public class ShiroAuthorizationFilter extends FormAuthenticationFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
-        Result result = Result.error(CodeEnum.NEED_LOGIN);
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        CommonUtils.writeJson(result, httpServletResponse);
+        HttpServletResponse res = (HttpServletResponse) response;
+        CommonUtils.writeJson(Result.error(CodeEnum.NEED_LOGIN), res);
+        log.info(Result.error(CodeEnum.NEED_LOGIN).toString());
         return false;
     }
 

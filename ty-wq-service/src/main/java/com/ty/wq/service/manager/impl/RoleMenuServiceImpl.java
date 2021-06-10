@@ -4,14 +4,20 @@ import java.sql.Timestamp;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ty.wq.dao.manager.RoleMenuDao;
 import com.ty.wq.enums.StatusEnum;
+import com.ty.wq.pojo.vo.manager.menu.MenuRespVo;
 import com.ty.wq.pojo.vo.manager.roleMenu.RoleMenuReqVo;
 import com.ty.wq.pojo.vo.manager.roleMenu.RoleMenuSearchVo;
 import com.ty.wq.pojo.po.manager.RoleMenu;
+import com.ty.wq.service.manager.AdminRoleService;
+import com.ty.wq.service.manager.MenuService;
 import com.ty.wq.service.manager.RoleMenuService;
 import com.ty.wq.service.base.impl.BaseServiceImpl;
+import com.ty.wq.utils.OrikaUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -23,6 +29,13 @@ import java.util.List;
  */
 @Service
 public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenu, RoleMenuDao, RoleMenuSearchVo> implements RoleMenuService {
+
+    @Autowired
+    private MenuService menuService;
+
+    @Autowired
+    private AdminRoleService adminRoleService;
+
     @Override
     public List<Long> getMenuIdByRoleId(Long roleId) {
         QueryWrapper<RoleMenu> qw = new QueryWrapper<>();
@@ -55,5 +68,21 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenu, RoleMenuDao, 
             }
             inserts(roleMenus);
         }
+    }
+
+    @Override
+    public List<MenuRespVo> getAdminRolesMenu(Long adminId) {
+        List<Long> roleIds = adminRoleService.getRoleIdsByAdminId(adminId);
+        List<Long> menuIds = new ArrayList<>();
+        for (Long roleId : roleIds) {
+            menuIds.addAll(getMenuIdByRoleId(roleId));
+        }
+        // 去掉重复的菜单id
+        HashSet<Long> ids = new HashSet<>(menuIds);
+        menuIds.clear();
+        menuIds.addAll(ids);
+        List<MenuRespVo> menuRespVos = OrikaUtils.converts(menuService.findBatchIds(menuIds), MenuRespVo.class);
+        menuRespVos.removeIf(menuRespVo -> menuRespVo.getStatus().equals(StatusEnum.LOCKED.getCode()));
+        return menuRespVos;
     }
 }

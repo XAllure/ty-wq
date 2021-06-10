@@ -43,9 +43,6 @@ public class RoleMenuController {
     @Autowired
     private MenuService menuService;
 
-    @Autowired
-    private AdminRoleService adminRoleService;
-
     /**
      * 获取角色的菜单
      * @param roleId
@@ -80,17 +77,7 @@ public class RoleMenuController {
      */
     @PostMapping("/menus")
     public Result menus() {
-        List<Long> roleIds = adminRoleService.getRoleIdsByAdminId(ShiroUtils.getAdminId());
-        List<Long> menuIds = new ArrayList<>();
-        for (Long roleId : roleIds) {
-            menuIds.addAll(roleMenuService.getMenuIdByRoleId(roleId));
-        }
-        // 去掉重复的菜单id
-        HashSet<Long> ids = new HashSet<>(menuIds);
-        menuIds.clear();
-        menuIds.addAll(ids);
-        List<MenuRespVo> menuRespVos = OrikaUtils.converts(menuService.findBatchIds(menuIds), MenuRespVo.class);
-        menuRespVos.removeIf(menuRespVo -> menuRespVo.getStatus().equals(StatusEnum.LOCKED.getCode()));
+        List<MenuRespVo> menuRespVos = roleMenuService.getAdminRolesMenu(ShiroUtils.getAdminId());
         return Result.success(menuRespVos);
     }
 

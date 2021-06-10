@@ -2,15 +2,21 @@ package com.ty.wq.config;
 
 import com.ty.wq.shiro.*;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.mgt.SessionsSecurityManager;
+import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.session.mgt.eis.MemorySessionDAO;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
+import org.apache.shiro.spring.LifecycleBeanPostProcessor;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
-import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
@@ -34,6 +40,40 @@ public class ShiroConfig {
         return userRealm;
     }
 
+    @Bean
+    public CacheManager shiroCacheManager() {
+        return new MemoryConstrainedCacheManager();
+    }
+
+    /**
+     * 配置security并设置userReaml，避免xxxx required a bean named 'authorizer' that could not be found.的报错
+     * @return
+     */
+    @Bean
+    public SessionsSecurityManager securityManager() {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setRealm(shiroRealm());
+        securityManager.setCacheManager(shiroCacheManager());
+        securityManager.setSessionManager(sessionManager());
+        return securityManager;
+    }
+
+    /**
+     * 自定义sessionManager
+     * @return
+     */
+    @Bean
+    public SessionManager sessionManager() {
+        ShiroSessionManager sessionManager = new ShiroSessionManager();
+        sessionManager.setSessionDAO(sessionDAO());
+        return sessionManager;
+    }
+
+    @Bean
+    public SessionDAO sessionDAO() {
+        return new MemorySessionDAO();
+    }
+
     /**
      * 配置url过滤器
      * @return
@@ -54,6 +94,7 @@ public class ShiroConfig {
         //配置不会被拦截的链接，顺序判断，
         //anon:所有url都可以匿名访问,无需认证
         filterChainDefinitionMap.put("/system/login", "anon");
+        /*filterChainDefinitionMap.put("/system/preview", "anon");*/
         filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/admin/qrCode/**", "anon");
         //authc:所有url必须通过认证才能访问，
@@ -73,6 +114,7 @@ public class ShiroConfig {
         return shiroFilter;
     }
 
+
     /**
      * 设置用于匹配密码的CredentialsMatcher
      * @return
@@ -85,17 +127,6 @@ public class ShiroConfig {
         // 散列的次数，比如散列三次，相当于md5(md5(md5("")));
         matcher.setHashIterations(ShiroUtils.HASH_ITERATIONS);
         return matcher;
-    }
-
-    /**
-     * 配置security并设置userReaml，避免xxxx required a bean named 'authorizer' that could not be found.的报错
-     * @return
-     */
-    @Bean
-    public SessionsSecurityManager securityManager() {
-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(shiroRealm());
-        return securityManager;
     }
 
 }

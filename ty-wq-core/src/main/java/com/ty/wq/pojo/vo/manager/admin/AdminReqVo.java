@@ -1,15 +1,12 @@
 package com.ty.wq.pojo.vo.manager.admin;
 
 import com.ty.wq.pojo.vo.BaseReqVo;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.sql.Timestamp;
 
 /**
  * @author Administrator
@@ -36,7 +33,6 @@ public class AdminReqVo extends BaseReqVo {
     @Pattern(regexp = "^1[34578]\\d{9}$", message = "手机号的格式不对",groups = {BaseReqVo.Add.class})
     private String phone;
 
-    @ApiModelProperty("邮箱")
     private String email;
 
 }

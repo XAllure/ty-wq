@@ -43,9 +43,9 @@ public class ShiroPermissionsFilter extends PermissionsAuthorizationFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
         HttpServletResponse res = (HttpServletResponse) response;
         if (null == SecurityUtils.getSubject().getPrincipals()) {
-            CommonUtils.writeJson(Result.error(CodeEnum.NEED_LOGIN),res);
+            CommonUtils.writeJson(Result.error(CodeEnum.NEED_LOGIN), res);
         }else {
-            CommonUtils.writeJson(Result.error(CodeEnum.NO_AUTHORITY),res);
+            CommonUtils.writeJson(Result.error(CodeEnum.NO_AUTHORITY), res);
         }
         return false;
     }

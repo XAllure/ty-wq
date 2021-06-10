@@ -16,10 +16,10 @@ public class ShiroSessionManager extends DefaultWebSessionManager {
 
     private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
 
-    public ShiroSessionManager() {
+    /*public ShiroSessionManager() {
         super();
         setGlobalSessionTimeout(DEFAULT_GLOBAL_SESSION_TIMEOUT * 4);
-    }
+    }*/
 
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
@@ -30,9 +30,8 @@ public class ShiroSessionManager extends DefaultWebSessionManager {
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, sessionId);
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
             return sessionId;
-        } else {
-            //否则按默认规则从cookie取sessionId
-            return super.getSessionId(request, response);
         }
+        //否则按默认规则从cookie取sessionId
+        return super.getSessionId(request, response);
     }
 }
