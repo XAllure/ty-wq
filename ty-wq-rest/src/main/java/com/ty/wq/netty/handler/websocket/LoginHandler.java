@@ -22,7 +22,6 @@ public class LoginHandler {
 
     @Async
     public void handler(Channel channel, MsgVo msgVo) {
-        log.info("用户[{}]执行登录服务器操作！！！", channel.remoteAddress());
         if (!WsTokenUtils.hasToken(msgVo.getToken())) {
             MsgUtils.writeJson(channel, Message.error(MsgType.ERROR, CodeEnum.NO_TOKEN));
             return;

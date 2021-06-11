@@ -48,6 +48,9 @@ public class User extends BasePo {
     @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "加密的盐")
     private String salt;
 
+    @Column(type = MySqlTypeConstant.INT, comment = "是否可创建群组 1可 0不可")
+    private Integer createGroup;
+
     @Column(type = MySqlTypeConstant.DATETIME, comment = "登录时间")
     private Timestamp loginTime;
 

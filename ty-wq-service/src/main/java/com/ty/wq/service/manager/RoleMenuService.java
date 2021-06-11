@@ -36,6 +36,7 @@ public interface RoleMenuService extends BaseService<RoleMenu, RoleMenuDao, Role
 
     /**
      * 获取管理员所有角色的菜单
+     * @param adminId
      * @return
      */
     List<MenuRespVo> getAdminRolesMenu(Long adminId);

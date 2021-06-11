@@ -25,20 +25,12 @@ public class WebSocketMsgHandler {
         if (msgVo != null) {
             try {
                 switch (msgVo.getType()) {
-                    case MsgType.LOGIN: {
-                        log.info("跳过 LOGIN 操作");
-                        break;
-                    }
                     case MsgType.HEART_BEAT: {
                         log.info("HEARTBEAT 操作");
                         break;
                     }
                     case MsgType.RECEIVED: {
                         log.info("RECEIVED 操作");
-                        /*// 测试两个服务器之间使用http进行交互
-                        Long userId = ChannelUtils.getUserId(ctx.channel());
-                        String url = HttpUtils.url(userId, "/system/search?username=墨染红尘&startTime=2021-04-28 15:50:19&endTime=2021-05-06 15:50:19&pageNum=1&pageSize=12");
-                        HttpUtils.post(url, new LinkedHashMap<>());*/
                         break;
                     }
                     default: {

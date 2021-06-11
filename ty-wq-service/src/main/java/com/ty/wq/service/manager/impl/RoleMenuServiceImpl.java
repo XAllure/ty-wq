@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ty.wq.dao.manager.RoleMenuDao;
 import com.ty.wq.enums.StatusEnum;
+import com.ty.wq.pojo.po.manager.Menu;
 import com.ty.wq.pojo.vo.manager.menu.MenuRespVo;
 import com.ty.wq.pojo.vo.manager.roleMenu.RoleMenuReqVo;
 import com.ty.wq.pojo.vo.manager.roleMenu.RoleMenuSearchVo;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -81,7 +83,11 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenu, RoleMenuDao, 
         HashSet<Long> ids = new HashSet<>(menuIds);
         menuIds.clear();
         menuIds.addAll(ids);
-        List<MenuRespVo> menuRespVos = OrikaUtils.converts(menuService.findBatchIds(menuIds), MenuRespVo.class);
+
+        QueryWrapper<Menu> qw = new QueryWrapper<>();
+        // 按照 sort 字段排序
+        qw.in("id", menuIds).orderByAsc("sort");
+        List<MenuRespVo> menuRespVos = OrikaUtils.converts(menuService.findList(qw), MenuRespVo.class);
         menuRespVos.removeIf(menuRespVo -> menuRespVo.getStatus().equals(StatusEnum.LOCKED.getCode()));
         return menuRespVos;
     }
