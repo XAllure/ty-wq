@@ -36,7 +36,7 @@ public class GoogleAuthenticatorUtils {
     private static int timeExcursion = 3;
 
 
-    private static String active;
+    public static String active;
 
     @Value("${custom.googleVerifyCode.timeExcursion}")
     public void setTimeExcursion(String timeExcursion) {
@@ -157,9 +157,8 @@ public class GoogleAuthenticatorUtils {
      */
     public static void createQrCode(String secretKey, HttpServletResponse response) throws IOException, WriterException {
         response.setCharacterEncoding("UTF-8");
-        //response.setContentType("application/json; charset=utf-8");
         response.setContentType("image/jpeg");
-        String qrCode = GoogleAuthenticatorUtils.createGoogleAuthQRCodeData(secretKey, "qdd@admin.com", "Google");
+        String qrCode = GoogleAuthenticatorUtils.createGoogleAuthQRCodeData(secretKey, "wq@admin.com", "ty-wq");
         ServletOutputStream stream = response.getOutputStream();
         GoogleAuthenticatorUtils.writeToStream(qrCode, stream, 90, 90);
     }

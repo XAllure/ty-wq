@@ -36,6 +36,10 @@ public enum CodeEnum {
 
     METHOD_NOT_SUPPORT(111,"不支持此方法"),
 
+    PASSWORD_2_NOT_SAME(112,"两次密码不一致"),
+
+    PASSWORD_SAME(113,"新密码不能与旧密码一致"),
+
 
     NO_AUTHENTICATION(401,"认证失败"),
 

@@ -9,12 +9,15 @@ import com.ty.wq.enums.StatusEnum;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.manager.StatusReqVo;
+import com.ty.wq.pojo.vo.manager.admin.PasswordReqVo;
 import com.ty.wq.service.manager.AdminService;
 import com.ty.wq.shiro.ShiroUtils;
 import com.ty.wq.utils.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.NonNull;
+import lombok.SneakyThrows;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.ty.wq.pojo.po.manager.Admin;
@@ -115,6 +118,32 @@ public class AdminController extends BaseController<Admin, AdminReqVo, AdminResp
         Admin admin = service.findById(ShiroUtils.getAdminId());
         OrikaUtils.copy(adminReqVo, admin);
         service.updateById(admin);
+        return Result.success();
+    }
+
+    /**
+     * 修改密码
+     * @param reqVo
+     * @return
+     */
+    @SneakyThrows
+    @PostMapping("/password/update")
+    public Result updatePassword(@RequestBody PasswordReqVo reqVo) {
+        ReqVoUtils.validated(reqVo, BaseReqVo.Self.class);
+        if (!reqVo.getPassword().equals(reqVo.getConfirmPassword())) {
+            return Result.error(CodeEnum.PASSWORD_2_NOT_SAME);
+        }
+        Admin admin = service.findById(ShiroUtils.getAdminId());
+        reqVo.setPassword(ShiroUtils.md5(reqVo.getPassword(), admin.getSalt()));
+        if (admin.getPassword().equals(reqVo.getPassword())) {
+            return Result.error(CodeEnum.PASSWORD_SAME);
+        }
+        if (!GoogleAuthenticatorUtils.verify(admin.getSecretKey(), reqVo.getCode())) {
+            return Result.error(CodeEnum.ERROR_CODE);
+        }
+        admin.setPassword(reqVo.getPassword());
+        service.updateById(admin);
+        SecurityUtils.getSubject().logout();
         return Result.success();
     }
 

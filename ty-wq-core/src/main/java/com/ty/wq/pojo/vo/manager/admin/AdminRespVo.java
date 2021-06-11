@@ -26,6 +26,8 @@ public class AdminRespVo extends BaseRespVo {
 
     private String email;
 
+    private String secretKey;
+
     private Integer status;
 
     private String loginTime;
