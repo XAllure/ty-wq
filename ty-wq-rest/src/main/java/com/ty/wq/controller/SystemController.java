@@ -87,7 +87,7 @@ public class SystemController {
      * @return
      */
     @PostMapping("/logout/{token}")
-    public Result logout(@Valid @NotBlank(message = "参数为空") @PathVariable String token) {
+    public Result logout(@Valid @NotBlank(message = "参数不能为空") @PathVariable String token) {
         if (!WsTokenUtils.hasToken(token)) {
             return Result.error(CodeEnum.ERROR_TOKEN);
         }

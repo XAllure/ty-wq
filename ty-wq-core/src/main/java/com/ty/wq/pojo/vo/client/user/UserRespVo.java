@@ -25,4 +25,6 @@ public class UserRespVo extends BaseRespVo {
 
     private Integer status;
 
+    private Integer createGroup;
+
 }

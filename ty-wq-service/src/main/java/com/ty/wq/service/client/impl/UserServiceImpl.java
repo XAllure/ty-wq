@@ -72,7 +72,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
         List<String> keys = new ArrayList<>(allKeys);
         String key = keys.get((int) (count % keys.size()));
         // 获取服务器信息
-        WsServer ws = (WsServer) RedisUtils.getValue(key);
+        WsServer ws = (WsServer) RedisUtils.get(key);
         ws.setHPort(null);
         ws.setNIp(null);
         // 创建token

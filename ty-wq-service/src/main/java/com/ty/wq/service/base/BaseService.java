@@ -62,6 +62,14 @@ public interface BaseService<E extends BasePo,D extends BaseDao<E>, SV extends B
     int updateById(E entity);
 
     /**
+     * 更新一条数据
+     * @param entity
+     * @param wrapper
+     * @return
+     */
+    int update(E entity, Wrapper<E> wrapper);
+
+    /**
      * 获取一条记录
      * @param queryWrapper
      * @return

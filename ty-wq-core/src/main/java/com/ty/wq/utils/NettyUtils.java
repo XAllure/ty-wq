@@ -25,7 +25,7 @@ public class NettyUtils {
     public static void regToRedis(NettyInfoConfig config) {
         String innerIp = InetAddress.getLocalHost().getHostAddress();
         WsServer wsServer = new WsServer(config.getId(), config.getPIp(), innerIp, config.getNPort(),config.getHPort());
-        RedisUtils.setValueSeconds(Constants.WS_SERVER_INFO.concat(config.getId()), wsServer, Constants.REG_TIMEOUT);
+        RedisUtils.setSeconds(Constants.WS_SERVER_INFO.concat(config.getId()), wsServer, Constants.REG_TIMEOUT);
     }
 
     /**

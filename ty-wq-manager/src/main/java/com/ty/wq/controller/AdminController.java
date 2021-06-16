@@ -63,9 +63,8 @@ public class AdminController extends BaseController<Admin, AdminReqVo, AdminResp
      * @param reqVo
      * @return
      */
-    @Override
     @PostMapping("/insert")
-    public Result add(@RequestBody AdminReqVo reqVo) {
+    public Result insert(@RequestBody AdminReqVo reqVo) {
         ReqVoUtils.validated(reqVo, BaseReqVo.Add.class);
         Admin admin = OrikaUtils.convert(reqVo, Admin.class);
         admin.setSalt(GenerateUtils.generateString(20));

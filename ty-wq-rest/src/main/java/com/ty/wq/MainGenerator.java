@@ -108,7 +108,7 @@ public class MainGenerator {
 
         voProps(props);
 
-        generateValidator(props);
+        //generateValidator(props);
         //generateFactory(props);
         generateReqVo(props);
         generateRespVo(props);
@@ -136,7 +136,7 @@ public class MainGenerator {
         generateReqVo(props, tableName);
         generateRespVo(props, tableName);
         generateSearchVo(props, tableName);
-        generateValidator(props);
+        //generateValidator(props);
         //generateFactory(props);
         //将原路径赋值回去，否则会出错
         props.setSavingPathVo(voPath);

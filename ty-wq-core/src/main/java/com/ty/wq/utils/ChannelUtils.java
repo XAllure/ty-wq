@@ -79,7 +79,7 @@ public class ChannelUtils {
      * 获取所有 userId 的 Channel
      * @return
      */
-    public static synchronized Collection<Channel> userChannels() {
+    public static synchronized Collection<Channel> allUserChannels() {
         return USER_ID_CHANNEL.values();
     }
 

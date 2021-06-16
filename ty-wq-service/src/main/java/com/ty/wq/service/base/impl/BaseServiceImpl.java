@@ -86,6 +86,12 @@ public class BaseServiceImpl<E extends BasePo,D extends BaseDao<E>, SV extends B
     }
 
     @Override
+    public int update(E entity, Wrapper<E> wrapper) {
+        entity.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        return baseDao.update(entity, wrapper);
+    }
+
+    @Override
     public E findOne(Wrapper<E> queryWrapper) {
         return this.baseDao.selectOne(queryWrapper);
     }

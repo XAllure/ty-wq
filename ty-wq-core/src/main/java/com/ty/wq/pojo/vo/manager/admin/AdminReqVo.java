@@ -20,17 +20,17 @@ import javax.validation.constraints.Pattern;
 public class AdminReqVo extends BaseReqVo {
     private static final long serialVersionUID = -1L;
 
-    @NotBlank(message = "头像不能为空",groups = BaseReqVo.Self.class)
+    @NotBlank(message = "头像不能为空",groups = Self.class)
     private String avatar;
 
-    @NotBlank(message = "用户名不能为空",groups = {BaseReqVo.Add.class, BaseReqVo.Update.class, BaseReqVo.Self.class})
+    @NotBlank(message = "用户名不能为空",groups = {Add.class, Update.class, Self.class})
     private String username;
 
-    @NotBlank(message = "密码不能为空",groups = {BaseReqVo.Add.class})
-    @Length(min = 6,max = 40,message = "密码必须6-20位",groups = {BaseReqVo.Add.class})
+    @NotBlank(message = "密码不能为空",groups = {Add.class})
+    @Length(min = 6,max = 40,message = "密码必须6-20位",groups = {Add.class})
     private String password;
 
-    @Pattern(regexp = "^1[34578]\\d{9}$", message = "手机号的格式不对",groups = {BaseReqVo.Add.class})
+    @Pattern(regexp = "^1[34578]\\d{9}$", message = "手机号的格式不对",groups = {Add.class, Update.class, Self.class})
     private String phone;
 
     private String email;

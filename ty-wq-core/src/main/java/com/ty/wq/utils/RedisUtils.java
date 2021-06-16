@@ -38,7 +38,7 @@ public class RedisUtils {
      * @param expire
      * @param timeUnit
      */
-    public static void setValue(String key, Object value, long expire, TimeUnit timeUnit){
+    public static void set(String key, Object value, long expire, TimeUnit timeUnit){
         redisTemplate.opsForValue().set(key, value, expire, timeUnit);
     }
 
@@ -47,9 +47,10 @@ public class RedisUtils {
      * @param key
      * @param value
      */
-    public static void setValue(String key, Object value) {
-        redisTemplate.opsForValue().set(key,value);
+    public static void set(String key, Object value) {
+        redisTemplate.opsForValue().set(key, value);
     }
+
 
     /**
      * 按秒缓存
@@ -57,8 +58,8 @@ public class RedisUtils {
      * @param value
      * @param expire
      */
-    public static void setValueSeconds(String key, Object value, long expire) {
-        setValue(key,value,expire, TimeUnit.SECONDS);
+    public static void setSeconds(String key, Object value, long expire) {
+        set(key, value, expire, TimeUnit.SECONDS);
     }
 
     /**
@@ -67,8 +68,8 @@ public class RedisUtils {
      * @param value
      * @param expire
      */
-    public static void setValueMinutes(String key, Object value, long expire) {
-        setValue(key,value,expire, TimeUnit.MINUTES);
+    public static void setMinutes(String key, Object value, long expire) {
+        set(key, value, expire, TimeUnit.MINUTES);
     }
 
     /**
@@ -77,16 +78,20 @@ public class RedisUtils {
      * @param value
      * @param expire
      */
-    public static void setValueHours(String key, Object value, long expire) {
-        setValue(key,value,expire, TimeUnit.HOURS);
+    public static void setHours(String key, Object value, long expire) {
+        set(key, value, expire, TimeUnit.HOURS);
     }
 
     /**
      * 通过key 获取value
      */
 
-    public static Object getValue(String key){
+    public static Object get(String key){
         return redisTemplate.opsForValue().get(key);
+    }
+
+    public static boolean nSet(String key, Object value, long timeout, TimeUnit timeUnit){
+        return redisTemplate.opsForValue().setIfAbsent(key, value, timeout, timeUnit);
     }
 
     /**
@@ -96,7 +101,7 @@ public class RedisUtils {
      * @param timeUnit
      */
     public static void setExpire(String key, long timeout, TimeUnit timeUnit){
-        redisTemplate.expire(key,timeout,timeUnit);
+        redisTemplate.expire(key, timeout, timeUnit);
     }
 
     /**
@@ -143,31 +148,6 @@ public class RedisUtils {
     }
 
 
-
-    /*************************** opsForValue start ************************************/
-
-    public static void set(String key, Object value) {
-        redisTemplate.opsForValue().set(key,value);
-    }
-
-    public static void set(String key, Object value,int expire) {
-        set(key,value,expire, TimeUnit.SECONDS);
-    }
-
-    public static void set(String key, Object value,long expire,TimeUnit timeUnit) {
-        redisTemplate.opsForValue().set(key,value,expire, timeUnit);
-    }
-
-    public static Object get(String key) {
-        return redisTemplate.opsForValue().get(key);
-    }
-
-    public static boolean nSet(String key, Object value,long timeout,TimeUnit timeUnit){
-        return redisTemplate.opsForValue().setIfAbsent(key,value,timeout,timeUnit);
-    }
-
-    /*************************** opsForZSet ************************************/
-
     /**
      * 添加
      * @param key
@@ -175,7 +155,7 @@ public class RedisUtils {
      * @param score
      */
     public static void zAdd(String key, Object member, double score) {
-        redisTemplate.opsForZSet().add(key,member,score);
+        redisTemplate.opsForZSet().add(key, member, score);
     }
 
     /**
@@ -187,7 +167,7 @@ public class RedisUtils {
         if (typedTuples == null || typedTuples.size() == 0) {
             return;
         }
-        redisTemplate.opsForZSet().add(key,typedTuples);
+        redisTemplate.opsForZSet().add(key, typedTuples);
     }
 
     /**
@@ -198,7 +178,7 @@ public class RedisUtils {
      * @return
      */
     public static Set<ZSetOperations.TypedTuple<Object>> zRangeByScoreWithScores(String key, double min, double max){
-        return redisTemplate.opsForZSet().rangeByScoreWithScores(key,min,max);
+        return redisTemplate.opsForZSet().rangeByScoreWithScores(key, min, max);
     }
 
     /**
@@ -209,11 +189,11 @@ public class RedisUtils {
      * @return
      */
     public static Set<Object> zRangeByScore(String key, double min, double max){
-        return redisTemplate.opsForZSet().rangeByScore(key,min,max);
+        return redisTemplate.opsForZSet().rangeByScore(key, min, max);
     }
 
     public static Set<Object> zReverseRangeByScore(String key, double min, double max){
-        return redisTemplate.opsForZSet().reverseRangeByScore(key,min,max);
+        return redisTemplate.opsForZSet().reverseRangeByScore(key, min, max);
     }
 
     /**
@@ -224,12 +204,12 @@ public class RedisUtils {
         redisTemplate.opsForZSet().removeRangeByScore(key,0,-1);
     }
 
-    public static Set<Object> zGetReverseRange(String key,int start,int end){
+    public static Set<Object> zGetReverseRange(String key, int start, int end){
         Set<Object> objects = redisTemplate.opsForZSet().reverseRange(key, start, end);
         return objects;
     }
 
-    public static Set<Object> zGetRange(String key,int start,int end){
+    public static Set<Object> zGetRange(String key, int start, int end){
         Set<Object> objects = redisTemplate.opsForZSet().range(key, start, end);
         return objects;
     }
@@ -240,7 +220,7 @@ public class RedisUtils {
     }
 
     public static Double zGetScore(String key,Object member){
-        return redisTemplate.opsForZSet().score(key,member);
+        return redisTemplate.opsForZSet().score(key, member);
     }
 
     /**
@@ -260,22 +240,22 @@ public class RedisUtils {
      * @param member
      */
     public static void zRem(String key, Object member) {
-        redisTemplate.opsForZSet().remove(key,member);
+        redisTemplate.opsForZSet().remove(key, member);
     }
 
-    public static Double zincrby(String key,Object member,double delta){
-        return redisTemplate.opsForZSet().incrementScore(key,member,delta);
+    public static Double zincrby(String key, Object member, double delta){
+        return redisTemplate.opsForZSet().incrementScore(key, member, delta);
     }
 
 
     /*************************** opsForHash ************************************/
 
     public static void hSet(String hashKey, Object key, Object value) {
-        redisTemplate.opsForHash().put(hashKey,key,value);
+        redisTemplate.opsForHash().put(hashKey, key, value);
     }
 
     public static Object hGet(String hashKey, Object key) {
-        return redisTemplate.opsForHash().get(hashKey,key);
+        return redisTemplate.opsForHash().get(hashKey, key);
     }
 
     public static List<Object> hGetAll(String key) {
@@ -285,11 +265,11 @@ public class RedisUtils {
 
     /*************************** opsForList ************************************/
 
-    public static void leftPush(String key,Object value){
+    public static void leftPush(String key, Object value){
         redisTemplate.opsForList().leftPush(key, value);
     }
 
-    public static void rightPush(String key,Object value){
+    public static void rightPush(String key, Object value){
         redisTemplate.opsForList().rightPush(key, value);
     }
 

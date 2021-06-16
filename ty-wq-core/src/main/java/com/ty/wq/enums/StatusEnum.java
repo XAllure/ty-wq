@@ -7,8 +7,18 @@ public enum StatusEnum {
 
     //枚举类型
 
-    LOCKED(0,"锁定"),
     NORMAL(1,"正常"),
+    LOCKED(0,"锁定"),
+
+    LOGGED_IN(1, "已登录"),
+    LOGGED_OUT(0, "已退出"),
+
+    ONLINE(1, "在线"),
+    OFFLINE(0, "离线"),
+
+    CREATE_GROUP(1, "可建群"),
+    CREATE_GROUP_NO(0, "不可建群"),
+
 
     ;
 

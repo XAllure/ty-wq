@@ -9,7 +9,7 @@ public interface MsgType {
             LOGIN = "Login",
             ERROR = "Error",
             HEART_BEAT = "HeartBeat",
-            RECEIVED = "Received"
-
+            RECEIVED = "Received",
+            WE_CHAT_LOGIN = "WeChatLogin"
     ;
 }

@@ -44,7 +44,7 @@ public class WsTokenUtils {
      * @param expire
      */
     public static void saveToken(String token, Long userId, long expire){
-        RedisUtils.setValueSeconds(Constants.WQ_LOGIN_KEY.concat(token), userId, expire);
+        RedisUtils.setSeconds(Constants.WQ_LOGIN_KEY.concat(token), userId, expire);
     }
 
     /**
@@ -62,7 +62,7 @@ public class WsTokenUtils {
      * @return
      */
     public static Long getUserId(String token) {
-        Object userId = RedisUtils.getValue(Constants.WQ_LOGIN_KEY.concat(token));
+        Object userId = RedisUtils.get(Constants.WQ_LOGIN_KEY.concat(token));
         if (Objects.isNull(userId)) {
             return null;
         }
@@ -109,7 +109,7 @@ public class WsTokenUtils {
      * @param wsServer
      */
     public static void saveUserWs(Long userId, WsServer wsServer) {
-        RedisUtils.setValue(Constants.WS_USER_SERVER + userId, wsServer.getId());
+        RedisUtils.set(Constants.WS_USER_SERVER + userId, wsServer.getId());
     }
 
     /**
@@ -135,8 +135,8 @@ public class WsTokenUtils {
      * @return
      */
     public static WsServer getUserWs(Long userId) {
-        String id = String.valueOf(RedisUtils.getValue(Constants.WS_USER_SERVER + userId));
-        return (WsServer) RedisUtils.getValue(Constants.WS_SERVER_INFO.concat(id));
+        String id = String.valueOf(RedisUtils.get(Constants.WS_USER_SERVER + userId));
+        return (WsServer) RedisUtils.get(Constants.WS_SERVER_INFO.concat(id));
     }
 
     /**
@@ -145,7 +145,7 @@ public class WsTokenUtils {
      * @return
      */
     public static WsServer getWsServer(String serverId) {
-        return (WsServer) RedisUtils.getValue(Constants.WS_SERVER_INFO.concat(serverId));
+        return (WsServer) RedisUtils.get(Constants.WS_SERVER_INFO.concat(serverId));
     }
 
 }
