@@ -7,7 +7,6 @@ import com.ty.wq.pojo.vo.manager.admin.LoginReqVo;
 import com.ty.wq.pojo.vo.manager.admin.LoginRespVo;
 import com.ty.wq.pojo.vo.manager.menu.MenuRespVo;
 import com.ty.wq.service.manager.RoleMenuService;
-import com.ty.wq.shiro.ShiroUtils;
 import com.ty.wq.shiro.ShiroVerifyUser;
 import com.ty.wq.utils.ReqVoUtils;
 import io.swagger.annotations.ApiOperation;

@@ -1,19 +1,15 @@
 package com.ty.wq.controller;
 import java.io.IOException;
-import java.sql.Timestamp;
 
 import com.google.zxing.WriterException;
 import com.ty.wq.controller.base.BaseController;
 import com.ty.wq.enums.CodeEnum;
-import com.ty.wq.enums.StatusEnum;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
-import com.ty.wq.pojo.vo.manager.StatusReqVo;
 import com.ty.wq.pojo.vo.manager.admin.PasswordReqVo;
 import com.ty.wq.service.manager.AdminService;
 import com.ty.wq.shiro.ShiroUtils;
 import com.ty.wq.utils.*;
-import io.swagger.annotations.ApiOperation;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -27,8 +23,6 @@ import com.ty.wq.pojo.vo.manager.admin.AdminSearchVo;
 import com.ty.wq.dao.manager.AdminDao;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author Administrator
@@ -53,7 +47,6 @@ public class AdminController extends BaseController<Admin, AdminReqVo, AdminResp
      * @throws WriterException
      */
     @GetMapping("/qrCode/{key}")
-    @ApiOperation(value = "生成谷歌验证码二维码")
     public void getCode(@NonNull @PathVariable String key, HttpServletResponse response) throws IOException, WriterException {
         GoogleAuthenticatorUtils.createQrCode(key, response);
     }

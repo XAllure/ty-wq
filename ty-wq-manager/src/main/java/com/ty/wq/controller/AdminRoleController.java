@@ -52,7 +52,6 @@ public class AdminRoleController {
      * @return
      */
     @PostMapping("/role/update")
-    @ApiOperation(value = "修改管理员角色", notes = "修改管理员角色")
     public Result update(@RequestBody AdminRoleReqVo adminRoleReqVo){
         ReqVoUtils.validated(adminRoleReqVo, BaseReqVo.Add.class);
         adminRoleService.updateAdminRoles(adminRoleReqVo);

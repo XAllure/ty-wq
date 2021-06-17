@@ -4,7 +4,6 @@ import com.ty.wq.controller.base.BaseController;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.service.manager.RoleService;
 import com.ty.wq.utils.OrikaUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.ty.wq.pojo.po.manager.Role;
 import com.ty.wq.pojo.vo.manager.role.RoleReqVo;

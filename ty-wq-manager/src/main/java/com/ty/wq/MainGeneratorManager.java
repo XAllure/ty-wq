@@ -1,5 +1,6 @@
 package com.ty.wq;
 
+import com.ty.wq.controller.base.BaseController;
 import com.ty.wq.dao.BaseDao;
 import com.ty.wq.pojo.po.BasePo;
 import com.ty.wq.pojo.vo.BaseReqVo;
@@ -30,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @description: 自动生成代码
  * @date 2020/12/2 11:18
  */
-public class MainGenerator {
+public class MainGeneratorManager {
 
     private static final String lineSeparator = System.getProperty("line.separator");
 
@@ -50,7 +51,7 @@ public class MainGenerator {
         System.out.println();
 
         // 读取配置文件信息
-        final String path = MainGenerator.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        final String path = MainGeneratorManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         Properties properties = new Properties();
         final File configFile = new File(path.substring(0, path.lastIndexOf("/")).concat("/config.ini"));
         if (configFile.exists()) {
@@ -104,7 +105,7 @@ public class MainGenerator {
         generatedDao(props);
         generateService(props);
         generateServiceImpl(props);
-        //generateController(props);
+        generateController(props);
 
         voProps(props);
 
@@ -126,7 +127,7 @@ public class MainGenerator {
         generatedDao(props);
         generateService(props);
         generateServiceImpl(props);
-        //generateController(props);
+        generateController(props);
 
         //提取原路径
         String voPath = props.getSavingPathVo();
@@ -205,9 +206,9 @@ public class MainGenerator {
      * @return
      * @throws IOException
      */
-    /*private static String generateController(Props props) throws IOException {
+    private static String generateController(Props props) throws IOException {
         return generateWithNoField(props,props.getSavingPathController(),"Controller", BaseController.class);
-    }*/
+    }
 
     /**
      * 生成Validator
@@ -411,8 +412,8 @@ public class MainGenerator {
     private static String tableNameToPojoName(String tableName){
         String[] split = tableName.split("_");
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < split.length; i++){
-            sb.append(CommonUtils.toFirstUpperCase(split[i]));
+        for (String s : split) {
+            sb.append(CommonUtils.toFirstUpperCase(s));
         }
         return sb.toString();
     }
@@ -425,7 +426,7 @@ public class MainGenerator {
     private static String pojoNameToTableName(String pojoName){
         StringBuilder sb = new StringBuilder();
         if (!StringUtils.isEmpty(pojoName)){
-            // 去掉Po;
+            // 去掉Po
             if ("Po".equals(pojoName.substring(pojoName.length() -2))) {
                 pojoName = pojoName.substring(0, pojoName.length()-2);
             }
@@ -748,6 +749,7 @@ public class MainGenerator {
      */
     private static String writeFiled(Props props, String savingPath, String tableName,File file,String suffix, StringBuilder stringBuilder, StringBuilder fieldBuilder,Class baseClass) throws IOException {
         String pojoName = tableNameToPojoName(tableName);
+        System.out.println(tableName);
         String packageName = savingPath.split("/src/main/java/")[1].replaceAll("\\/","\\.");
         String basePackageName = "";
         if (baseClass != null) {

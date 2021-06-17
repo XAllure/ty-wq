@@ -3,8 +3,6 @@ package com.ty.wq.controller;
 import com.ty.wq.controller.base.BaseController;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.service.manager.MenuService;
-import com.ty.wq.utils.OrikaUtils;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import com.ty.wq.pojo.po.manager.Menu;
 import com.ty.wq.pojo.vo.manager.menu.MenuReqVo;
@@ -28,7 +26,6 @@ public class MenuController extends BaseController<Menu, MenuReqVo, MenuRespVo, 
      * @return
      */
     @PostMapping("/parent")
-    @ApiOperation(value = "获取父菜单", notes = "获取父菜单")
     public Result parent(){
         return Result.success(service.parentMenu());
     }
@@ -38,7 +35,6 @@ public class MenuController extends BaseController<Menu, MenuReqVo, MenuRespVo, 
      * @return
      */
     @GetMapping("/all")
-    @ApiOperation(value = "获取所有菜单", notes = "获取所有菜单")
     public Result allMenu(){
         return Result.success(service.allMenu());
     }

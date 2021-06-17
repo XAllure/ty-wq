@@ -1,29 +1,18 @@
 package com.ty.wq.controller;
 
-import com.ty.wq.enums.StatusEnum;
-import com.ty.wq.pojo.po.manager.Menu;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.manager.menu.MenuRespVo;
-import com.ty.wq.service.manager.AdminRoleService;
 import com.ty.wq.service.manager.MenuService;
 import com.ty.wq.service.manager.RoleMenuService;
 import com.ty.wq.shiro.ShiroUtils;
-import com.ty.wq.utils.AccessUtils;
-import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
-import io.swagger.annotations.ApiOperation;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.ty.wq.pojo.po.manager.RoleMenu;
 import com.ty.wq.pojo.vo.manager.roleMenu.RoleMenuReqVo;
 import com.ty.wq.pojo.vo.manager.roleMenu.RoleMenuRespVo;
-import com.ty.wq.pojo.vo.manager.roleMenu.RoleMenuSearchVo;
-import com.ty.wq.dao.manager.RoleMenuDao;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -64,7 +53,6 @@ public class RoleMenuController {
      * @return
      */
     @PostMapping("/menu/update")
-    @ApiOperation(value = "修改角色菜单", notes = "修改角色菜单")
     public Result update(@RequestBody RoleMenuReqVo reqVo){
         ReqVoUtils.validated(reqVo, BaseReqVo.Add.class);
         roleMenuService.updateRoleMenus(reqVo);
