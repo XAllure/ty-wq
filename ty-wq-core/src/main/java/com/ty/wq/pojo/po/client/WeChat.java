@@ -61,9 +61,6 @@ public class WeChat extends BasePo {
     @Column( type = MySqlTypeConstant.BIGINT, comment = "用户id")
     private Long userId;
 
-    @Column( type = MySqlTypeConstant.INT, comment = "是否可建群 1可建群 0不可建群")
-    private Integer createGroup;
-
     @Column( type = MySqlTypeConstant.DATETIME, comment = "登录时间")
     private Timestamp loginTime;
 

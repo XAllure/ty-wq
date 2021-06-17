@@ -16,9 +16,6 @@ public enum StatusEnum {
     ONLINE(1, "在线"),
     OFFLINE(0, "离线"),
 
-    CREATE_GROUP(1, "可建群"),
-    CREATE_GROUP_NO(0, "不可建群"),
-
 
     ;
 
