@@ -14,23 +14,23 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Table("authority")
-public class Authority extends BasePo {
+@Table("permission")
+public class Permission extends BasePo {
 
     private static final long serialVersionUID = 2428599904346805092L;
-
-    @Column(type = MySqlTypeConstant.BIGINT, comment = "父权限ID")
-    private Long parentId;
 
     @Unique
     @IsNotNull
     @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "名称")
     private String name;
 
-    @Column(type = MySqlTypeConstant.VARCHAR, length = 128, comment = "权限名")
-    private String auth;
+    @Column(type = MySqlTypeConstant.BIGINT, comment = "父权限ID")
+    private Long parentId;
 
-    @Column(type = MySqlTypeConstant.VARCHAR, comment = "权限链接")
-    private String url;
+    @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "权限名")
+    private String permission;
+
+    @Column(type = MySqlTypeConstant.INT, comment = "排序")
+    private Integer sort;
 
 }

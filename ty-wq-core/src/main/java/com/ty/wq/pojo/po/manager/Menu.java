@@ -28,7 +28,7 @@ public class Menu extends BasePo {
     private String icon;
 
     @Column(type = MySqlTypeConstant.BIGINT, comment = "父菜单ID'")
-    private Long parentId;
+    private Long pid;
 
     @Column(type = MySqlTypeConstant.VARCHAR, comment = "菜单链接路径'")
     private String path;

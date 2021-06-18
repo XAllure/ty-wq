@@ -1,7 +1,7 @@
 package com.ty.wq.dao.client;
 
 import com.ty.wq.dao.BaseDao;
-import com.ty.wq.pojo.po.client.Authority;
+import com.ty.wq.pojo.po.client.Permission;
 
 /**
  * @author Administrator
@@ -10,5 +10,5 @@ import com.ty.wq.pojo.po.client.Authority;
  * @description:
  * @date 2021-06-17 08:15:02
  */
-public interface AuthorityDao extends BaseDao<Authority> {
+public interface PermissionDao extends BaseDao<Permission> {
 }

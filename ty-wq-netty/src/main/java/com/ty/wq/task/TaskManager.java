@@ -1,4 +1,4 @@
-package com.ty.wq.netty.task;
+package com.ty.wq.task;
 
 import com.ty.wq.config.netty.NettyInfoConfig;
 import com.ty.wq.constant.Constants;
@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.util.Set;
 
 /**
  * @author Administrator

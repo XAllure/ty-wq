@@ -1,7 +1,7 @@
-package com.ty.wq.netty;
+package com.ty.wq.socket;
 
 import com.ty.wq.config.netty.NettyInfoConfig;
-import com.ty.wq.netty.initializer.WebSocketInitializer;
+import com.ty.wq.initializer.WebSocketInitializer;
 import com.ty.wq.utils.NettyUtils;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

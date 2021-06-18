@@ -1,8 +1,6 @@
-package com.ty.wq.netty.initializer;
+package com.ty.wq.initializer;
 
-import com.ty.wq.netty.handler.WebSocketHandler;
-import com.ty.wq.netty.handler.WebSocketLogHandler;
-import com.ty.wq.netty.handler.WebSocketAuthHandler;
+import com.ty.wq.handler.*;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;

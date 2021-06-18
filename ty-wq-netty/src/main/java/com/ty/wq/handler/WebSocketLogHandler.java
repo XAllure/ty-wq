@@ -1,11 +1,8 @@
-package com.ty.wq.netty.handler;
+package com.ty.wq.handler;
 
-import com.alibaba.fastjson.JSONObject;
 import com.ty.wq.constant.MsgType;
 import com.ty.wq.pojo.vo.netty.Message;
-import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.utils.MsgUtils;
-import com.ty.wq.utils.OrikaUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;

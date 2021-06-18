@@ -39,7 +39,7 @@ public class Admin extends BasePo {
     @Column(type = MySqlTypeConstant.VARCHAR, length = 11, comment = "手机号'")
     private String phone;
 
-    @Column(type = MySqlTypeConstant.VARCHAR, length = 30, comment = "邮箱'")
+    @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "邮箱'")
     private String email;
 
     @Column(type = MySqlTypeConstant.VARCHAR, length = 128, comment = "谷歌验证码秘钥'")

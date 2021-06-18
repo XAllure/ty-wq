@@ -33,20 +33,30 @@ public class User extends BasePo {
     private String username;
 
     @IsNotNull
+    @Column(type = MySqlTypeConstant.VARCHAR, length = 30, comment = "用户昵称")
+    private String userNick;
+
+    @IsNotNull
     @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "密码")
     private String password;
 
-    @Unique
     @Column(type = MySqlTypeConstant.VARCHAR, length = 20, comment = "手机号")
     private String phone;
 
-    @Unique
-    @Column(type = MySqlTypeConstant.VARCHAR, length = 30, comment = "邮箱")
+    @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "邮箱")
     private String email;
 
     @IsNotNull
     @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "加密的盐")
     private String salt;
+
+    @IsNotNull
+    @Column(type = MySqlTypeConstant.BIGINT, comment = "公司ID")
+    private Long companyId;
+
+    @IsNotNull
+    @Column(type = MySqlTypeConstant.VARCHAR, comment = "公司ID")
+    private Long departmentId;
 
     @Column(type = MySqlTypeConstant.DATETIME, comment = "登录时间")
     private Timestamp loginTime;

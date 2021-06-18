@@ -11,6 +11,7 @@ import com.ty.wq.pojo.vo.client.user.UserSearchVo;
 import com.ty.wq.service.client.UserService;
 import com.ty.wq.shiro.ShiroUtils;
 import com.ty.wq.utils.GenerateUtils;
+import com.ty.wq.utils.Md5Utils;
 import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +40,7 @@ public class UserController extends BaseController<User, UserReqVo, UserRespVo, 
         ReqVoUtils.validated(reqVo, BaseReqVo.Add.class);
         User user = OrikaUtils.convert(reqVo, User.class);
         user.setSalt(GenerateUtils.generateString(20));
-        user.setPassword(ShiroUtils.md5(user.getPassword(), user.getSalt()));
+        user.setPassword(Md5Utils.encryptSalt(user.getPassword(), user.getSalt()));
         service.insert(user);
         return Result.success();
     }

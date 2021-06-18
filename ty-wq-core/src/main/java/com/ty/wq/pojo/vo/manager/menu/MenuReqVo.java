@@ -28,7 +28,7 @@ public class MenuReqVo extends BaseReqVo {
     private String icon;
 
     /** 父菜单ID */
-    private Long parentId;
+    private Long pid;
 
     /** 菜单链接路径 */
     private String path;

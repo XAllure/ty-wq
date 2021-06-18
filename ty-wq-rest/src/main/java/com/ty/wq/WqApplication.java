@@ -8,9 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * @author Administrator
  */
-@EnableAsync
 @SpringBootApplication
-@EnableScheduling
 public class WqApplication {
     public static void main(String[] args) {
         SpringApplication.run(WqApplication.class, args);

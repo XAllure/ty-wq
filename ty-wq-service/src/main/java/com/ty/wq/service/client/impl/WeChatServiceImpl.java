@@ -39,9 +39,8 @@ public class WeChatServiceImpl extends BaseServiceImpl<WeChat, WeChatDao, WeChat
         for (String weChatId : weChatReqVo.getWeChatIds()) {
             WeChat weChat = findByWeChatId(weChatId);
             if (null != weChat) {
-                weChat.setIsLoggedIn(StatusEnum.LOGGED_IN.getCode());
+                weChat.setIsLogin(StatusEnum.LOGGED_IN.getCode());
                 weChat.setIsOnline(StatusEnum.ONLINE.getCode());
-                weChat.setUserId(AccessUtils.userId());
                 weChat.setLoginTime(new Timestamp(System.currentTimeMillis()));
                 updateById(weChat);
                 weChats.add(weChat);

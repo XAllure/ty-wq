@@ -1,18 +1,13 @@
-package com.ty.wq.netty.handler;
+package com.ty.wq.handler;
 
 import com.ty.wq.constant.MsgType;
 import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.pojo.vo.netty.MsgVo;
-import com.ty.wq.utils.ChannelUtils;
-import com.ty.wq.utils.HttpUtils;
 import com.ty.wq.utils.MsgUtils;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 /**
  * @author Administrator

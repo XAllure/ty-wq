@@ -1,12 +1,8 @@
-package com.ty.wq.pojo.vo.client.authority;
+package com.ty.wq.pojo.vo.client.permission;
 
-import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.BaseRespVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotBlank;
-import java.sql.Timestamp;
 
 /**
  * @author Administrator
@@ -17,7 +13,7 @@ import java.sql.Timestamp;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class AuthorityRespVo extends BaseRespVo {
+public class PermissionRespVo extends BaseRespVo {
 
     private static final long serialVersionUID = -1L;
 
@@ -28,10 +24,10 @@ public class AuthorityRespVo extends BaseRespVo {
     private String name;
 
     /** 权限名 */
-    private String auth;
+    private String permission;
 
-    /** 链接 */
-    private String url;
+    /** 排序 */
+    private String sort;
 
     private Integer status;
 

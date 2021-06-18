@@ -24,7 +24,7 @@ public class NettyInfoConfig {
     private Integer nPort;
 
     /** http端口 */
-    @Value("${server.port}")
+    @Value("${custom.netty.websocket.hport}")
     private Integer hPort;
 
 }

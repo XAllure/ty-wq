@@ -34,13 +34,6 @@ public class BasePo implements Serializable {
     private Integer status;
 
     @IsNotNull
-    @Column(comment = "创建时间", type = MySqlTypeConstant.DATETIME)
-    protected Timestamp createTime;
-
-    @Column(comment = "更新时间", type = MySqlTypeConstant.DATETIME)
-    protected Timestamp updateTime;
-
-    @IsNotNull
     @Column(comment = "逻辑删除", type = MySqlTypeConstant.INT)
     protected Integer deleted;
 
@@ -48,5 +41,18 @@ public class BasePo implements Serializable {
     @Version
     @Column(comment = "乐观锁", type = MySqlTypeConstant.INT)
     protected Integer version;
+
+    @IsNotNull
+    @Column(comment = "创建时间", type = MySqlTypeConstant.DATETIME)
+    protected Timestamp createTime;
+
+    @Column(comment = "创建人", type = MySqlTypeConstant.VARCHAR, length = 30)
+    protected String createBy;
+
+    @Column(comment = "更新时间", type = MySqlTypeConstant.DATETIME)
+    protected Timestamp updateTime;
+
+    @Column(comment = "修改人", type = MySqlTypeConstant.VARCHAR, length = 30)
+    protected String updateBy;
 
 }

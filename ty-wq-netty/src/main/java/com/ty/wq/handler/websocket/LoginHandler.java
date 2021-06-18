@@ -1,4 +1,4 @@
-package com.ty.wq.netty.handler.websocket;
+package com.ty.wq.handler.websocket;
 
 import com.ty.wq.constant.MsgType;
 import com.ty.wq.enums.CodeEnum;

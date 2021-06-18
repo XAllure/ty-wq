@@ -1,12 +1,10 @@
-package com.ty.wq.netty.handler;
+package com.ty.wq.handler;
 
 import com.ty.wq.constant.MsgType;
 import com.ty.wq.pojo.vo.netty.MsgVo;
-import com.ty.wq.pojo.vo.netty.WsServer;
 import com.ty.wq.utils.ChannelUtils;
 import com.ty.wq.utils.HttpUtils;
 import com.ty.wq.utils.MsgUtils;
-import com.ty.wq.utils.WsTokenUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;

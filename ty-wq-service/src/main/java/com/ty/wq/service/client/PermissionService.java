@@ -1,9 +1,9 @@
 package com.ty.wq.service.client;
 
-import com.ty.wq.dao.client.AuthorityDao;
-import com.ty.wq.pojo.po.client.Authority;
+import com.ty.wq.dao.client.PermissionDao;
+import com.ty.wq.pojo.po.client.Permission;
 import com.ty.wq.service.base.BaseService;
-import com.ty.wq.pojo.vo.client.authority.AuthoritySearchVo;
+import com.ty.wq.pojo.vo.client.permission.PermissionSearchVo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,12 +17,12 @@ import java.util.List;
  * @date 2021-06-17 08:15:02
  */
 @Service
-public interface AuthorityService extends BaseService<Authority, AuthorityDao, AuthoritySearchVo> {
+public interface PermissionService extends BaseService<Permission, PermissionDao, PermissionSearchVo> {
 
     /**
      * 查询父权限
      * @return
      */
-    List<Authority> parentAuthority();
+    List<Permission> parentAuthority();
 
 }

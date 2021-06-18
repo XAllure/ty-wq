@@ -35,7 +35,7 @@ spring:
   #热部署
   devtools:
     restart:
-      enabled: false
+      enabled: true
 
   #文件上传设置
   servlet:
@@ -88,5 +88,5 @@ custom:
       id: 1 # netty 服务器编号
       ip: 127.0.0.1 # netty 服务器公网ip地址或域名
       port: 13018 # netty 服务器监听端口
-
+      hport: ${server.port} # http服务器端口
 

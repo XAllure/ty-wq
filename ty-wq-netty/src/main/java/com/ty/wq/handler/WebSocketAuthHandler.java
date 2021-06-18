@@ -1,8 +1,8 @@
-package com.ty.wq.netty.handler;
+package com.ty.wq.handler;
 
 import com.ty.wq.constant.MsgType;
 import com.ty.wq.enums.CodeEnum;
-import com.ty.wq.netty.handler.websocket.LoginHandler;
+import com.ty.wq.handler.websocket.LoginHandler;
 import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.utils.ChannelUtils;

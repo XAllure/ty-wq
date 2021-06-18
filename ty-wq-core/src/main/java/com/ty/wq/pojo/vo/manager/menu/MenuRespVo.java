@@ -23,7 +23,7 @@ public class MenuRespVo extends BaseRespVo {
 
     private String icon;
 
-    private Long parentId;
+    private Long pid;
 
     private String path;
 
