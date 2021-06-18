@@ -40,12 +40,14 @@ public class AdminRoleServiceImpl extends BaseServiceImpl<AdminRole, AdminRoleDa
             adminRoleIds.add(adminRole.getRoleId());
         }
         // 排除被禁用的角色
-        QueryWrapper<Role> roleQw = new QueryWrapper<>();
-        roleQw.in("id", adminRoleIds).ne("status", StatusEnum.LOCKED.getCode());
-        List<Role> roles = roleService.findList(roleQw);
-        adminRoleIds.clear();
-        for (Role role : roles) {
-            adminRoleIds.add(role.getId());
+        if (!adminRoleIds.isEmpty()){
+            QueryWrapper<Role> roleQw = new QueryWrapper<>();
+            roleQw.in("id", adminRoleIds).ne("status", StatusEnum.LOCKED.getCode());
+            List<Role> roles = roleService.findList(roleQw);
+            adminRoleIds.clear();
+            for (Role role : roles) {
+                adminRoleIds.add(role.getId());
+            }
         }
         return adminRoleIds;
     }

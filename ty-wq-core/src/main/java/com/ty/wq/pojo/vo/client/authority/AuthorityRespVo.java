@@ -33,4 +33,6 @@ public class AuthorityRespVo extends BaseRespVo {
     /** 链接 */
     private String url;
 
+    private Integer status;
+
 }
