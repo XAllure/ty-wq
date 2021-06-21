@@ -28,6 +28,9 @@ public class UserReqVo extends BaseReqVo {
     @NotBlank(message = "用户名不能为空",groups = {Add.class, Update.class, Self.class})
     private String username;
 
+    @NotBlank(message = "昵称不能为空",groups = {Add.class, Update.class, Self.class})
+    private String userNick;
+
     @NotBlank(message = "密码不能为空",groups = {Add.class})
     @Length(min = 6,max = 40,message = "密码必须6-20位",groups = {Add.class})
     private String password;
@@ -36,5 +39,11 @@ public class UserReqVo extends BaseReqVo {
     private String phone;
 
     private String email;
+
+    @NotNull(message = "请选择公司",groups = {Add.class, Update.class})
+    private Long companyId;
+
+    @NotNull(message = "请选择部门",groups = {Add.class, Update.class})
+    private Long departmentId;
 
 }

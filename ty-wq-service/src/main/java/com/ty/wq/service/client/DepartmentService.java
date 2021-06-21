@@ -6,6 +6,8 @@ import com.ty.wq.service.base.BaseService;
 import com.ty.wq.pojo.vo.client.department.DepartmentSearchVo;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 /**
  * @author Administrator
@@ -16,4 +18,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface DepartmentService extends BaseService<Department, DepartmentDao, DepartmentSearchVo> {
+
+    /**
+     * 按公司id获取部门列表
+     * @param companyId
+     * @return
+     */
+    List<Department> getDepartmentByCompanyId(Long companyId);
+
 }

@@ -4,7 +4,8 @@ import com.ty.wq.pojo.vo.BaseReqVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.sql.Timestamp;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Administrator
@@ -19,5 +20,13 @@ public class CompanyReqVo extends BaseReqVo {
 
     private static final long serialVersionUID = -1L;
 
+    private Long pid;
+
+    @NotBlank(message = "公司名称不能为空",groups = {Add.class, Update.class})
+    private String name;
+
+    private String phone;
+
+    private String email;
 
 }

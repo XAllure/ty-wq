@@ -25,7 +25,7 @@ public class Company extends BasePo {
     @Column(type = MySqlTypeConstant.VARCHAR, length = 30, comment = "用户名")
     private String name;
 
-    @Column(type = MySqlTypeConstant.BIGINT, comment = "父ID'")
+    @Column(type = MySqlTypeConstant.BIGINT, comment = "父公司ID'")
     private Long pid;
 
     @Column(type = MySqlTypeConstant.VARCHAR, length = 20, comment = "手机号")

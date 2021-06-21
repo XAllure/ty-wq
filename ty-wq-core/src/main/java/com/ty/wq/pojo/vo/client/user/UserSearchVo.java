@@ -22,6 +22,9 @@ public class UserSearchVo extends BaseSearchVo {
     @SearchCondition(compare = CompareEnum.LIKE, filed = "username")
     private String username;
 
+    @SearchCondition(compare = CompareEnum.LIKE, filed = "user_nick")
+    private String userNick;
+
     @SearchCondition(compare = CompareEnum.LIKE, filed = "phone")
     private String phone;
 

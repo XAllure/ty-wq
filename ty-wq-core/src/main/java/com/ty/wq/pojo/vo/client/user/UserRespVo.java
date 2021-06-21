@@ -17,9 +17,15 @@ public class UserRespVo extends BaseRespVo {
 
     private String username;
 
+    private String userNick;
+
     private String phone;
 
     private String email;
+
+    private String company;
+
+    private String department;
 
     private String createTime;
 
