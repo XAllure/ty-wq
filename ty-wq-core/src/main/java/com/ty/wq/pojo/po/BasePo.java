@@ -30,7 +30,7 @@ public class BasePo implements Serializable {
     protected Long id;
 
     @IsNotNull
-    @Column(comment = "状态", type = MySqlTypeConstant.INT)
+    @Column(comment = "状态", length = 1, type = MySqlTypeConstant.INT)
     private Integer status;
 
     @IsNotNull

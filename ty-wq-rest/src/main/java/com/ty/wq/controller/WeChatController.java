@@ -1,11 +1,10 @@
 package com.ty.wq.controller;
 
-import com.ty.wq.pojo.po.client.WeChat;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.weChat.WeChatReqVo;
 import com.ty.wq.pojo.vo.client.weChat.WeChatRespVo;
-import com.ty.wq.service.client.WeChatService;
+import com.ty.wq.service.client.WechatService;
 import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,7 @@ import java.util.List;
 public class WeChatController {
 
     @Autowired
-    private WeChatService weChatService;
+    private WechatService weChatService;
 
     /**
      * 登录微信

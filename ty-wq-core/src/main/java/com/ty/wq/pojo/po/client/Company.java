@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
+ * 公司表
  * @author Administrator
  */
 @EqualsAndHashCode(callSuper = true)

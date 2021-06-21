@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
+ * 用户部门表
  * @author Administrator
  */
 @EqualsAndHashCode(callSuper = true)

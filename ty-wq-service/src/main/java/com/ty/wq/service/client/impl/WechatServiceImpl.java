@@ -1,12 +1,12 @@
 package com.ty.wq.service.client.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ty.wq.dao.client.WeChatDao;
+import com.ty.wq.dao.client.WechatDao;
 import com.ty.wq.enums.StatusEnum;
 import com.ty.wq.pojo.vo.client.weChat.WeChatReqVo;
 import com.ty.wq.pojo.vo.client.weChat.WeChatSearchVo;
-import com.ty.wq.pojo.po.client.WeChat;
-import com.ty.wq.service.client.WeChatService;
+import com.ty.wq.pojo.po.client.Wechat;
+import com.ty.wq.service.client.WechatService;
 import com.ty.wq.service.base.impl.BaseServiceImpl;
 import com.ty.wq.utils.AccessUtils;
 import com.ty.wq.utils.ChannelUtils;
@@ -25,37 +25,37 @@ import java.util.List;
  * @date 2021-06-15 07:08:40
  */
 @Service
-public class WeChatServiceImpl extends BaseServiceImpl<WeChat, WeChatDao, WeChatSearchVo> implements WeChatService {
+public class WechatServiceImpl extends BaseServiceImpl<Wechat, WechatDao, WeChatSearchVo> implements WechatService {
     @Override
-    public WeChat findByWeChatId(String weChatId) {
-        QueryWrapper<WeChat> qw = new QueryWrapper<>();
-        qw.in("we_chat_id", weChatId);
+    public Wechat findByWechatId(String weChatId) {
+        QueryWrapper<Wechat> qw = new QueryWrapper<>();
+        qw.in("wechat_id", weChatId);
         return findOne(qw);
     }
 
     @Override
-    public List<WeChat> login(WeChatReqVo weChatReqVo) {
-        List<WeChat> weChats = new ArrayList<>();
+    public List<Wechat> login(WeChatReqVo weChatReqVo) {
+        List<Wechat> wechats = new ArrayList<>();
         for (String weChatId : weChatReqVo.getWeChatIds()) {
-            WeChat weChat = findByWeChatId(weChatId);
+            Wechat weChat = findByWechatId(weChatId);
             if (null != weChat) {
                 weChat.setIsLogin(StatusEnum.LOGGED_IN.getCode());
                 weChat.setIsOnline(StatusEnum.ONLINE.getCode());
                 weChat.setLoginTime(new Timestamp(System.currentTimeMillis()));
                 updateById(weChat);
-                weChats.add(weChat);
+                wechats.add(weChat);
             }
         }
         // 获取用户的channel
         Channel channel = ChannelUtils.userChannel(AccessUtils.userId());
         // 保存微信id与用户channel的对应关系
-        ChannelUtils.saveWeChatChannels(channel, weChats);
+        ChannelUtils.saveWeChatChannels(channel, wechats);
         // 返回已登录的微信
-        return weChats;
+        return wechats;
     }
 
     @Override
-    public List<WeChat> findByIds(List<Long> ids) {
+    public List<Wechat> findByIds(List<Long> ids) {
         return findBatchIds(ids);
     }
 }

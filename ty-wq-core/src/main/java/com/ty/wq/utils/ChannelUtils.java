@@ -1,7 +1,7 @@
 package com.ty.wq.utils;
 
 import com.ty.wq.constant.Constants;
-import com.ty.wq.pojo.po.client.WeChat;
+import com.ty.wq.pojo.po.client.Wechat;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
@@ -108,13 +108,13 @@ public class ChannelUtils {
     /**
      * 根据微信id存储所有用户的Channel通道
      * @param channel
-     * @param weChats
+     * @param wechats
      */
-    public static synchronized void saveWeChatChannels(Channel channel, List<WeChat> weChats) {
-        if (weChats != null && weChats.size() > 0) {
+    public static synchronized void saveWeChatChannels(Channel channel, List<Wechat> wechats) {
+        if (wechats != null && wechats.size() > 0) {
             List<Channel> channels;
-            for (WeChat weChat : weChats) {
-                String weChatId = weChat.getWeChatId();
+            for (Wechat weChat : wechats) {
+                String weChatId = weChat.getWechatId();
                 if (StringUtils.isNotBlank(weChatId)) {
                     if (WE_CHAT_ID_CHANNEL.containsKey(weChatId)) {
                         channels = getChannelsByWeChatId(weChatId);

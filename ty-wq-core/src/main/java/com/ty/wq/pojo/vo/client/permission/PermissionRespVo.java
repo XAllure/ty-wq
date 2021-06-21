@@ -18,7 +18,7 @@ public class PermissionRespVo extends BaseRespVo {
     private static final long serialVersionUID = -1L;
 
     /** 父权限id */
-    private Long parentId;
+    private Long pid;
 
     /** 名称 */
     private String name;

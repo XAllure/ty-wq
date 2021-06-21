@@ -23,7 +23,9 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Permissio
     @Override
     public List<Permission> parentAuthority() {
         QueryWrapper<Permission> qw = new QueryWrapper<>();
-        qw.isNull("permission").or().eq("permission", "").or().eq("permission", "/");
+        qw.isNull("permission")
+                .or().eq("permission", "")
+                .or().eq("permission", "/");
         return findList(qw);
     }
 

@@ -1,43 +1,42 @@
 package com.ty.wq.pojo.po.client;
 
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
-import com.gitee.sunchenbin.mybatis.actable.annotation.IsNotNull;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
-import com.gitee.sunchenbin.mybatis.actable.annotation.Unique;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import com.ty.wq.pojo.po.BasePo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.sql.Timestamp;
-
-/**z
+/**
+ * 微信群成员表
  * @author Administrator
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Table(name = "weChat")
-public class WeChat extends BasePo {
-    private static final long serialVersionUID = 6673524399742015525L;
+@Table("wechat_room_member")
+public class WechatRoomMember extends BasePo {
 
-    @Unique
-    @IsNotNull
+    private static final long serialVersionUID = -371758925001449762L;
+
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "拥有者微信ID")
+    private String ownerWechatId;
+
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "群ID")
+    private String chatRoomId;
+
     @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "微信id")
-    private String weChatId;
+    private String wechatId;
 
     @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "微信号")
-    private String weChatNo;
+    private String wechatNo;
 
     @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "微信昵称")
-    private String weChatNick;
+    private String wechatNick;
 
     @Column( type = MySqlTypeConstant.VARCHAR, comment = "高清头像")
     private String headPic;
 
-    @Column( type = MySqlTypeConstant.VARCHAR, comment = "小头像")
-    private String smallPic;
-
-    @Column( type = MySqlTypeConstant.INT, comment = "性别")
+    @Column( type = MySqlTypeConstant.INT, length = 1, comment = "性别 0-未知,1-男,2-女")
     private Integer gender;
 
     @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "国家")
@@ -49,28 +48,16 @@ public class WeChat extends BasePo {
     @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "城市")
     private String city;
 
-    @Column( type = MySqlTypeConstant.VARCHAR, comment = "朋友圈个性签名")
-    private String signature;
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "群昵称")
+    private String displayName;
 
-    @Column( type = MySqlTypeConstant.VARCHAR, comment = "朋友圈背景图片")
-    private String snsPic;
-
-    @Column( type = MySqlTypeConstant.INT, comment = "是否在线")
-    private Integer isOnline;
-
-    @Column( type = MySqlTypeConstant.INT, comment = "是否已登录")
-    private Integer isLogin;
-
-    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "设备ID")
-    private String deviceId;
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "好友备注")
+    private String remark;
 
     @Column( type = MySqlTypeConstant.BIGINT, comment = "公司ID")
     private Long companyId;
 
     @Column( type = MySqlTypeConstant.BIGINT, comment = "部门ID")
     private Long departmentId;
-
-    @Column( type = MySqlTypeConstant.DATETIME, comment = "登录时间")
-    private Timestamp loginTime;
 
 }

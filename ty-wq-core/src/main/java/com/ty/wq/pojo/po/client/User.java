@@ -24,9 +24,6 @@ public class User extends BasePo {
 
     private static final long serialVersionUID = 7291243392404360159L;
 
-    @Column(type = MySqlTypeConstant.VARCHAR, length = 128, comment = "头像")
-    private String avatar;
-
     @Unique
     @IsNotNull
     @Column(type = MySqlTypeConstant.VARCHAR, length = 30, comment = "用户名")
@@ -40,6 +37,13 @@ public class User extends BasePo {
     @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "密码")
     private String password;
 
+    @Column(type = MySqlTypeConstant.VARCHAR, length = 128, comment = "头像")
+    private String avatar;
+
+    @IsNotNull
+    @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "加密的盐")
+    private String salt;
+
     @Column(type = MySqlTypeConstant.VARCHAR, length = 20, comment = "手机号")
     private String phone;
 
@@ -47,15 +51,11 @@ public class User extends BasePo {
     private String email;
 
     @IsNotNull
-    @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "加密的盐")
-    private String salt;
-
-    @IsNotNull
     @Column(type = MySqlTypeConstant.BIGINT, comment = "公司ID")
     private Long companyId;
 
     @IsNotNull
-    @Column(type = MySqlTypeConstant.VARCHAR, comment = "公司ID")
+    @Column(type = MySqlTypeConstant.BIGINT, comment = "公司ID")
     private Long departmentId;
 
     @Column(type = MySqlTypeConstant.DATETIME, comment = "登录时间")

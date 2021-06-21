@@ -1,7 +1,7 @@
 package com.ty.wq.service.client;
 
-import com.ty.wq.dao.client.WeChatDao;
-import com.ty.wq.pojo.po.client.WeChat;
+import com.ty.wq.dao.client.WechatDao;
+import com.ty.wq.pojo.po.client.Wechat;
 import com.ty.wq.pojo.vo.client.weChat.WeChatReqVo;
 import com.ty.wq.service.base.BaseService;
 import com.ty.wq.pojo.vo.client.weChat.WeChatSearchVo;
@@ -18,27 +18,27 @@ import java.util.List;
  * @date 2021-06-15 07:08:40
  */
 @Service
-public interface WeChatService extends BaseService<WeChat, WeChatDao, WeChatSearchVo> {
+public interface WechatService extends BaseService<Wechat, WechatDao, WeChatSearchVo> {
 
     /**
      * 按微信id查询
      * @param weChatId
      * @return
      */
-    WeChat findByWeChatId(String weChatId);
+    Wechat findByWechatId(String weChatId);
 
     /**
      * 登录微信号
      * @param weChatReqVo
      * @return
      */
-    List<WeChat> login(WeChatReqVo weChatReqVo);
+    List<Wechat> login(WeChatReqVo weChatReqVo);
 
     /**
      * 按id查询
      * @param ids
      * @return
      */
-    List<WeChat> findByIds(List<Long> ids);
+    List<Wechat> findByIds(List<Long> ids);
 
 }

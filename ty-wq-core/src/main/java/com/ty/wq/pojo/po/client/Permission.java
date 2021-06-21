@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
+ * 权限表
  * @author Administrator
  */
 @EqualsAndHashCode(callSuper = true)
@@ -25,12 +26,12 @@ public class Permission extends BasePo {
     private String name;
 
     @Column(type = MySqlTypeConstant.BIGINT, comment = "父权限ID")
-    private Long parentId;
+    private Long pid;
 
     @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "权限名")
     private String permission;
 
-    @Column(type = MySqlTypeConstant.INT, comment = "排序")
+    @Column(type = MySqlTypeConstant.INT, length = 11, comment = "排序")
     private Integer sort;
 
 }

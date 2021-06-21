@@ -10,11 +10,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
+ * 部门表
  * @author Administrator
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Table(name = "company")
+@Table(name = "department")
 public class Department extends BasePo {
 
     private static final long serialVersionUID = 5601124505851038358L;
