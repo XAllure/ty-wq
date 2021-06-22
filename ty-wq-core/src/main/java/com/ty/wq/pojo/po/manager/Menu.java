@@ -1,5 +1,7 @@
 package com.ty.wq.pojo.po.manager;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
 import com.gitee.sunchenbin.mybatis.actable.annotation.IsNotNull;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
@@ -28,6 +30,7 @@ public class Menu extends BasePo {
     private String icon;
 
     @Column(type = MySqlTypeConstant.BIGINT, comment = "父菜单ID'")
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Long pid;
 
     @Column(type = MySqlTypeConstant.VARCHAR, comment = "菜单链接路径'")

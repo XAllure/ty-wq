@@ -40,7 +40,7 @@ public class OrikaUtils {
 
     static {
         // mapNulls 表示 原对象中的null不会拷贝到目标对象
-        MAPPER_FACTORY = new DefaultMapperFactory.Builder().mapNulls(false).build();
+        MAPPER_FACTORY = new DefaultMapperFactory.Builder().mapNulls(true).build();
         MAPPER_FACTORY.getConverterFactory().registerConverter(new DateToString());
         MAPPER_FACTORY.getConverterFactory().registerConverter(new TimestampToString());
         MAPPER_FACADE = MAPPER_FACTORY.getMapperFacade();

@@ -27,6 +27,10 @@ public class UserRespVo extends BaseRespVo {
 
     private String department;
 
+    private Long companyId;
+
+    private Long departmentId;
+
     private String createTime;
 
     private Integer status;

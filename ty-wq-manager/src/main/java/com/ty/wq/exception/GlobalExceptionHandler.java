@@ -9,6 +9,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -128,6 +129,11 @@ public class GlobalExceptionHandler {
             result = Result.error(CodeEnum.ERROR_CODE);
         }else if (e instanceof AuthenticationException) {
             result = Result.error(CodeEnum.NO_AUTHENTICATION);
+        } else if (e instanceof DuplicateKeyException) {
+            result = Result.error(CodeEnum.ERROR_SAME_DATA.getCode(),
+                    e.getCause().getMessage().substring(
+                            StringUtils.ordinalIndexOf(e.getCause().getMessage(), "'", 1) + 1,
+                            StringUtils.ordinalIndexOf(e.getCause().getMessage(), "'", 2)) + "不可用");
         }
         try {
             CommonUtils.writeJson(result, response);

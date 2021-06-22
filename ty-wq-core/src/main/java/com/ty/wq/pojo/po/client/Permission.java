@@ -1,5 +1,7 @@
 package com.ty.wq.pojo.po.client;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
 import com.gitee.sunchenbin.mybatis.actable.annotation.IsNotNull;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
@@ -26,6 +28,7 @@ public class Permission extends BasePo {
     private String name;
 
     @Column(type = MySqlTypeConstant.BIGINT, comment = "父权限ID")
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Long pid;
 
     @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "权限名")

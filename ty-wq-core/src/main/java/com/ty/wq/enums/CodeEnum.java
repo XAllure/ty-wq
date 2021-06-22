@@ -40,6 +40,8 @@ public enum CodeEnum {
 
     PASSWORD_SAME(113,"新密码不能与旧密码一致"),
 
+    ERROR_SAME_DATA(114,"原数据或已存在"),
+
 
     NO_AUTHENTICATION(401,"认证失败"),
 

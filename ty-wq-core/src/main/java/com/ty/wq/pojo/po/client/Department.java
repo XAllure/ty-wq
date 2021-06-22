@@ -1,5 +1,7 @@
 package com.ty.wq.pojo.po.client;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
 import com.gitee.sunchenbin.mybatis.actable.annotation.IsNotNull;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
@@ -25,12 +27,14 @@ public class Department extends BasePo {
     private String name;
 
     @Column(type = MySqlTypeConstant.BIGINT, comment = "父部门ID'")
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Long pid;
 
     @Column(type = MySqlTypeConstant.VARCHAR, length = 20, comment = "手机号")
     private String phone;
 
     @Column(type = MySqlTypeConstant.BIGINT, comment = "公司ID")
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Long companyId;
 
 }

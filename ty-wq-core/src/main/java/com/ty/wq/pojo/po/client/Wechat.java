@@ -1,5 +1,7 @@
 package com.ty.wq.pojo.po.client;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
 import com.gitee.sunchenbin.mybatis.actable.annotation.IsNotNull;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
@@ -66,9 +68,11 @@ public class Wechat extends BasePo {
     private String deviceId;
 
     @Column( type = MySqlTypeConstant.BIGINT, comment = "公司ID")
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Long companyId;
 
     @Column( type = MySqlTypeConstant.BIGINT, comment = "部门ID")
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Long departmentId;
 
     @Column( type = MySqlTypeConstant.DATETIME, comment = "登录时间")
