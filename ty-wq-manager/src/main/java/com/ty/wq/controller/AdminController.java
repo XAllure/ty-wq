@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AdminController extends BaseController<Admin, AdminReqVo, AdminRespVo, AdminSearchVo, AdminDao, AdminService> {
 
     AdminController() {
+        methodAll = false;
         methodAdd = false;
     }
 

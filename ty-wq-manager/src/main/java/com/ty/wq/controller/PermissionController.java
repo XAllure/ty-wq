@@ -27,10 +27,11 @@ public class PermissionController extends BaseController<Permission, PermissionR
      * 获取所有权限
      * @return
      */
+    @Override
     @GetMapping("/all")
     public Result all() {
-        List<Permission> allAuth = service.findAll();
-        List<PermissionRespVo> respVos = OrikaUtils.converts(allAuth, PermissionRespVo.class);
+        List<Permission> permissions = service.allPermission();
+        List<PermissionRespVo> respVos = OrikaUtils.converts(permissions, PermissionRespVo.class);
         return Result.success(respVos);
     }
 

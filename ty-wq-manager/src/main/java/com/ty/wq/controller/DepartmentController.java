@@ -23,6 +23,10 @@ import java.util.List;
 @RequestMapping("/department")
 public class DepartmentController extends BaseController<Department, DepartmentReqVo, DepartmentRespVo, DepartmentSearchVo, DepartmentDao, DepartmentService> {
 
+    DepartmentController(){
+        methodList = false;
+    }
+
     /**
      * 按公司id查找部门
      * @param companyId

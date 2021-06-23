@@ -2,9 +2,9 @@ package com.ty.wq.service.client;
 
 import com.ty.wq.dao.client.WechatDao;
 import com.ty.wq.pojo.po.client.Wechat;
-import com.ty.wq.pojo.vo.client.weChat.WeChatReqVo;
+import com.ty.wq.pojo.vo.client.wechat.WechatReqVo;
 import com.ty.wq.service.base.BaseService;
-import com.ty.wq.pojo.vo.client.weChat.WeChatSearchVo;
+import com.ty.wq.pojo.vo.client.wechat.WechatSearchVo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
  * @date 2021-06-15 07:08:40
  */
 @Service
-public interface WechatService extends BaseService<Wechat, WechatDao, WeChatSearchVo> {
+public interface WechatService extends BaseService<Wechat, WechatDao, WechatSearchVo> {
 
     /**
      * 按微信id查询
@@ -29,10 +29,10 @@ public interface WechatService extends BaseService<Wechat, WechatDao, WeChatSear
 
     /**
      * 登录微信号
-     * @param weChatReqVo
+     * @param wechatReqVo
      * @return
      */
-    List<Wechat> login(WeChatReqVo weChatReqVo);
+    List<Wechat> login(WechatReqVo wechatReqVo);
 
     /**
      * 按id查询

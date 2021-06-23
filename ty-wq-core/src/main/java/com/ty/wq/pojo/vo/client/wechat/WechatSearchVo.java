@@ -1,10 +1,8 @@
-package com.ty.wq.pojo.vo.client.weChat;
+package com.ty.wq.pojo.vo.client.wechat;
 
 import com.ty.wq.pojo.vo.BaseSearchVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.sql.Timestamp;
 
 /**
  * @author Administrator
@@ -15,9 +13,9 @@ import java.sql.Timestamp;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class WeChatSearchVo extends BaseSearchVo {
+public class WechatSearchVo extends BaseSearchVo {
 
     private static final long serialVersionUID = -1L;
 
-    
+
 }

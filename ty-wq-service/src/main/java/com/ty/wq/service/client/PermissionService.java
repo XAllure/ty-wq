@@ -20,6 +20,12 @@ import java.util.List;
 public interface PermissionService extends BaseService<Permission, PermissionDao, PermissionSearchVo> {
 
     /**
+     * 查询所有权限
+     * @return
+     */
+    List<Permission> allPermission();
+
+    /**
      * 查询父权限
      * @return
      */

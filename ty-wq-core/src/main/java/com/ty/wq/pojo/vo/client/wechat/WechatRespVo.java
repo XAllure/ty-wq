@@ -1,7 +1,5 @@
-package com.ty.wq.pojo.vo.client.weChat;
+package com.ty.wq.pojo.vo.client.wechat;
 
-import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
-import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import com.ty.wq.pojo.vo.BaseRespVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,7 +14,7 @@ import java.sql.Timestamp;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class WeChatRespVo extends BaseRespVo {
+public class WechatRespVo extends BaseRespVo {
 
     private static final long serialVersionUID = -1L;
 

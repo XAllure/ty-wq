@@ -21,6 +21,13 @@ import java.util.List;
 public class PermissionServiceImpl extends BaseServiceImpl<Permission, PermissionDao, PermissionSearchVo> implements PermissionService {
 
     @Override
+    public List<Permission> allPermission() {
+        QueryWrapper<Permission> qw = new QueryWrapper<>();
+        qw.orderByAsc("sort");
+        return findList(qw);
+    }
+
+    @Override
     public List<Permission> parentAuthority() {
         QueryWrapper<Permission> qw = new QueryWrapper<>();
         qw.isNull("permission")

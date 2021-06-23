@@ -23,12 +23,16 @@ import java.util.List;
 @RequestMapping("/company")
 public class CompanyController extends BaseController<Company, CompanyReqVo, CompanyRespVo, CompanySearchVo, CompanyDao, CompanyService> {
 
+    CompanyController() {
+        methodList = false;
+    }
+
     /**
      * 获取所有公司
      * @return
      */
-    @PostMapping("/all")
-    public Result all() {
+    @PostMapping("/list")
+    public Result list() {
         List<CompanyRespVo> respVos = OrikaUtils.converts(service.findAll(), CompanyRespVo.class);
         return Result.success(respVos);
     }

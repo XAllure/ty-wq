@@ -34,8 +34,9 @@ public class MenuController extends BaseController<Menu, MenuReqVo, MenuRespVo, 
      * 获取所有菜单
      * @return
      */
+    @Override
     @GetMapping("/all")
-    public Result allMenu(){
+    public Result all(){
         return Result.success(service.allMenu());
     }
 

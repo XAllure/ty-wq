@@ -40,6 +40,7 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
 
     private Class<RespVo> respClass;
 
+    protected boolean methodAll = true;
     protected boolean methodList = true;
     protected boolean methodAdd = true;
     protected boolean methodUpdate = true;
@@ -56,6 +57,19 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
                 respClass = (Class<RespVo>)actualTypeArguments[2];
             }
         }
+    }
+
+    /**
+     * 获取全部
+     * @return
+     */
+    @GetMapping("/all")
+    public Result all(){
+        if (!methodAll) {
+            return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
+        }
+        List<RespVo> respVos = OrikaUtils.converts(service.findAll(), respClass);
+        return Result.success(respVos);
     }
 
     /**

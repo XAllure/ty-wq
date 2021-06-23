@@ -24,14 +24,6 @@ import java.util.List;
 @RequestMapping("/role")
 public class RoleController extends BaseController<Role, RoleReqVo, RoleRespVo, RoleSearchVo, RoleDao, RoleService> {
 
-    /**
-     * 获取所有角色
-     * @return
-     */
-    @PostMapping("/all")
-    public Result allRoles() {
-        List<RoleRespVo> roleRespVos = OrikaUtils.converts(service.findAll(), RoleRespVo.class);
-        return Result.success(roleRespVos);
-    }
+
 
 }

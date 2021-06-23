@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController extends BaseController<User, UserReqVo, UserRespVo, UserSearchVo, UserDao, UserService> {
 
     UserController() {
+        methodAll = false;
         methodAdd = false;
     }
 

@@ -3,8 +3,8 @@ package com.ty.wq.service.client.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ty.wq.dao.client.WechatDao;
 import com.ty.wq.enums.StatusEnum;
-import com.ty.wq.pojo.vo.client.weChat.WeChatReqVo;
-import com.ty.wq.pojo.vo.client.weChat.WeChatSearchVo;
+import com.ty.wq.pojo.vo.client.wechat.WechatReqVo;
+import com.ty.wq.pojo.vo.client.wechat.WechatSearchVo;
 import com.ty.wq.pojo.po.client.Wechat;
 import com.ty.wq.service.client.WechatService;
 import com.ty.wq.service.base.impl.BaseServiceImpl;
@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2021-06-15 07:08:40
  */
 @Service
-public class WechatServiceImpl extends BaseServiceImpl<Wechat, WechatDao, WeChatSearchVo> implements WechatService {
+public class WechatServiceImpl extends BaseServiceImpl<Wechat, WechatDao, WechatSearchVo> implements WechatService {
     @Override
     public Wechat findByWechatId(String weChatId) {
         QueryWrapper<Wechat> qw = new QueryWrapper<>();
@@ -34,9 +34,9 @@ public class WechatServiceImpl extends BaseServiceImpl<Wechat, WechatDao, WeChat
     }
 
     @Override
-    public List<Wechat> login(WeChatReqVo weChatReqVo) {
+    public List<Wechat> login(WechatReqVo wechatReqVo) {
         List<Wechat> wechats = new ArrayList<>();
-        for (String weChatId : weChatReqVo.getWeChatIds()) {
+        for (String weChatId : wechatReqVo.getWeChatIds()) {
             Wechat weChat = findByWechatId(weChatId);
             if (null != weChat) {
                 weChat.setIsLogin(StatusEnum.LOGGED_IN.getCode());
