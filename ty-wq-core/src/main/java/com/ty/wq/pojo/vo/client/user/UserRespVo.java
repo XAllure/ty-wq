@@ -23,15 +23,15 @@ public class UserRespVo extends BaseRespVo {
 
     private String email;
 
-    private String company;
-
-    private String department;
-
     private Long companyId;
+
+    private String companyName;
 
     private Long departmentId;
 
-    private String createTime;
+    private String departmentName;
+
+    private String loginTime;
 
     private Integer status;
 

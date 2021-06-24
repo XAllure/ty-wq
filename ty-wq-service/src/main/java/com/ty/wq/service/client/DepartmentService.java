@@ -2,6 +2,7 @@ package com.ty.wq.service.client;
 
 import com.ty.wq.dao.client.DepartmentDao;
 import com.ty.wq.pojo.po.client.Department;
+import com.ty.wq.pojo.vo.client.department.DepartmentRespVo;
 import com.ty.wq.service.base.BaseService;
 import com.ty.wq.pojo.vo.client.department.DepartmentSearchVo;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,12 @@ import java.util.List;
  */
 @Service
 public interface DepartmentService extends BaseService<Department, DepartmentDao, DepartmentSearchVo> {
+
+    /**
+     * 获取所有部门
+     * @return
+     */
+    List<DepartmentRespVo> getAll();
 
     /**
      * 按公司id获取部门列表

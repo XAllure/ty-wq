@@ -1,7 +1,9 @@
 package com.ty.wq.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ty.wq.controller.base.BaseController;
 import com.ty.wq.dao.client.UserDao;
+import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.pojo.po.client.User;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
@@ -14,10 +16,7 @@ import com.ty.wq.utils.GenerateUtils;
 import com.ty.wq.utils.Md5Utils;
 import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Administrator
@@ -44,6 +43,19 @@ public class UserController extends BaseController<User, UserReqVo, UserRespVo, 
         user.setPassword(Md5Utils.encryptSalt(user.getPassword(), user.getSalt()));
         service.insert(user);
         return Result.success();
+    }
+
+    /**
+     * 条件列表分页
+     * @param sv
+     * @return
+     */
+    @Override
+    @GetMapping("/list/condition")
+    public Result listByCondition(UserSearchVo sv){
+        Page<UserRespVo> vPage = service.findPage(sv, UserRespVo.class);
+        vPage.setRecords(service.toPageUsers(vPage.getRecords()));
+        return Result.success(vPage);
     }
 
 }

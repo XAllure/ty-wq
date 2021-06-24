@@ -9,10 +9,7 @@ import com.ty.wq.pojo.vo.client.department.DepartmentRespVo;
 import com.ty.wq.pojo.vo.client.department.DepartmentSearchVo;
 import com.ty.wq.service.client.DepartmentService;
 import com.ty.wq.utils.OrikaUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +22,16 @@ public class DepartmentController extends BaseController<Department, DepartmentR
 
     DepartmentController(){
         methodList = false;
+    }
+
+    /**
+     * 获取所有部门
+     * @return
+     */
+    @Override
+    @GetMapping("/all")
+    public Result all() {
+        return Result.success(service.getAll());
     }
 
     /**

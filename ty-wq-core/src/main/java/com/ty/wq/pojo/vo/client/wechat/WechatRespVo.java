@@ -20,15 +20,17 @@ public class WechatRespVo extends BaseRespVo {
 
     private Long id;
 
-    private String weChatId;
+    private String wechatId;
 
-    private String weChatNo;
+    private String wechatNo;
 
-    private String weChatNick;
+    private String wechatNick;
+
+    private String headPic;
+
+    private String smallPic;
 
     private Integer gender;
-
-    private String avatar;
 
     private String country;
 
@@ -36,18 +38,24 @@ public class WechatRespVo extends BaseRespVo {
 
     private String city;
 
+    private String signature;
+
+    private String snsPic;
+
     private Integer isOnline;
 
-    private Integer isLoggedIn;
+    private Integer isLogin;
 
     private String deviceId;
 
-    private Long cid;
+    private Long companyId;
 
-    private Long userId;
+    private String loginTime;
 
-    private Integer createGroup;
+    private String companyName;
 
-    private Timestamp loginTime;
+    private Long departmentId;
+
+    private String departmentName;
 
 }

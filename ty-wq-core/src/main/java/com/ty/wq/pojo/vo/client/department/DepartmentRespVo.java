@@ -26,7 +26,7 @@ public class DepartmentRespVo extends BaseRespVo {
 
     private Long companyId;
 
-    private String company;
+    private String companyName;
 
     private Integer status;
 

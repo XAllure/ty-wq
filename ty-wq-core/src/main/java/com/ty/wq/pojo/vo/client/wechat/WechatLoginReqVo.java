@@ -9,16 +9,14 @@ import java.util.List;
 
 /**
  * @author Administrator
- * @version 1.0
- * @program: ty-wq
- * @description:
- * @date 2021-06-15 07:08:40
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class WechatReqVo extends BaseReqVo {
-    private static final long serialVersionUID = -1L;
+public class WechatLoginReqVo extends BaseReqVo {
 
+    private static final long serialVersionUID = 8373986222579201102L;
 
+    @NotBlank(message = "请选择要登录的微信号", groups = {Login.class})
+    private List<String> weChatIds;
 
 }

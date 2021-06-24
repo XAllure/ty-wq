@@ -2,7 +2,9 @@ package com.ty.wq.service.client;
 
 import com.ty.wq.dao.client.WechatDao;
 import com.ty.wq.pojo.po.client.Wechat;
+import com.ty.wq.pojo.vo.client.wechat.WechatLoginReqVo;
 import com.ty.wq.pojo.vo.client.wechat.WechatReqVo;
+import com.ty.wq.pojo.vo.client.wechat.WechatRespVo;
 import com.ty.wq.service.base.BaseService;
 import com.ty.wq.pojo.vo.client.wechat.WechatSearchVo;
 import org.springframework.stereotype.Service;
@@ -20,25 +22,33 @@ import java.util.List;
 @Service
 public interface WechatService extends BaseService<Wechat, WechatDao, WechatSearchVo> {
 
-    /**
-     * 按微信id查询
-     * @param weChatId
-     * @return
-     */
-    Wechat findByWechatId(String weChatId);
 
     /**
      * 登录微信号
-     * @param wechatReqVo
+     * @param wechatLoginReqVo
      * @return
      */
-    List<Wechat> login(WechatReqVo wechatReqVo);
+    List<WechatRespVo> login(WechatLoginReqVo wechatLoginReqVo);
 
     /**
-     * 按id查询
-     * @param ids
+     * 按微信id查询
+     * @param wechatId
      * @return
      */
-    List<Wechat> findByIds(List<Long> ids);
+    Wechat findByWechatId(String wechatId);
+
+    /**
+     * 按微信id查询
+     * @param wechatId
+     * @return
+     */
+    WechatRespVo getByWechatId(String wechatId);
+
+    /**
+     * 按微信号查询
+     * @param wechatNo
+     * @return
+     */
+    WechatRespVo getByWechatNo(String wechatNo);
 
 }

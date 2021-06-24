@@ -58,7 +58,7 @@ public class WechatMessage extends BasePo {
     @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Long departmentId;
 
-    @Column( type = MySqlTypeConstant.BIGINT, comment = "部门ID")
+    @Column( type = MySqlTypeConstant.BIGINT, comment = "消息时间戳")
     private Long timestamp;
 
 }

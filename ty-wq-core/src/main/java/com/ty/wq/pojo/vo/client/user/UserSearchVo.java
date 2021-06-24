@@ -34,4 +34,7 @@ public class UserSearchVo extends BaseSearchVo {
     @SearchCondition(compare = CompareEnum.LE,filed = "create_time")
     private String endTime;
 
+    @SearchCondition(compare = CompareEnum.LE,filed = "status")
+    private Integer status;
+
 }

@@ -2,6 +2,7 @@ package com.ty.wq.utils;
 
 import com.ty.wq.constant.Constants;
 import com.ty.wq.pojo.po.client.Wechat;
+import com.ty.wq.pojo.vo.client.wechat.WechatRespVo;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
@@ -110,10 +111,10 @@ public class ChannelUtils {
      * @param channel
      * @param wechats
      */
-    public static synchronized void saveWeChatChannels(Channel channel, List<Wechat> wechats) {
+    public static synchronized void saveWeChatChannels(Channel channel, List<WechatRespVo> wechats) {
         if (wechats != null && wechats.size() > 0) {
             List<Channel> channels;
-            for (Wechat weChat : wechats) {
+            for (WechatRespVo weChat : wechats) {
                 String weChatId = weChat.getWechatId();
                 if (StringUtils.isNotBlank(weChatId)) {
                     if (WE_CHAT_ID_CHANNEL.containsKey(weChatId)) {

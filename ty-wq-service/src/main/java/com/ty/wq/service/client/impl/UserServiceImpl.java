@@ -6,12 +6,16 @@ import com.ty.wq.dao.client.UserDao;
 import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.enums.StatusEnum;
 import com.ty.wq.exception.WqException;
+import com.ty.wq.pojo.po.client.Company;
+import com.ty.wq.pojo.po.client.Department;
 import com.ty.wq.pojo.po.client.User;
 import com.ty.wq.pojo.vo.client.user.LoginReqVo;
 import com.ty.wq.pojo.vo.client.user.LoginRespVo;
 import com.ty.wq.pojo.vo.client.user.UserRespVo;
 import com.ty.wq.pojo.vo.client.user.UserSearchVo;
 import com.ty.wq.pojo.vo.netty.WsServer;
+import com.ty.wq.service.client.CompanyService;
+import com.ty.wq.service.client.DepartmentService;
 import com.ty.wq.service.client.UserService;
 import com.ty.wq.service.base.impl.BaseServiceImpl;
 import com.ty.wq.utils.Md5Utils;
@@ -19,6 +23,7 @@ import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.RedisUtils;
 import com.ty.wq.utils.WsTokenUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,6 +41,12 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 @Slf4j
 public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo> implements UserService {
+
+    @Autowired
+    private CompanyService companyService;
+
+    @Autowired
+    private DepartmentService departmentService;
 
     /** 高并发下使用 */
     private final AtomicLong index = new AtomicLong(0);
@@ -88,6 +99,19 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
         log.info("为用户[{}]创建的token为: {}", user.getUsername(), token);
         log.info("为用户[{}]保存的服务器信息为: {}", user.getUsername(), WsTokenUtils.getUserWs(user.getId()));
         return respVo;
+    }
+
+    @Override
+    public List<UserRespVo> toPageUsers(List<UserRespVo> userRespVos) {
+        List<UserRespVo> vos = new ArrayList<>();
+        for (UserRespVo vo : userRespVos) {
+            Company company = companyService.findById(vo.getCompanyId());
+            vo.setCompanyName(company.getName());
+            Department department = departmentService.findById(vo.getDepartmentId());
+            vo.setDepartmentName(department.getName());
+            vos.add(vo);
+        }
+        return vos;
     }
 
 }

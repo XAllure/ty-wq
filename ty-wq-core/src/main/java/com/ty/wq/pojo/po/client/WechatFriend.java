@@ -25,11 +25,11 @@ public class WechatFriend extends BasePo {
     @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "好友微信id")
     private String friendId;
 
-    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "微信号")
-    private String friendIdWeChatNo;
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "好友微信号")
+    private String friendWeChatNo;
 
-    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "微信昵称")
-    private String friendIdWeChatNick;
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "好友微信昵称")
+    private String friendWeChatNick;
 
     @Column( type = MySqlTypeConstant.VARCHAR, comment = "头像")
     private String headPic;
@@ -78,7 +78,7 @@ public class WechatFriend extends BasePo {
     @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "备注姓名")
     private String remarkName;
 
-    @Column( type = MySqlTypeConstant.VARCHAR, length = 20, comment = "备注姓名")
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 20, comment = "备注电话号码")
     private String remarkPhone;
 
     @Column( type = MySqlTypeConstant.VARCHAR, comment = "备注标签")
