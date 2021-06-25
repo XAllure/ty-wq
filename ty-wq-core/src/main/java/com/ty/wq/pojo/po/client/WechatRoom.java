@@ -1,5 +1,6 @@
 package com.ty.wq.pojo.po.client;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
 import com.gitee.sunchenbin.mybatis.actable.annotation.IsNotNull;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
@@ -15,6 +16,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Table("wechat_room")
+@TableName("wechat_room")
 public class WechatRoom extends BasePo {
     private static final long serialVersionUID = -8533150900321321982L;
 

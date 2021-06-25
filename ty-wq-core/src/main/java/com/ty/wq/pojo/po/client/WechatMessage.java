@@ -2,6 +2,7 @@ package com.ty.wq.pojo.po.client;
 
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
@@ -16,6 +17,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Table("wechat_message")
+@TableName("wechat_message")
 public class WechatMessage extends BasePo {
 
     private static final long serialVersionUID = -6028864083651512393L;

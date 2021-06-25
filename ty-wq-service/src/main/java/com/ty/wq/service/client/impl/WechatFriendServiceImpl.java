@@ -44,6 +44,8 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
         return vos;
     }
 
+
+
     /**
      * 为WechatRespVo注入公司名称和部门名称
      * @param vo

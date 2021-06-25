@@ -24,7 +24,7 @@ public class WechatFriendController {
     private WechatFriendService wechatFriendService;
 
     /**
-     * 获取好友列表
+     * 获取微信好友列表
      * @param wechatId
      * @return
      */
