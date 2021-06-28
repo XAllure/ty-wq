@@ -68,6 +68,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
         }
         Long userId = ChannelUtils.getUserId(ctx.channel());
         String url = HttpUtils.url(userId, "/system/logout/" + token);
+        System.out.println(url);
         HttpUtils.post(url, new LinkedHashMap<>());
     }
 

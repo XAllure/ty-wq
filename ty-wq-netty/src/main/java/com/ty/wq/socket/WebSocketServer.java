@@ -56,13 +56,13 @@ public class WebSocketServer {
                         .childHandler(webSocketInitializer);
                 // 绑定端口
                 ChannelFuture cf = bootstrap.bind(config.getNPort()).sync();
-                log.info("netty启动成功=====websocket占用端口：{}",  config.getNPort());
+                log.info("netty启动成功=====websocket占用端口：{}", config.getNPort());
                 // 注册服务端信息
                 NettyUtils.regToRedis(config);
                 // 等待服务端监听端口关闭
                 cf.channel().closeFuture().sync();
             } catch (Exception e) {
-                log.info("netty启动失败");
+                log.error("netty启动失败");
                 e.printStackTrace();
             } finally {
                 boosGroup.shutdownGracefully();

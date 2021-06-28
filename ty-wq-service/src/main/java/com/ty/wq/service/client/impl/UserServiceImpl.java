@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -74,6 +75,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
         if (!user.getPassword().equals(Md5Utils.encryptSalt(vo.getPassword(), user.getSalt()))) {
             throw new WqException(CodeEnum.ERROR_PASSWORD);
         }
+        user.setLoginTime(new Timestamp(System.currentTimeMillis()));
         // 获取 NettyWebSocket 服务器信息(这里使用策略模式 1--轮询，2--推荐，3--随机，4--权重)
         long count = index.incrementAndGet();
         Set<String> allKeys = RedisUtils.getAllKeys(Constants.WS_SERVER_INFO.concat("*"));
@@ -98,6 +100,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
         WsTokenUtils.saveUserWs(user.getId(), ws);
         log.info("为用户[{}]创建的token为: {}", user.getUsername(), token);
         log.info("为用户[{}]保存的服务器信息为: {}", user.getUsername(), WsTokenUtils.getUserWs(user.getId()));
+        updateById(user);
         return respVo;
     }
 

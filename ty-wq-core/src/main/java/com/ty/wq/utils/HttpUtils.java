@@ -82,7 +82,7 @@ public class HttpUtils {
      * @return 返回 url
      */
     public static String url(String ip, Integer port, String suffix) {
-        return "http://" +ip + ":" + port + suffix;
+        return "http://" +ip + ":" + port + "/wq" + suffix;
     }
 
     /**
