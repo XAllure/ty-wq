@@ -53,6 +53,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
     private final AtomicLong index = new AtomicLong(0);
 
     @Override
+    public UserRespVo getById(Long id) {
+        User user = findById(id);
+        UserRespVo vo = OrikaUtils.convert(user, UserRespVo.class);
+        setUser(vo);
+        return vo;
+    }
+
+    @Override
     public User findByUsername(String username) {
         QueryWrapper<User> qw = new QueryWrapper<>();
         //按用户名获取
@@ -86,8 +94,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
         String key = keys.get((int) (count % keys.size()));
         // 获取服务器信息
         WsServer ws = (WsServer) RedisUtils.get(key);
-        ws.setHPort(null);
-        ws.setNIp(null);
+        ws.setHport(null);
+        ws.setNip(null);
         // 创建token
         String token = WsTokenUtils.createToken(user.getSalt());
         LoginRespVo respVo = new LoginRespVo();
@@ -108,13 +116,17 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
     public List<UserRespVo> toPageUsers(List<UserRespVo> userRespVos) {
         List<UserRespVo> vos = new ArrayList<>();
         for (UserRespVo vo : userRespVos) {
-            Company company = companyService.findById(vo.getCompanyId());
-            vo.setCompanyName(company.getName());
-            Department department = departmentService.findById(vo.getDepartmentId());
-            vo.setDepartmentName(department.getName());
+            setUser(vo);
             vos.add(vo);
         }
         return vos;
+    }
+
+    public void setUser(UserRespVo vo) {
+        Company company = companyService.findById(vo.getCompanyId());
+        vo.setCompanyName(company.getName());
+        Department department = departmentService.findById(vo.getDepartmentId());
+        vo.setDepartmentName(department.getName());
     }
 
 }

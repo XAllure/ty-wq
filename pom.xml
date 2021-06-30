@@ -10,7 +10,7 @@
         <module>ty-wq-service</module>
         <module>ty-wq-manager</module>
         <module>ty-wq-netty</module>
-        <module>ty-wq-netty-client</module>
+        <module>ty-wq-netty-test</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

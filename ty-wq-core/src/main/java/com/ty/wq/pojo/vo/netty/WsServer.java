@@ -21,15 +21,15 @@ public class WsServer implements Serializable {
     private String id;
 
     /** 公网ip */
-    private String pIp;
+    private String pip;
 
     /** 内网ip */
-    private String nIp;
+    private String nip;
 
     /** netty监听端口 */
-    private Integer nPort;
+    private Integer nport;
 
     /** http端口 */
-    private Integer hPort;
+    private Integer hport;
 
 }

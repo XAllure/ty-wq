@@ -32,6 +32,7 @@ public class WebSocketAuthHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        log.info("------------------------------ webSocket读取并处理消息 -----------------------------------");
         Channel channel = ctx.channel();
         MsgVo msgVo = MsgUtils.msgVo((TextWebSocketFrame) msg);
         // 如果是登录类型

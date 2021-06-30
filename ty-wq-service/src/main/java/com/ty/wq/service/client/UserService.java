@@ -22,6 +22,13 @@ import java.util.List;
 public interface UserService extends BaseService<User, UserDao, UserSearchVo> {
 
     /**
+     * 按id获取
+     * @param id
+     * @return
+     */
+    UserRespVo getById(Long id);
+
+    /**
      * 按用户名查询
      * @param username 用户名
      * @return User

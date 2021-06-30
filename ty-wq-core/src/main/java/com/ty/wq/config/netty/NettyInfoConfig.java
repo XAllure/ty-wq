@@ -17,14 +17,14 @@ public class NettyInfoConfig {
 
     /** 公网ip */
     @Value("${custom.netty.websocket.ip}")
-    private String pIp;
+    private String pip;
 
     /** netty监听端口 */
     @Value("${custom.netty.websocket.port}")
-    private Integer nPort;
+    private Integer nport;
 
     /** http端口 */
     @Value("${custom.netty.websocket.hport}")
-    private Integer hPort;
+    private Integer hport;
 
 }

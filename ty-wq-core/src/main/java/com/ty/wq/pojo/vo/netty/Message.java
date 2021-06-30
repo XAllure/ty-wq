@@ -83,7 +83,7 @@ public class Message implements Serializable {
      * @return
      */
     public static Message success(MsgVo msgVo){
-        return success(msgVo, null);
+        return success(msgVo, msgVo.getData());
     }
 
     /**

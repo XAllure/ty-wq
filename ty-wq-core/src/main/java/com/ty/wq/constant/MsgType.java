@@ -11,6 +11,7 @@ public interface MsgType {
             HEART_BEAT = "HeartBeat",
             RECEIVED = "Received",
             WECHAT_LOGIN = "WechatLogin",
-            CREATE_ROOM = "CreateRoom"
+            CREATE_ROOM = "CreateRoom",
+            MyInfo = "MyInfo"
     ;
 }

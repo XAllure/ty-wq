@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 @Sharable
 @Slf4j
-public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
 
     @Autowired
     private WebSocketMsgHandler webSocketMsgHandler;
@@ -33,16 +33,19 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
     private static final AtomicInteger CONNECT_COUNT = new AtomicInteger(0);
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) {
-        log.debug("------------------------------ webSocket读取并处理消息 -----------------------------------");
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
+        log.info("------------------------------ webSocket读取并处理消息 -----------------------------------");
+        log.info(msg.toString());
         // 打印请求日志
-        MsgVo msgVo = MsgUtils.msgVo(msg);
-        if (!msgVo.getType().equals(MsgType.HEART_BEAT)) {
-            log.info("WebSocket[channelId-{}]请求参数", ctx.channel().id().asLongText());
-            log.info("IP: {}", ctx.channel().remoteAddress());
-            log.info("Parameter: {}", msgVo);
+        if (msg instanceof TextWebSocketFrame) {
+            MsgVo msgVo = MsgUtils.msgVo((TextWebSocketFrame)msg);
+            if (!msgVo.getType().equals(MsgType.HEART_BEAT)) {
+                log.info("WebSocket[channelId-{}]请求参数", ctx.channel().id().asLongText());
+                log.info("IP: {}", ctx.channel().remoteAddress());
+                log.info("Parameter: {}", msgVo);
+            }
+            webSocketMsgHandler.handler(ctx, msgVo);
         }
-        webSocketMsgHandler.handler(ctx, msgVo);
         ctx.flush();
     }
 
@@ -78,6 +81,6 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
         log.error("客户端[" + channel.remoteAddress() + "]异常");
         log.error("异常原因：" + cause);
         cause.printStackTrace();
-        ctx.close();
+        ChannelUtils.exit(ctx);
     }
 }

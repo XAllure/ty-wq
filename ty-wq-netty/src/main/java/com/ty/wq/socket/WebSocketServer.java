@@ -51,12 +51,14 @@ public class WebSocketServer {
                 bootstrap.group(boosGroup, workGroup)
                         // 指定NIO的模式
                         .channel(NioServerSocketChannel.class)
+                        /*.childOption(ChannelOption.SO_SNDBUF,1024)
+                        .childOption(ChannelOption.SO_RCVBUF,1024)*/
                         // 保持连接
                         .childOption(ChannelOption.SO_KEEPALIVE, true)
                         .childHandler(webSocketInitializer);
                 // 绑定端口
-                ChannelFuture cf = bootstrap.bind(config.getNPort()).sync();
-                log.info("netty启动成功=====websocket占用端口：{}", config.getNPort());
+                ChannelFuture cf = bootstrap.bind(config.getNport()).sync();
+                log.info("netty启动成功=====websocket占用端口：{}", config.getNport());
                 // 注册服务端信息
                 NettyUtils.regToRedis(config);
                 // 等待服务端监听端口关闭
