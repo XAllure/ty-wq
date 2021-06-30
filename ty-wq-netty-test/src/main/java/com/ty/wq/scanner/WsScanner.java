@@ -8,8 +8,6 @@ import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.socket.WebSocketClient;
 import com.ty.wq.utils.HttpUtils;
 import com.ty.wq.utils.MsgUtils;
-import com.ty.wq.utils.OrikaUtils;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +27,12 @@ public class WsScanner implements Runnable {
 
     @Override
     public void run() {
-        try(Scanner scanner = new Scanner(System.in)) {
-            //noinspection InfiniteLoopStatement
-            while (true) {
+        Scanner scanner = new Scanner(System.in);
+        //noinspection InfiniteLoopStatement
+        while (true) {
+            try {
                 System.out.println("请输入消息类型");
                 String type = scanner.nextLine();
-                /*if (StringUtils.isBlank(type)) {
-                    log.info("请输入消息类型！");
-                    continue;
-                }*/
                 System.out.println("请输入消息内容");
                 String data = scanner.nextLine();
                 System.out.println("请输入链接后缀");
@@ -61,7 +56,7 @@ public class WsScanner implements Runnable {
                 // 否则发送 websocket 消息
                 else {
                     if (StringUtils.isBlank(type)) {
-                        log.info("请输入消息类型！");
+                        // log.info("请输入消息类型！");
                         continue;
                     }
                     MsgVo msgVo = new MsgVo();
@@ -70,10 +65,10 @@ public class WsScanner implements Runnable {
                     msgVo.setData(data);
                     MsgUtils.writeJson(WebSocketClient.channel, Message.success(msgVo));
                 }
+            } catch (Exception e) {
+                log.info("出错了");
+                log.info(e.getMessage());
             }
-        } catch (Exception e) {
-            log.info("出错了");
-            log.info(e.getMessage());
         }
     }
 }
