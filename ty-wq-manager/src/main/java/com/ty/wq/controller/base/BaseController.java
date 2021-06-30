@@ -145,7 +145,7 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
      * @return
      */
     @PostMapping("/delete/{id}")
-    public Result delete(@Valid @Min(value = 1,message = "id不能小于1") @PathVariable Long id){
+    public Result delete(@Valid @Min(value = 1, message = "id不能小于1") @PathVariable Long id){
         if (!methodDelete) {
             return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
         }
@@ -159,7 +159,7 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
      * @return
      */
     @PostMapping("/deleteBatch")
-    public Result deleteBatch(@RequestBody @Validated @NotEmpty(message = "id不能为空") List<Long> ids){
+    public Result deleteBatch(@RequestBody @Validated @NotEmpty(message = "请选择要删除的数据") List<Long> ids){
         if (!methodDeleteBatch) {
             return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
         }

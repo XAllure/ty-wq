@@ -44,7 +44,7 @@ public class WechatServiceImpl extends BaseServiceImpl<Wechat, WechatDao, Wechat
     @Override
     public List<WechatRespVo> login(WechatLoginReqVo wechatLoginReqVo) {
         List<WechatRespVo> vos = new ArrayList<>();
-        for (String weChatId : wechatLoginReqVo.getWeChatIds()) {
+        for (String weChatId : wechatLoginReqVo.getWechatIds()) {
             Wechat wechat = findByWechatId(weChatId);
             if (null != wechat) {
                 wechat.setIsLogin(StatusEnum.LOGGED_IN.getCode());

@@ -43,7 +43,6 @@ public class WechatRoomRespVo extends BaseRespVo {
     private String owner;
 
     /** 群主微信昵称 */
-    @NotBlank(message = "群主微信昵称不能为空", groups = {BaseReqVo.Add.class, BaseReqVo.Update.class})
     private String ownerNickName;
 
     /** 是否为群主 是否为群主 1是 0 */

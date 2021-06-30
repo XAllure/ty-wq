@@ -35,7 +35,6 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
         log.info("------------------------------ webSocket读取并处理消息 -----------------------------------");
-        log.info(msg.toString());
         // 打印请求日志
         if (msg instanceof TextWebSocketFrame) {
             MsgVo msgVo = MsgUtils.msgVo((TextWebSocketFrame)msg);

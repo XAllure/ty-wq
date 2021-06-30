@@ -39,7 +39,6 @@ public class WebSocketMsgHandler {
                     case MsgType.MyInfo: {
                         UserRespVo vo = userService.getById(ChannelUtils.getUserId(ctx.channel()));
                         msgVo.setData(vo);
-                        log.info("返回消息：{}", msgVo);
                         MsgUtils.writeJson(ctx.channel(), Message.success(msgVo));
                         break;
                     }
