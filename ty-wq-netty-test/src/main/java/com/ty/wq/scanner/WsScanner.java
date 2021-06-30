@@ -67,7 +67,7 @@ public class WsScanner implements Runnable {
                 }
             } catch (Exception e) {
                 log.info("出错了");
-                log.info(e.getMessage());
+                e.printStackTrace();
             }
         }
     }
