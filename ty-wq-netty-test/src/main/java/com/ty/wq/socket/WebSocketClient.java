@@ -62,7 +62,7 @@ public class WebSocketClient {
 
     public static String token;
 
-    public static final String URL = "http://192.168.101.43:20010";
+    public static final String URL = "http://192.168.101.194:20010";
 
     @PostConstruct
     private void start() {
@@ -89,7 +89,7 @@ public class WebSocketClient {
                 ChannelFuture future = bootstrap.connect(wsUri.getHost(), wsUri.getPort()).sync();
                 log.info("netty客户端启动成功， 连接端口为：{}", server.getNport());
                 channel = future.channel();
-                SocketClientHandler handler = (SocketClientHandler) channel.pipeline().get("socketClientHandler");
+                SocketClientHandler handler = channel.pipeline().get(SocketClientHandler.class);
                 handler.setHandshaker(handshaker);
                 handshaker.handshake(channel);
                 //阻塞等待是否握手成功

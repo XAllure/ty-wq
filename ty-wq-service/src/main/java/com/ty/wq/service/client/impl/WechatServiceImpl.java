@@ -2,7 +2,7 @@ package com.ty.wq.service.client.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ty.wq.dao.client.WechatDao;
-import com.ty.wq.enums.StatusEnum;
+import com.ty.wq.enums.WechatEnum;
 import com.ty.wq.pojo.po.client.Company;
 import com.ty.wq.pojo.po.client.Department;
 import com.ty.wq.pojo.vo.client.wechat.WechatLoginReqVo;
@@ -47,8 +47,8 @@ public class WechatServiceImpl extends BaseServiceImpl<Wechat, WechatDao, Wechat
         for (String weChatId : wechatLoginReqVo.getWechatIds()) {
             Wechat wechat = findByWechatId(weChatId);
             if (null != wechat) {
-                wechat.setIsLogin(StatusEnum.LOGGED_IN.getCode());
-                wechat.setIsOnline(StatusEnum.ONLINE.getCode());
+                wechat.setIsLogin(WechatEnum.LOGGED_IN.getCode());
+                wechat.setIsOnline(WechatEnum.ONLINE.getCode());
                 wechat.setLoginTime(new Timestamp(System.currentTimeMillis()));
                 updateById(wechat);
                 WechatRespVo vo = OrikaUtils.convert(wechat, WechatRespVo.class);

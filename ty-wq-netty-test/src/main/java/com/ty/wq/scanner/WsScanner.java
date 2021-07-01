@@ -22,26 +22,19 @@ import java.util.Scanner;
 @Slf4j
 public class WsScanner implements Runnable {
 
-    @Autowired
-    private WebSocketClient webSocketClient;
-
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
         //noinspection InfiniteLoopStatement
         while (true) {
             try {
+                System.out.println("链接为空 发送 websocket 消息，否则发送http消息");
                 System.out.println("请输入消息类型");
                 String type = scanner.nextLine();
                 System.out.println("请输入消息内容");
                 String data = scanner.nextLine();
                 System.out.println("请输入链接后缀");
                 String url = scanner.nextLine();
-                if (type.equals(MsgType.LOGIN)) {
-                    webSocketClient.run();
-                    log.info("客户端重新登录成功");
-                    continue;
-                }
                 // 如果链接不为空 则发送http消息
                 if (StringUtils.isNotBlank(url)) {
                     if (StringUtils.isBlank(data)) {

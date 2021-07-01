@@ -60,6 +60,9 @@ public class WechatFriendRespVo extends BaseRespVo {
     /** 部门名称 */
     private String departmentName;
 
+    /** 状态 */
+    private Integer status;
+
     /** 是否置顶 0正常 1置顶 */
     private Integer top;
 

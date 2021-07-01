@@ -23,5 +23,6 @@ public class BaseReqVo implements Serializable {
     public interface Status{}
     public interface Reset{}
     public interface Chat{}
+    public interface Apply{}
 
 }

@@ -2,6 +2,7 @@ package com.ty.wq.service.client;
 
 import com.ty.wq.dao.client.WechatMessageDao;
 import com.ty.wq.pojo.po.client.WechatMessage;
+import com.ty.wq.pojo.vo.client.wechatMessage.WechatMessageReqVo;
 import com.ty.wq.service.base.BaseService;
 import com.ty.wq.pojo.vo.client.wechatMessage.WechatMessageSearchVo;
 import org.springframework.stereotype.Service;
@@ -16,4 +17,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface WechatMessageService extends BaseService<WechatMessage, WechatMessageDao, WechatMessageSearchVo> {
+
+    /**
+     * 发送微信消息
+     * @param vo
+     */
+    void send(WechatMessageReqVo vo);
+
 }

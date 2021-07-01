@@ -10,13 +10,6 @@ public enum StatusEnum {
     NORMAL(1,"正常"),
     LOCKED(0,"锁定"),
 
-    LOGGED_IN(1, "已登录"),
-    LOGGED_OUT(0, "已退出"),
-
-    ONLINE(1, "在线"),
-    OFFLINE(0, "离线"),
-
-
     ;
 
     private Integer code;

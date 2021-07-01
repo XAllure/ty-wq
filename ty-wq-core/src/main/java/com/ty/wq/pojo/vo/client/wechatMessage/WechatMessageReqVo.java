@@ -61,9 +61,11 @@ public class WechatMessageReqVo extends BaseReqVo {
     private String content;
 
     /** 公司ID */
+    @NotNull(message = "公司ID不能为空", groups = Chat.class)
     private Long companyId;
 
     /** 部门ID */
+    @NotNull(message = "部门ID不能为空", groups = Chat.class)
     private Long departmentId;
 
     /** 消息时间戳 */

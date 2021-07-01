@@ -36,7 +36,7 @@ public class WebSocketMsgHandler {
                         break;
                     }
                     // ty-wq-netty-test的scanner测试能不能获取到数据
-                    case MsgType.MyInfo: {
+                    case MsgType.MY_INFO: {
                         UserRespVo vo = userService.getById(ChannelUtils.getUserId(ctx.channel()));
                         msgVo.setData(vo);
                         MsgUtils.writeJson(ctx.channel(), Message.success(msgVo));

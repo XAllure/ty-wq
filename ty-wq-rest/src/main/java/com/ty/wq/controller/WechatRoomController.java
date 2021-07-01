@@ -9,6 +9,7 @@ import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,7 @@ public class WechatRoomController {
      * @return
      */
     @PostMapping("/create")
-    public Result create(WechatRoomReqVo wechatRoomReqVo) {
+    public Result create(@RequestBody WechatRoomReqVo wechatRoomReqVo) {
         ReqVoUtils.validated(wechatRoomReqVo, BaseReqVo.Add.class);
         WechatRoom wechatRoom = OrikaUtils.convert(wechatRoomReqVo, WechatRoom.class);
         wechatRoomService.insert(wechatRoom);

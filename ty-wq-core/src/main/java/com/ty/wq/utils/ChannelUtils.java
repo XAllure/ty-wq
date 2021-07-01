@@ -1,7 +1,6 @@
 package com.ty.wq.utils;
 
 import com.ty.wq.constant.Constants;
-import com.ty.wq.pojo.po.client.Wechat;
 import com.ty.wq.pojo.vo.client.wechat.WechatRespVo;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -118,7 +117,7 @@ public class ChannelUtils {
                 String weChatId = weChat.getWechatId();
                 if (StringUtils.isNotBlank(weChatId)) {
                     if (WE_CHAT_ID_CHANNEL.containsKey(weChatId)) {
-                        channels = getChannelsByWeChatId(weChatId);
+                        channels = getChannelsByWechatId(weChatId);
                     } else {
                         channels = new ArrayList<>();
                     }
@@ -134,7 +133,7 @@ public class ChannelUtils {
      * @param weChatId
      * @return
      */
-    public static synchronized List<Channel> getChannelsByWeChatId(String weChatId) {
+    public static synchronized List<Channel> getChannelsByWechatId(String weChatId) {
         List<Channel> channels = WE_CHAT_ID_CHANNEL.get(weChatId);
         if (channels != null && channels.size() > 0) {
             channels.removeIf(channel -> !channel.isActive() || !channel.isOpen());

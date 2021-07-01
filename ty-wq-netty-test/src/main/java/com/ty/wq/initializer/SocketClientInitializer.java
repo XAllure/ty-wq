@@ -30,6 +30,6 @@ public class SocketClientInitializer extends ChannelInitializer<SocketChannel> {
                 // netty是基于分段请求的，HttpObjectAggregator的作用是将请求分段再聚合,参数是聚合字节的最大长度
                 .addLast(new HttpObjectAggregator(65536))
                 //.addLast(new WebSocketServerProtocolHandler("/"))
-                .addLast("socketClientHandler",socketClientHandler);
+                .addLast(socketClientHandler);
     }
 }
