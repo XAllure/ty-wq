@@ -29,7 +29,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Permissio
     }
 
     @Override
-    public List<Permission> parentAuthority() {
+    public List<Permission> parentPermission() {
         QueryWrapper<Permission> qw = new QueryWrapper<>();
         qw.ne("status", StatusEnum.LOCKED.getCode())
                 .isNull("permission")

@@ -47,6 +47,8 @@ public enum CodeEnum {
 
     NO_AUTHORITY(403,"您没有该操作权限"),
 
+    Request_Method_Not_Supported(405, "不支持该请求方式"),
+
     ERROR_SERVER(500, "服务器内部错误"),
 
     ;

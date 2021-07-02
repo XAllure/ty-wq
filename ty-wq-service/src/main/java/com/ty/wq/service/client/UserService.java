@@ -2,11 +2,8 @@ package com.ty.wq.service.client;
 
 import com.ty.wq.dao.client.UserDao;
 import com.ty.wq.pojo.po.client.User;
-import com.ty.wq.pojo.vo.client.user.LoginReqVo;
-import com.ty.wq.pojo.vo.client.user.LoginRespVo;
-import com.ty.wq.pojo.vo.client.user.UserRespVo;
+import com.ty.wq.pojo.vo.client.user.*;
 import com.ty.wq.service.base.BaseService;
-import com.ty.wq.pojo.vo.client.user.UserSearchVo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,5 +45,11 @@ public interface UserService extends BaseService<User, UserDao, UserSearchVo> {
      * @return
      */
     List<UserRespVo> toPageUsers(List<UserRespVo> userRespVos);
+
+    /**
+     * 修改个人信息
+     * @param vo
+     */
+    void updateMine(UserReqVo vo);
 
 }

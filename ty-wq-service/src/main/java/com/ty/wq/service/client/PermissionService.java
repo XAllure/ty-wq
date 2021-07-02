@@ -29,6 +29,6 @@ public interface PermissionService extends BaseService<Permission, PermissionDao
      * 查询父权限
      * @return
      */
-    List<Permission> parentAuthority();
+    List<Permission> parentPermission();
 
 }

@@ -35,7 +35,7 @@ public class UserReqVo extends BaseReqVo {
     @Length(min = 6,max = 40,message = "密码必须6-20位",groups = {Add.class})
     private String password;
 
-    @Pattern(regexp = "^1[34578]\\d{9}$", message = "手机号的格式不对",groups = {Add.class, Update.class, Self.class})
+    @Pattern(regexp = "^1[34578]\\d{9}$", message = "手机号的格式不对",groups = {Add.class, Update.class})
     private String phone;
 
     private String email;

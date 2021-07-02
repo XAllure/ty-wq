@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -53,6 +54,7 @@ public class WechatFriendController {
      */
     @PostMapping("/handle")
     public Result handle(@RequestBody WechatFriendReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Apply.class);
         wechatFriendService.handleNewFriend(vo);
         return Result.success();
     }
@@ -66,6 +68,34 @@ public class WechatFriendController {
     public Result friends(@Valid @NotBlank(message = "微信id参数错误") @PathVariable String wechatId) {
         List<WechatFriendRespVo> vos = wechatFriendService.getWechatFriends(wechatId);
         return Result.success(vos);
+    }
+
+    /**
+     * 获取微信好友详细信息
+     * @param vo
+     * @return
+     */
+    @PostMapping("/info")
+    public Result info(@RequestBody WechatFriendReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Info.class);
+        return Result.success(wechatFriendService.getFriendInfo(vo));
+    }
+
+    /**
+     * 获取微信好友详细信息
+     * @param id
+     * @return
+     */
+    @PostMapping("/info/{id}")
+    public Result info(@Valid @NotNull(message = "微信id参数错误") @PathVariable Long id) {
+        return Result.success(wechatFriendService.getFriendInfo(id));
+    }
+
+    @PostMapping("/update")
+    public Result update(@RequestBody WechatFriendReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Update.class);
+        wechatFriendService.updateFriendInfo(vo);
+        return Result.success();
     }
 
 }

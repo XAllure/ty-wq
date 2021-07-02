@@ -55,4 +55,14 @@ public class MsgUtils {
         channel.writeAndFlush(new TextWebSocketFrame(obj.toJSONString()));
     }
 
+    /**
+     * 发送 json 消息
+     * @param channel
+     * @param msgVo
+     */
+    public static void writeJson(Channel channel, MsgVo msgVo) {
+        JSONObject obj = OrikaUtils.convert(msgVo, JSONObject.class);
+        channel.writeAndFlush(new TextWebSocketFrame(obj.toJSONString()));
+    }
+
 }

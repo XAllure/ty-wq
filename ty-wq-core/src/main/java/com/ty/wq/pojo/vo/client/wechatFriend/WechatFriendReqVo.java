@@ -21,25 +21,27 @@ public class WechatFriendReqVo extends BaseReqVo {
 
     private static final long serialVersionUID = -1L;
 
-    @NotBlank(message = "微信id不能为空", groups = {Apply.class})
+    @NotBlank(message = "微信id不能为空", groups = {Apply.class, Info.class, Update.class})
     private String wechatId;
 
     /** 好友微信id */
-    @NotBlank(message = "好友微信id不能为空", groups = {Apply.class})
+    @NotBlank(message = "好友微信id不能为空", groups = {Apply.class, Info.class, Update.class})
     private String friendId;
 
     /** 好友微信号 */
-    @NotBlank(message = "好友微信号不能为空", groups = {Apply.class})
+    @NotBlank(message = "好友微信号不能为空", groups = {Apply.class, Update.class})
     private String friendWeChatNo;
 
     /** 好友微信昵称 */
-    @NotBlank(message = "好友微信昵称不能为空", groups = {Apply.class})
+    @NotBlank(message = "好友微信昵称不能为空", groups = {Apply.class, Update.class})
     private String friendWeChatNick;
 
     /** 头像 */
+    @NotBlank(message = "好友微信昵称不能为空", groups = {Apply.class, Update.class})
     private String headPic;
 
     /** 性别 0-未知,1-男,2-女 */
+    @NotBlank(message = "好友微信昵称不能为空", groups = {Apply.class, Update.class})
     private Integer gender;
 
     /** 国家 */
@@ -52,25 +54,23 @@ public class WechatFriendReqVo extends BaseReqVo {
     private String city;
 
     /** 公司ID */
+    @NotBlank(message = "好友微信昵称不能为空", groups = {Apply.class, Update.class})
     private Long companyId;
 
-    /** 公司名称 */
-    private String companyName;
-
     /** 部门ID */
+    @NotBlank(message = "好友微信昵称不能为空", groups = {Apply.class, Update.class})
     private Long departmentId;
 
-    /** 部门名称 */
-    private String departmentName;
-
     /** 状态 */
-    @NotNull(message = "好友状态不能为空", groups = {Apply.class})
+    @NotNull(message = "好友状态不能为空", groups = {Apply.class, Update.class})
     private Integer status;
 
     /** 是否置顶 0正常 1置顶 */
+    @NotBlank(message = "好友微信昵称不能为空", groups = {Update.class})
     private Integer top;
 
     /** 是否免打扰 0正常 1免打扰 */
+    @NotBlank(message = "好友微信昵称不能为空", groups = {Update.class})
     private Integer disturb;
 
     /** 朋友圈个性签名 */

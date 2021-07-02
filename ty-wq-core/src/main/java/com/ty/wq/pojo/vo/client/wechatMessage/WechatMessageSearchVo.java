@@ -1,5 +1,7 @@
 package com.ty.wq.pojo.vo.client.wechatMessage;
 
+import com.ty.wq.anno.SearchCondition;
+import com.ty.wq.enums.CompareEnum;
 import com.ty.wq.pojo.vo.BaseSearchVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,5 +21,10 @@ public class WechatMessageSearchVo extends BaseSearchVo {
 
     private static final long serialVersionUID = -1L;
 
+    @SearchCondition(compare = CompareEnum.GE,filed = "create_time")
+    private String startTime;
+
+    @SearchCondition(compare = CompareEnum.LE,filed = "create_time")
+    private String endTime;
     
 }

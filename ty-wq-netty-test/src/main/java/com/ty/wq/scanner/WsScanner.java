@@ -28,7 +28,7 @@ public class WsScanner implements Runnable {
         //noinspection InfiniteLoopStatement
         while (true) {
             try {
-                System.out.println("链接为空 发送 websocket 消息，否则发送http消息");
+                System.out.println("链接为空发送 websocket 消息，否则发送 http 消息");
                 System.out.println("请输入消息类型");
                 String type = scanner.nextLine();
                 System.out.println("请输入消息内容");
@@ -56,7 +56,7 @@ public class WsScanner implements Runnable {
                     msgVo.setType(type);
                     msgVo.setToken(WebSocketClient.token);
                     msgVo.setData(data);
-                    MsgUtils.writeJson(WebSocketClient.channel, Message.success(msgVo));
+                    MsgUtils.writeJson(WebSocketClient.channel, msgVo);
                 }
             } catch (Exception e) {
                 log.info("出错了");

@@ -14,6 +14,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -119,15 +120,15 @@ public class GlobalExceptionHandler {
             WqException imException = (WqException) e;
             result.setCode(imException.getCode());
             result.setMsg(imException.getMsg());
-        }else if (e instanceof UnknownAccountException){
+        } else if (e instanceof UnknownAccountException){
             result = Result.error(CodeEnum.ERROR_ACCOUNT);
-        }else if (e instanceof IncorrectCredentialsException){
+        } else if (e instanceof IncorrectCredentialsException){
             result = Result.error(CodeEnum.ERROR_PASSWORD);
-        }else if (e instanceof LockedAccountException){
+        } else if (e instanceof LockedAccountException){
             result = Result.error(CodeEnum.LOCKED_ACCOUNT);
-        }else if (e instanceof VerifyCodeException){
+        } else if (e instanceof VerifyCodeException){
             result = Result.error(CodeEnum.ERROR_CODE);
-        }else if (e instanceof AuthenticationException) {
+        } else if (e instanceof AuthenticationException) {
             result = Result.error(CodeEnum.NO_AUTHENTICATION);
         } else if (e instanceof DuplicateKeyException) {
             result = Result.error(CodeEnum.ERROR_SAME_DATA.getCode(),
@@ -150,6 +151,8 @@ public class GlobalExceptionHandler {
         recordExceptionLog(request,e);
         if (CommonUtils.isPost(request) || CommonUtils.isAjax(request)) {
             return returnJsonExceptionHandler(response, e);
+        } else if (e instanceof HttpRequestMethodNotSupportedException) {
+            return Result.error(CodeEnum.Request_Method_Not_Supported);
         } else {
             return Result.error(CodeEnum.ERROR_SERVER);
         }

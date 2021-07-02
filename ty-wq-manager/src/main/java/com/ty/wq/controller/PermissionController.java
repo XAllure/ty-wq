@@ -41,7 +41,7 @@ public class PermissionController extends BaseController<Permission, PermissionR
      */
     @PostMapping("/parent")
     public Result parent() {
-        List<Permission> parentAuth = service.parentAuthority();
+        List<Permission> parentAuth = service.parentPermission();
         List<PermissionRespVo> respVos = OrikaUtils.converts(parentAuth, PermissionRespVo.class);
         return Result.success(respVos);
     }

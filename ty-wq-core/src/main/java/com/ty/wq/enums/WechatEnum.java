@@ -26,6 +26,14 @@ public enum WechatEnum {
     FRIEND_NEW(2, "新增"),
     FRIEND_REFUSE(3, "拒绝"),
 
+    // 置顶
+    FRIEND_TOP(1, "置顶"),
+    FRIEND_NOT_TOP(0, "正常"),
+
+    // 免打扰
+    FRIEND_DISTURB(1, "免打扰"),
+    FRIEND_NOT_DISTURB(0, "正常"),
+
     // 消息类型
     MSG_TYPE_TEXT(1, "文本消息"),
     MSG_TYPE_IMG(3, "图片"),

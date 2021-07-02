@@ -1,8 +1,11 @@
 package com.ty.wq.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatMessage.WechatMessageReqVo;
+import com.ty.wq.pojo.vo.client.wechatMessage.WechatMessageRespVo;
+import com.ty.wq.pojo.vo.client.wechatMessage.WechatMessageSearchVo;
 import com.ty.wq.service.client.WechatMessageService;
 import com.ty.wq.utils.ReqVoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +24,27 @@ public class WechatMessageController {
     @Autowired
     private WechatMessageService wechatMessageService;
 
+    /**
+     * 发送消息
+     * @param vo
+     * @return
+     */
     @PostMapping("/send")
     public Result send(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
         wechatMessageService.send(vo);
         return Result.success();
+    }
+
+    /**
+     * 获取历史消息
+     * @param searchVo
+     * @return
+     */
+    @PostMapping("/history")
+    public Result history(WechatMessageSearchVo searchVo) {
+        Page<WechatMessageRespVo> respVos = wechatMessageService.findPage(searchVo, WechatMessageRespVo.class);
+        return Result.success(respVos);
     }
 
 }

@@ -9,19 +9,13 @@ import com.ty.wq.exception.WqException;
 import com.ty.wq.pojo.po.client.Company;
 import com.ty.wq.pojo.po.client.Department;
 import com.ty.wq.pojo.po.client.User;
-import com.ty.wq.pojo.vo.client.user.LoginReqVo;
-import com.ty.wq.pojo.vo.client.user.LoginRespVo;
-import com.ty.wq.pojo.vo.client.user.UserRespVo;
-import com.ty.wq.pojo.vo.client.user.UserSearchVo;
+import com.ty.wq.pojo.vo.client.user.*;
 import com.ty.wq.pojo.vo.netty.WsServer;
 import com.ty.wq.service.client.CompanyService;
 import com.ty.wq.service.client.DepartmentService;
 import com.ty.wq.service.client.UserService;
 import com.ty.wq.service.base.impl.BaseServiceImpl;
-import com.ty.wq.utils.Md5Utils;
-import com.ty.wq.utils.OrikaUtils;
-import com.ty.wq.utils.RedisUtils;
-import com.ty.wq.utils.WsTokenUtils;
+import com.ty.wq.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -120,6 +114,20 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
             vos.add(vo);
         }
         return vos;
+    }
+
+    /**
+     * 修改个人信息
+     * @param vo
+     */
+    @Override
+    public void updateMine(UserReqVo vo) {
+        User user = findById(AccessUtils.userId());
+        user.setUsername(vo.getUsername());
+        user.setUserNick(vo.getUserNick());
+        user.setAvatar(vo.getAvatar());
+        user.setUpdateBy(user.getUsername());
+        updateById(user);
     }
 
     public void setUser(UserRespVo vo) {

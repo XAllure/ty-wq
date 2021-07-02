@@ -34,7 +34,7 @@ public class WechatMessageServiceImpl extends BaseServiceImpl<WechatMessage, Wec
         MsgVo msgVo = new MsgVo();
         WechatMessageRespVo respVo = OrikaUtils.convert(message, WechatMessageRespVo.class);
         msgVo.setData(respVo);
-        // 如果是私聊
+        // roomWxId(群微信id)为空，则是私聊
         if (StringUtils.isBlank(vo.getRoomWxId())) {
             msgVo.setType(MsgType.PRIVATE_CHAT);
             List<Channel> channels = ChannelUtils.getChannelsByWechatId(vo.getWxIdTo());
@@ -42,8 +42,8 @@ public class WechatMessageServiceImpl extends BaseServiceImpl<WechatMessage, Wec
                 MsgUtils.writeJson(channel, Message.success(msgVo));
             }
         } else {
-            // 否则为群聊
-
+            // 否则为群聊(待完成)
+            msgVo.setType(MsgType.ROOM_CHAT);
         }
         insert(message);
     }

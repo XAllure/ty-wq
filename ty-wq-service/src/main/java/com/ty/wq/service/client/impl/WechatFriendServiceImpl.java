@@ -8,6 +8,7 @@ import com.ty.wq.enums.WechatEnum;
 import com.ty.wq.pojo.po.client.Company;
 import com.ty.wq.pojo.po.client.Department;
 import com.ty.wq.pojo.po.client.WechatMessage;
+import com.ty.wq.pojo.vo.BaseRespVo;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendReqVo;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendRespVo;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendSearchVo;
@@ -49,6 +50,8 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
     public void newFriend(WechatFriendReqVo vo) {
         WechatFriend wechatFriend = OrikaUtils.convert(vo, WechatFriend.class);
         wechatFriend.setStatus(WechatEnum.FRIEND_NEW.getCode());
+        wechatFriend.setTop(WechatEnum.FRIEND_NOT_TOP.getCode());
+        wechatFriend.setDisturb(WechatEnum.FRIEND_NOT_DISTURB.getCode());
         insert(wechatFriend);
         WechatFriendRespVo respVo = OrikaUtils.convert(wechatFriend, WechatFriendRespVo.class);
         // 根据好友的微信id获取channel
@@ -99,20 +102,58 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
         return vos;
     }
 
+    /**
+     * 根据微信号、好友微信号获取微信好友信息
+     * @param vo
+     * @return
+     */
+    @Override
+    public WechatFriendRespVo getFriendInfo(WechatFriendReqVo vo) {
+        QueryWrapper<WechatFriend> qw = new QueryWrapper<>();
+        qw.eq("wechat_id", vo.getWechatId()).eq("friend_id", vo.getFriendId());
+        WechatFriend wechatFriend = findOne(qw);
+        WechatFriendRespVo respVo = OrikaUtils.convert(wechatFriend, WechatFriendRespVo.class);
+        setCd(respVo);
+        return respVo;
+    }
+
+    /**
+     * 根据id获取微信好友信息
+     * @param id
+     * @return
+     */
+    @Override
+    public WechatFriendRespVo getFriendInfo(Long id) {
+        WechatFriend wechatFriend = findById(id);
+        WechatFriendRespVo respVo = OrikaUtils.convert(wechatFriend, WechatFriendRespVo.class);
+        setCd(respVo);
+        return respVo;
+    }
+
+    /**
+     * 修改好友信息
+     * @param vo
+     */
+    @Override
+    public void updateFriendInfo(WechatFriendReqVo vo) {
+        WechatFriend wechatFriend = findById(vo.getId());
+        OrikaUtils.copy(vo, wechatFriend);
+        updateById(wechatFriend);
+    }
 
 
     /**
      * 为 WechatFriendRespVo 注入公司名称和部门名称
-     * @param vo
+     * @param respVo
      */
-    private void setCd(WechatFriendRespVo vo){
-        if (Objects.nonNull(vo.getCompanyId())) {
-            Company company = companyService.findById(vo.getCompanyId());
-            vo.setCompanyName(company.getName());
+    private void setCd(WechatFriendRespVo respVo){
+        if (Objects.nonNull(respVo.getCompanyId())) {
+            Company company = companyService.findById(respVo.getCompanyId());
+            respVo.setCompanyName(company.getName());
         }
-        if (Objects.nonNull(vo.getDepartmentId())) {
-            Department department = departmentService.findById(vo.getDepartmentId());
-            vo.setDepartmentName(department.getName());
+        if (Objects.nonNull(respVo.getDepartmentId())) {
+            Department department = departmentService.findById(respVo.getDepartmentId());
+            respVo.setDepartmentName(department.getName());
         }
     }
 

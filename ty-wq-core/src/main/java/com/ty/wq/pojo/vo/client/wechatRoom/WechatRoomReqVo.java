@@ -22,6 +22,7 @@ public class WechatRoomReqVo extends BaseReqVo {
 
     private static final long serialVersionUID = -1L;
 
+    @NotBlank(message = "微信ID不能为空", groups = {Add.class, Update.class})
     private String wechatId;
 
     private String chatRoomId;
@@ -41,15 +42,18 @@ public class WechatRoomReqVo extends BaseReqVo {
     private String ownerNickName;
 
     @NotNull(message = "是否为群主", groups = {Add.class, Update.class})
-    @Column( type = MySqlTypeConstant.INT, length = 1, comment = "是否为群主 1是 0否")
     private Integer isOwner;
 
+    /** 群二维码地址 */
     private String url;
 
+    /** 限制进群人数 */
     private Integer limitCount;
 
+    /**公司ID*/
     private Long companyId;
 
+    /** 部门ID */
     private Long departmentId;
 
 }

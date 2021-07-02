@@ -22,13 +22,19 @@ import java.util.List;
 @Service
 public interface WechatService extends BaseService<Wechat, WechatDao, WechatSearchVo> {
 
-
     /**
      * 登录微信号
      * @param wechatLoginReqVo
      * @return
      */
     List<WechatRespVo> login(WechatLoginReqVo wechatLoginReqVo);
+
+    /**
+     * 按id获取
+     * @param id
+     * @return
+     */
+    WechatRespVo getById(Long id);
 
     /**
      * 按微信id查询
@@ -43,12 +49,5 @@ public interface WechatService extends BaseService<Wechat, WechatDao, WechatSear
      * @return
      */
     WechatRespVo getByWechatId(String wechatId);
-
-    /**
-     * 按微信号查询
-     * @param wechatNo
-     * @return
-     */
-    WechatRespVo getByWechatNo(String wechatNo);
 
 }

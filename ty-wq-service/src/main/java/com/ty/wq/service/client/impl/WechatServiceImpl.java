@@ -41,6 +41,11 @@ public class WechatServiceImpl extends BaseServiceImpl<Wechat, WechatDao, Wechat
     @Autowired
     private DepartmentService departmentService;
 
+    /**
+     * 登录微信号
+     * @param wechatLoginReqVo
+     * @return
+     */
     @Override
     public List<WechatRespVo> login(WechatLoginReqVo wechatLoginReqVo) {
         List<WechatRespVo> vos = new ArrayList<>();
@@ -64,6 +69,23 @@ public class WechatServiceImpl extends BaseServiceImpl<Wechat, WechatDao, Wechat
         return vos;
     }
 
+    /**
+     * 按id查询
+     * @param id
+     * @return
+     */
+    @Override
+    public WechatRespVo getById(Long id) {
+        WechatRespVo vo = OrikaUtils.convert(findById(id), WechatRespVo.class);
+        setCd(vo);
+        return vo;
+    }
+
+    /**
+     * 按微信id查询
+     * @param wechatId
+     * @return
+     */
     @Override
     public Wechat findByWechatId(String wechatId) {
         QueryWrapper<Wechat> qw = new QueryWrapper<>();
@@ -71,18 +93,14 @@ public class WechatServiceImpl extends BaseServiceImpl<Wechat, WechatDao, Wechat
         return findOne(qw);
     }
 
+    /**
+     * 按微信id查询
+     * @param wechatId
+     * @return
+     */
     @Override
     public WechatRespVo getByWechatId(String wechatId) {
         WechatRespVo vo = OrikaUtils.convert(findByWechatId(wechatId), WechatRespVo.class);
-        setCd(vo);
-        return vo;
-    }
-
-    @Override
-    public WechatRespVo getByWechatNo(String wechatNo) {
-        QueryWrapper<Wechat> qw = new QueryWrapper<>();
-        qw.in("wechat_no", wechatNo);
-        WechatRespVo vo = OrikaUtils.convert(findOne(qw), WechatRespVo.class);
         setCd(vo);
         return vo;
     }

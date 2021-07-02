@@ -136,7 +136,7 @@ public class AdminController extends BaseController<Admin, AdminReqVo, AdminResp
         }
         admin.setPassword(reqVo.getPassword());
         service.updateById(admin);
-        SecurityUtils.getSubject().logout();
+        // SecurityUtils.getSubject().logout();
         return Result.success();
     }
 

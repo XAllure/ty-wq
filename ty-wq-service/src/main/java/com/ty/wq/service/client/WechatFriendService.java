@@ -47,4 +47,24 @@ public interface WechatFriendService extends BaseService<WechatFriend, WechatFri
      */
     List<WechatFriendRespVo> getWechatFriends(String wechatId);
 
+    /**
+     * 获取微信好友信息
+     * @param vo
+     * @return
+     */
+    WechatFriendRespVo getFriendInfo(WechatFriendReqVo vo);
+
+    /**
+     * 根据id获取微信好友信息
+     * @param id
+     * @return
+     */
+    WechatFriendRespVo getFriendInfo(Long id);
+
+    /**
+     * 修改好友信息
+     * @param vo
+     */
+    void updateFriendInfo(WechatFriendReqVo vo);
+
 }
