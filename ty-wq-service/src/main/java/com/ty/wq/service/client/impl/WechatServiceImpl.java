@@ -6,6 +6,7 @@ import com.ty.wq.enums.WechatEnum;
 import com.ty.wq.pojo.po.client.Company;
 import com.ty.wq.pojo.po.client.Department;
 import com.ty.wq.pojo.vo.client.wechat.WechatLoginReqVo;
+import com.ty.wq.pojo.vo.client.wechat.WechatReqVo;
 import com.ty.wq.pojo.vo.client.wechat.WechatRespVo;
 import com.ty.wq.pojo.vo.client.wechat.WechatSearchVo;
 import com.ty.wq.pojo.po.client.Wechat;
@@ -103,6 +104,25 @@ public class WechatServiceImpl extends BaseServiceImpl<Wechat, WechatDao, Wechat
         WechatRespVo vo = OrikaUtils.convert(findByWechatId(wechatId), WechatRespVo.class);
         setCd(vo);
         return vo;
+    }
+
+    /**
+     * 修改微信信息
+     * @param vo
+     */
+    @Override
+    public void update(WechatReqVo vo) {
+        Wechat wechat = findByWechatId(vo.getWechatId());
+        wechat.setWechatNick(vo.getWechatNick());
+        wechat.setHeadPic(vo.getHeadPic());
+        wechat.setSmallPic(vo.getSmallPic());
+        wechat.setGender(vo.getGender());
+        wechat.setCountry(vo.getCountry());
+        wechat.setProvince(vo.getProvince());
+        wechat.setCity(vo.getCity());
+        wechat.setSignature(vo.getSignature());
+        wechat.setSnsPic(vo.getSnsPic());
+        updateById(wechat);
     }
 
     /**

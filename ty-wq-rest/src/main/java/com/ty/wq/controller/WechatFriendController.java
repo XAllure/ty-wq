@@ -54,13 +54,13 @@ public class WechatFriendController {
      */
     @PostMapping("/handle")
     public Result handle(@RequestBody WechatFriendReqVo vo) {
-        ReqVoUtils.validated(vo, BaseReqVo.Apply.class);
-        wechatFriendService.handleNewFriend(vo);
+        ReqVoUtils.validated(vo, BaseReqVo.Status.class);
+        wechatFriendService.handleFriend(vo);
         return Result.success();
     }
 
     /**
-     * 获取微信好友列表
+     * 根据微信id获取微信好友列表
      * @param wechatId 微信id
      * @return
      */
@@ -91,10 +91,39 @@ public class WechatFriendController {
         return Result.success(wechatFriendService.getFriendInfo(id));
     }
 
+    /**
+     * 修改好友部分信息
+     * @param vo
+     * @return
+     */
     @PostMapping("/update")
     public Result update(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Update.class);
         wechatFriendService.updateFriendInfo(vo);
+        return Result.success();
+    }
+
+    /**
+     * 置顶
+     * @param vo
+     * @return
+     */
+    @PostMapping("/top")
+    public Result top(@RequestBody WechatFriendReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Top.class);
+        wechatFriendService.toTop(vo);
+        return Result.success();
+    }
+
+    /**
+     * 免打扰
+     * @param vo
+     * @return
+     */
+    @PostMapping("/disturb")
+    public Result disturb(@RequestBody WechatFriendReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Disturb.class);
+        wechatFriendService.toDisturb(vo);
         return Result.success();
     }
 

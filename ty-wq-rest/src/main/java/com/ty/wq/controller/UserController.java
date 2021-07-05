@@ -11,7 +11,6 @@ import com.ty.wq.pojo.vo.client.user.UserRespVo;
 import com.ty.wq.service.client.UserService;
 import com.ty.wq.utils.AccessUtils;
 import com.ty.wq.utils.Md5Utils;
-import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

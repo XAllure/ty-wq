@@ -16,14 +16,16 @@ public class BaseReqVo implements Serializable {
     @NotNull(message = "id不能为空", groups = {Update.class, Status.class})
     protected Long id;
 
-    public interface Login{}
-    public interface Add{}
-    public interface Update{}
-    public interface Self{}
-    public interface Status{}
-    public interface Reset{}
-    public interface Chat{}
-    public interface Apply{}
-    public interface Info{}
+    public interface Login{} // 登录
+    public interface Add{} // 添加
+    public interface Update{} // 修改
+    public interface Self{} // 修改自身
+    public interface Status{} // 状态
+    public interface Reset{} // 重置
+    public interface Chat{} // 聊天
+    public interface Apply{} // 申请
+    public interface Info{} // 信息
+    public interface Top{} // 置顶
+    public interface Disturb{} // 免打扰
 
 }

@@ -9,6 +9,8 @@ import com.ty.wq.pojo.po.BasePo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.sql.Timestamp;
+
 /**
  * 微信好友表
  * @author Administrator
@@ -90,6 +92,6 @@ public class WechatFriend extends BasePo {
     private String remark;
 
     @Column( type = MySqlTypeConstant.DATETIME, comment = "上次联系时间")
-    private String contactTime;
+    private Timestamp contactTime;
 
 }

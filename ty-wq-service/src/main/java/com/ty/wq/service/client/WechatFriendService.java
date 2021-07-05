@@ -38,7 +38,7 @@ public interface WechatFriendService extends BaseService<WechatFriend, WechatFri
      * 处理好友申请
      * @param vo
      */
-    void handleNewFriend(WechatFriendReqVo vo);
+    void handleFriend(WechatFriendReqVo vo);
 
     /**
      * 根据微信id获取好友列表
@@ -46,6 +46,14 @@ public interface WechatFriendService extends BaseService<WechatFriend, WechatFri
      * @return
      */
     List<WechatFriendRespVo> getWechatFriends(String wechatId);
+
+    /**
+     * 根据微信id和好友id获取好友信息
+     * @param wechatId
+     * @param friendId
+     * @return
+     */
+    WechatFriend getByWechatIdAndFriendId(String wechatId, String friendId);
 
     /**
      * 获取微信好友信息
@@ -66,5 +74,17 @@ public interface WechatFriendService extends BaseService<WechatFriend, WechatFri
      * @param vo
      */
     void updateFriendInfo(WechatFriendReqVo vo);
+
+    /**
+     * 是否置顶
+     * @param vo
+     */
+    void toTop(WechatFriendReqVo vo);
+
+    /**
+     * 是否免打扰
+     * @param vo
+     */
+    void toDisturb(WechatFriendReqVo vo);
 
 }

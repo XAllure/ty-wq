@@ -50,7 +50,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
     public UserRespVo getById(Long id) {
         User user = findById(id);
         UserRespVo vo = OrikaUtils.convert(user, UserRespVo.class);
-        setUser(vo);
+        setCd(vo);
         return vo;
     }
 
@@ -110,7 +110,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
     public List<UserRespVo> toPageUsers(List<UserRespVo> userRespVos) {
         List<UserRespVo> vos = new ArrayList<>();
         for (UserRespVo vo : userRespVos) {
-            setUser(vo);
+            setCd(vo);
             vos.add(vo);
         }
         return vos;
@@ -130,7 +130,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
         updateById(user);
     }
 
-    public void setUser(UserRespVo vo) {
+    public void setCd(UserRespVo vo) {
         Company company = companyService.findById(vo.getCompanyId());
         vo.setCompanyName(company.getName());
         Department department = departmentService.findById(vo.getDepartmentId());

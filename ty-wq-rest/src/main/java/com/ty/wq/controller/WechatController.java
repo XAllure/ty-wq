@@ -1,9 +1,9 @@
 package com.ty.wq.controller;
 
-import com.ty.wq.pojo.po.client.Wechat;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechat.WechatLoginReqVo;
+import com.ty.wq.pojo.vo.client.wechat.WechatReqVo;
 import com.ty.wq.pojo.vo.client.wechat.WechatRespVo;
 import com.ty.wq.service.client.WechatService;
 import com.ty.wq.utils.OrikaUtils;
@@ -48,6 +48,18 @@ public class WechatController {
     public Result info(@Valid @NotBlank(message = "微信id参数错误") @PathVariable String wechatId) {
         WechatRespVo respVo = wechatService.getByWechatId(wechatId);
         return Result.success(respVo);
+    }
+
+    /**
+     * 修改个人微信信息
+     * @param vo
+     * @return
+     */
+    @PostMapping("/update")
+    public Result update(@RequestBody WechatReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Update.class);
+        wechatService.update(vo);
+        return Result.success();
     }
 
 }

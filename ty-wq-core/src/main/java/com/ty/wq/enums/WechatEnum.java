@@ -47,6 +47,14 @@ public enum WechatEnum {
     MSG_TYPE_SMALL_ROUTINE(4933, "小程序消息"),
     MSG_TYPE_TRANSFER_ACCOUNTS(4920, "转账消息"),
 
+    // 是否发送
+    IS_SEND(1, "发送"),
+    NOT_SEND(0, "接受"),
+
+    // 是否pc端发出
+    IS_PC(1, "是"),
+    NOT_PC(0, "否")
+
     ;
 
     private Integer code;

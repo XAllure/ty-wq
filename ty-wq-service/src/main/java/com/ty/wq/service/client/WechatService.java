@@ -50,4 +50,10 @@ public interface WechatService extends BaseService<Wechat, WechatDao, WechatSear
      */
     WechatRespVo getByWechatId(String wechatId);
 
+    /**
+     * 修改微信信息
+     * @param vo
+     */
+    void update(WechatReqVo vo);
+
 }

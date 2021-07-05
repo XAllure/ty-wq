@@ -14,7 +14,6 @@ import com.ty.wq.utils.OrikaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,13 +33,11 @@ public class DepartmentServiceImpl extends BaseServiceImpl<Department, Departmen
     @Override
     public List<DepartmentRespVo> getAll() {
         List<DepartmentRespVo> departmentRespVos = OrikaUtils.converts(findAll(), DepartmentRespVo.class);
-        List<DepartmentRespVo> respVos = new ArrayList<>();
         for (DepartmentRespVo vo : departmentRespVos) {
             Company company = companyService.findById(vo.getCompanyId());
             vo.setCompanyName(company.getName());
-            respVos.add(vo);
         }
-        return respVos;
+        return departmentRespVos;
     }
 
     @Override
