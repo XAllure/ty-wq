@@ -10,6 +10,7 @@ import com.ty.wq.pojo.po.client.*;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendReqVo;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendRespVo;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendSearchVo;
+import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
 import com.ty.wq.pojo.vo.client.wechatMessage.WechatMessageRespVo;
 import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.pojo.vo.netty.MsgVo;
@@ -43,40 +44,6 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
     @Autowired
     private DepartmentService departmentService;
 
-    @Autowired
-    private WechatService wechatService;
-
-    @Autowired
-    private WechatMessageService wechatMessageService;
-
-    /**
-     * 好友验证申请
-     * @param vo
-     */
-    @Override
-    public void newFriend(WechatFriendReqVo vo) {
-        if (vo.getScene().equals(WechatEnum.SCENE_CARD.getCode())) {
-            if (StringUtils.isBlank(vo.getV1())) {
-                throw new WqException(CodeEnum.ERROR.getCode(), "用户v1不能为空");
-            }
-        }
-        WechatFriend wechatFriend = OrikaUtils.convert(vo, WechatFriend.class);
-        wechatFriend.setStatus(WechatEnum.FRIEND_NEW.getCode());
-        wechatFriend.setTop(WechatEnum.FRIEND_NOT_TOP.getCode());
-        wechatFriend.setDisturb(WechatEnum.FRIEND_NOT_DISTURB.getCode());
-        insert(wechatFriend);
-        WechatFriendRespVo respVo = OrikaUtils.convert(wechatFriend, WechatFriendRespVo.class);
-        // 根据好友的微信id获取channel
-        List<Channel> channels = ChannelUtils.getChannelsByWechatId(wechatFriend.getFriendId());
-        MsgVo msgVo = new MsgVo();
-        msgVo.setType(MsgType.NEW_FRIEND);
-        msgVo.setData(respVo);
-        for (Channel channel : channels) {
-            // 通知好友有新的好友申请
-            MsgUtils.writeJson(channel, Message.success(msgVo));
-        }
-    }
-
     /**
      * 获取好友申请列表
      * @param wechatId
@@ -90,74 +57,6 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
         List<WechatFriendRespVo> vos = OrikaUtils.converts(findList(qw), WechatFriendRespVo.class);
         vos.forEach(this::setCd);
         return vos;
-    }
-
-    /**
-     * 处理好友状态
-     * @param vo
-     */
-    @Override
-    public void handleFriend(WechatFriendReqVo vo) {
-        WechatFriend wechatFriend = getByWechatIdAndFriendId(vo.getWechatId(), vo.getFriendId());
-        wechatFriend.setStatus(vo.getStatus());
-        updateById(wechatFriend);
-        // 如果通过好友申请(未完成)
-        if (wechatFriend.getStatus().equals(WechatEnum.FRIEND_NORMAL.getCode())) {
-            // 获取自己的channel
-            List<Channel> wcChannels = ChannelUtils.getChannelsByWechatId(vo.getWechatId());
-            MsgVo msgVo = new MsgVo();
-            msgVo.setType(MsgType.PRIVATE_CHAT);
-            // 定义消息
-            WechatMessage wcMsg = new WechatMessage();
-            wcMsg.setWechatId(vo.getWechatId());
-            wcMsg.setMsgType(WechatEnum.MSG_TYPE_TEXT.getCode());
-            wcMsg.setWxIdFrom(vo.getFriendId());
-            wcMsg.setWxIdTo(vo.getWechatId());
-            wcMsg.setContent(StringUtils.isNotBlank(wechatFriend.getRemark()) ?
-                    wechatFriend.getRemark() : "我们已经成为好友了，可以开始愉快的聊天了");
-            wcMsg.setTimestamp(System.currentTimeMillis());
-            wcMsg.setCompanyId(wechatFriend.getCompanyId());
-            wcMsg.setDepartmentId(wechatFriend.getDepartmentId());
-            wcMsg.setIsSend(WechatEnum.IS_SEND.getCode());
-            wcMsg.setIsPc(WechatEnum.NOT_PC.getCode());
-            wcMsg.setCreateTime(new Timestamp(System.currentTimeMillis()));
-            WechatMessageRespVo wcMessageRespVo = OrikaUtils.convert(wcMsg, WechatMessageRespVo.class);
-            msgVo.setData(wcMessageRespVo);
-            // 将好友验证的备注发送给自己(未完成)
-            for (Channel channel : wcChannels) {
-                MsgUtils.writeJson(channel, Message.success(msgVo));
-            }
-
-            // 获取好友的channel
-            List<Channel> channels = ChannelUtils.getChannelsByWechatId(vo.getFriendId());
-            MsgVo msgVo1 = new MsgVo();
-            msgVo1.setType(MsgType.NEW_FRIEND_SUCCESS);
-            // 定义消息
-            WechatMessage message = new WechatMessage();
-            message.setWechatId(vo.getWechatId());
-            message.setMsgType(WechatEnum.MSG_TYPE_TEXT.getCode());
-            message.setWxIdFrom(vo.getWechatId());
-            message.setWxIdTo(vo.getFriendId());
-            message.setContent("我通过了你的好友申请，可以开始愉快的聊天了");
-            message.setTimestamp(System.currentTimeMillis());
-            Wechat wechat = wechatService.findByWechatId(vo.getWechatId());
-            message.setCompanyId(wechat.getCompanyId());
-            message.setDepartmentId(wechat.getDepartmentId());
-            message.setIsSend(WechatEnum.IS_SEND.getCode());
-            message.setIsPc(WechatEnum.NOT_PC.getCode());
-            message.setCreateTime(new Timestamp(System.currentTimeMillis()));
-            WechatMessageRespVo messageRespVo = OrikaUtils.convert(message, WechatMessageRespVo.class);
-            msgVo1.setData(messageRespVo);
-            // 分发消息(未完成)
-            for (Channel channel : channels) {
-
-                // 通知好友申请通过
-                MsgUtils.writeJson(channel, Message.success(msgVo1));
-            }
-            // 保存消息
-            wechatMessageService.insert(wcMsg);
-            wechatMessageService.insert(message);
-        }
     }
 
     /**

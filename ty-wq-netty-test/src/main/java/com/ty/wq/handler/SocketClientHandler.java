@@ -1,8 +1,12 @@
 package com.ty.wq.handler;
 
+import com.ty.wq.constant.MsgType;
+import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
+import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.socket.WebSocketClient;
 import com.ty.wq.utils.MsgUtils;
+import com.ty.wq.utils.QueueUtils;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.websocketx.*;
@@ -56,8 +60,12 @@ public class SocketClientHandler extends SimpleChannelInboundHandler<Object> {
             WebSocketFrame frame = (WebSocketFrame)msg;
             //文本信息
             if (frame instanceof TextWebSocketFrame) {
-                MsgVo msgVo = MsgUtils.msgVo((TextWebSocketFrame)msg);
-                log.info("客户端接收的消息是: {}", msgVo);
+                Message message = MsgUtils.message((TextWebSocketFrame)msg);
+                log.info("客户端接收的消息是: {}", message);
+                if (message.getType().equals(MsgType.SEND_MSG)) {
+                    SendMsg sendMsg = MsgUtils.convert(message.getData(), SendMsg.class);
+                    QueueUtils.messages.offer(sendMsg);
+                }
             }
             //二进制信息
             if (frame instanceof BinaryWebSocketFrame) {

@@ -25,18 +25,6 @@ public class WechatFriendController {
     private WechatFriendService wechatFriendService;
 
     /**
-     * 添加好友申请
-     * @param vo
-     * @return
-     */
-    @PostMapping("/apply")
-    public Result newFriend(@RequestBody WechatFriendReqVo vo) {
-        ReqVoUtils.validated(vo, BaseReqVo.Apply.class);
-        wechatFriendService.newFriend(vo);
-        return Result.success();
-    }
-
-    /**
      * 获取微信好友申请列表
      * @param wechatId 微信id
      * @return
@@ -45,18 +33,6 @@ public class WechatFriendController {
     public Result newFriends(@Valid @NotBlank(message = "微信id参数错误") @PathVariable String wechatId) {
         List<WechatFriendRespVo> vos = wechatFriendService.getNewFriends(wechatId);
         return Result.success(vos);
-    }
-
-    /**
-     * 处理微信好友申请
-     * @param vo
-     * @return
-     */
-    @PostMapping("/handle")
-    public Result handle(@RequestBody WechatFriendReqVo vo) {
-        ReqVoUtils.validated(vo, BaseReqVo.Status.class);
-        wechatFriendService.handleFriend(vo);
-        return Result.success();
     }
 
     /**

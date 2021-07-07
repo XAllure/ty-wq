@@ -1,20 +1,13 @@
 package com.ty.wq.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ty.wq.constant.Constants;
-import com.ty.wq.constant.MsgType;
 import com.ty.wq.enums.CodeEnum;
-import com.ty.wq.pojo.po.client.User;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.user.LoginReqVo;
 import com.ty.wq.pojo.vo.client.user.LoginRespVo;
-import com.ty.wq.pojo.vo.client.user.UserRespVo;
-import com.ty.wq.pojo.vo.client.user.UserSearchVo;
-import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.service.client.UserService;
 import com.ty.wq.utils.*;
-import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -99,7 +92,7 @@ public class SystemController {
 
     @PostMapping("/delete")
     public Result delete() {
-        for (String key : RedisUtils.getAllKeys(Constants.WQ_LOGIN_KEY + "*")) {
+        for (String key : RedisUtils.getAllKeys(Constants.WQ_USER_LOGIN_KEY + "*")) {
             RedisUtils.delete(key);
         }
         for (String key : RedisUtils.getAllKeys(Constants.WS_USER_SERVER + "*")) {
@@ -107,5 +100,7 @@ public class SystemController {
         }
         return Result.success();
     }
+
+
 
 }

@@ -17,7 +17,7 @@ public class AccessUtils {
     public static Long userId(){
         HttpServletRequest request = CommonUtils.getRequest();
         String token = request.getHeader(WsTokenUtils.WQ_TOKEN_HEADER);
-        Object obj = RedisUtils.get(Constants.WQ_LOGIN_KEY + token);
+        Object obj = RedisUtils.get(Constants.WQ_USER_LOGIN_KEY + token);
         if (obj == null) {
             return null;
         }

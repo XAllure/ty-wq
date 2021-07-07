@@ -23,8 +23,8 @@ public class ChannelUtils {
     /** 用户连接 netty 进行登录时, channel 绑定的 token 属性 */
     public static final AttributeKey<String> WS_TOKEN = AttributeKey.valueOf("token");
 
-    /** 用户连接 netty 进行登录时, channel 绑定的 useId 属性 */
-    public static final AttributeKey<String> USER_ID = AttributeKey.valueOf("useId");
+    /** 用户连接 netty 进行登录时, channel 绑定的 userId 属性 */
+    public static final AttributeKey<String> USER_ID = AttributeKey.valueOf("userId");
 
     /** 定义一个Map结构, 存储 userID 映射到 channel */
     public static final Map<Long, Channel> USER_ID_CHANNEL = new ConcurrentHashMap<>();
@@ -43,7 +43,7 @@ public class ChannelUtils {
             Channel oldChannel = USER_ID_CHANNEL.get(userId);
             String oldToken = oldChannel.attr(WS_TOKEN).get();
             if (!token.equals(oldToken)) {
-                RedisUtils.delete(Constants.WQ_LOGIN_KEY.concat(oldToken));
+                RedisUtils.delete(Constants.WQ_USER_LOGIN_KEY.concat(oldToken));
                 oldChannel.close();
             } else {
                 return;
@@ -130,11 +130,11 @@ public class ChannelUtils {
 
     /**
      * 根据微信id获取所有用户的Channel通道
-     * @param weChatId
+     * @param wechatId
      * @return
      */
-    public static synchronized List<Channel> getChannelsByWechatId(String weChatId) {
-        List<Channel> channels = WE_CHAT_ID_CHANNEL.get(weChatId);
+    public static synchronized List<Channel> getChannelsByWechatId(String wechatId) {
+        List<Channel> channels = WE_CHAT_ID_CHANNEL.get(wechatId);
         if (channels != null && channels.size() > 0) {
             channels.removeIf(channel -> !channel.isActive() || !channel.isOpen());
         }
@@ -150,5 +150,15 @@ public class ChannelUtils {
         delUserChannel(channel);
         ctx.close();
     }
+
+
+    /**
+     * 暂时作为客户端转发的channel
+     * @return
+     */
+    public static synchronized Channel clientChannel() {
+        return userChannel(1L);
+    }
+
 
 }

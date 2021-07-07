@@ -44,7 +44,7 @@ public class WsTokenUtils {
      * @param expire
      */
     public static void saveToken(String token, Long userId, long expire){
-        RedisUtils.setSeconds(Constants.WQ_LOGIN_KEY.concat(token), userId, expire);
+        RedisUtils.setSeconds(Constants.WQ_USER_LOGIN_KEY.concat(token), userId, expire);
     }
 
     /**
@@ -62,7 +62,7 @@ public class WsTokenUtils {
      * @return
      */
     public static Long getUserId(String token) {
-        Object userId = RedisUtils.get(Constants.WQ_LOGIN_KEY.concat(token));
+        Object userId = RedisUtils.get(Constants.WQ_USER_LOGIN_KEY.concat(token));
         if (Objects.isNull(userId)) {
             return null;
         }
@@ -75,7 +75,7 @@ public class WsTokenUtils {
      * @return
      */
     public static boolean hasToken(String token){
-        return RedisUtils.hasKey(Constants.WQ_LOGIN_KEY.concat(token));
+        return RedisUtils.hasKey(Constants.WQ_USER_LOGIN_KEY.concat(token));
     }
 
     /**
@@ -83,7 +83,7 @@ public class WsTokenUtils {
      * @param token
      */
     public static void delToken(String token) {
-        RedisUtils.delete(Constants.WQ_LOGIN_KEY.concat(token));
+        RedisUtils.delete(Constants.WQ_USER_LOGIN_KEY.concat(token));
     }
 
     /**
@@ -91,7 +91,7 @@ public class WsTokenUtils {
      * @param token
      */
     public static void setExpire(String token){
-        setExpire(Constants.WQ_LOGIN_KEY.concat(token), TOKEN_EXPIRE, TimeUnit.SECONDS);
+        setExpire(Constants.WQ_USER_LOGIN_KEY.concat(token), TOKEN_EXPIRE, TimeUnit.SECONDS);
         RedisUtils.setExpire(Constants.WS_USER_SERVER + getUserId(token), TOKEN_EXPIRE, TimeUnit.SECONDS);
     }
 
@@ -100,7 +100,7 @@ public class WsTokenUtils {
      * @param token
      */
     public static void setExpire(String token, long timeout, TimeUnit timeUnit){
-        RedisUtils.setExpire(Constants.WQ_LOGIN_KEY.concat(token), timeout, timeUnit);
+        RedisUtils.setExpire(Constants.WQ_USER_LOGIN_KEY.concat(token), timeout, timeUnit);
     }
 
     /**

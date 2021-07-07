@@ -26,7 +26,7 @@ public class TaskManager {
         NettyUtils.reRegToRedis(config);
         log.info("----------------------------------------------------------------------------------------------------------------------------");
         log.info("服务器的key{}", RedisUtils.getAllKeys(Constants.WS_SERVER_INFO + "*"));
-        log.info("用户登录的key{}", RedisUtils.getAllKeys(Constants.WQ_LOGIN_KEY + "*"));
+        log.info("用户登录的key{}", RedisUtils.getAllKeys(Constants.WQ_USER_LOGIN_KEY + "*"));
         log.info("用户服务器的key{}", RedisUtils.getAllKeys(Constants.WS_USER_SERVER + "*"));
         log.info("----------------------------------------------------------------------------------------------------------------------------");
         /*for (String key : RedisUtils.getAllKeys(Constants.WQ_LOGIN_KEY + "*")) {

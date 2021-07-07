@@ -2,6 +2,7 @@ package com.ty.wq.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
 import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.pojo.vo.netty.MsgVo;
 import io.netty.channel.Channel;
@@ -20,6 +21,15 @@ public class MsgUtils {
      */
     public static MsgVo msgVo(TextWebSocketFrame msg) {
         return convert(msg.text(), MsgVo.class);
+    }
+
+    /**
+     * 返回 Message 类型消息
+     * @param msg
+     * @return
+     */
+    public static Message message(TextWebSocketFrame msg) {
+        return convert(msg.text(), Message.class);
     }
 
     /**

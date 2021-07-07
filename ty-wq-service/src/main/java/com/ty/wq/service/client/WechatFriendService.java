@@ -22,23 +22,11 @@ import java.util.List;
 public interface WechatFriendService extends BaseService<WechatFriend, WechatFriendDao, WechatFriendSearchVo> {
 
     /**
-     * 添加好友申请
-     * @param vo
-     */
-    void newFriend(WechatFriendReqVo vo);
-
-    /**
      * 获取好友申请列表
      * @param wechatId
      * @return
      */
     List<WechatFriendRespVo> getNewFriends(String wechatId);
-
-    /**
-     * 处理好友申请
-     * @param vo
-     */
-    void handleFriend(WechatFriendReqVo vo);
 
     /**
      * 根据微信id获取好友列表

@@ -1,5 +1,5 @@
 server:
-  port: 20050
+  port: 20040
 
 #自定义信息
 com:
@@ -59,9 +59,9 @@ custom:
     timeExcursion: 3
   netty:
     websocket:
-      id: 1 # netty 服务器编号
-      ip: 127.0.0.1 # netty 服务器公网ip地址或域名
-      port: 13018 # netty 服务器监听端口
+      id: 1 # netty服务器编号
+      ip: 127.0.0.1 # netty服务器公网ip地址或域名
+      port: 13018 # netty服务器监听端口
       hport: 20010 # http服务器端口
 
 

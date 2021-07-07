@@ -8,7 +8,7 @@ import io.netty.util.AttributeKey;
 public interface Constants {
 
     /** 登录信息 */
-    String WQ_LOGIN_KEY = "WQ-LOGIN-KEY:";
+    String WQ_USER_LOGIN_KEY = "WQ-USER-LOGIN-KEY:";
 
     /** 短信信息 */
     String WQ_SMS_KEY = "WQ-SMS-KEY:";

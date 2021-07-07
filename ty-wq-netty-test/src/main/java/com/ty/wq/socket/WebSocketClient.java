@@ -4,15 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ty.wq.handler.SocketClientHandler;
 import com.ty.wq.initializer.SocketClientInitializer;
-import com.ty.wq.pojo.po.client.User;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.user.LoginReqVo;
 import com.ty.wq.pojo.vo.client.user.UserRespVo;
-import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.pojo.vo.netty.WsServer;
 import com.ty.wq.utils.HttpUtils;
-import com.ty.wq.utils.MsgUtils;
 import com.ty.wq.utils.OrikaUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -62,7 +59,7 @@ public class WebSocketClient {
 
     public static String token;
 
-    public static final String URL = "http://192.168.101.194:20010";
+    public static final String URL = "http://127.0.0.1:20010";
 
     @PostConstruct
     private void start() {

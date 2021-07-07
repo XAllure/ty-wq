@@ -55,7 +55,9 @@ public class WsScanner implements Runnable {
                     MsgVo msgVo = new MsgVo();
                     msgVo.setType(type);
                     msgVo.setToken(WebSocketClient.token);
-                    msgVo.setData(data);
+                    data = "{" + data + "}";
+                    JSONObject json = JSON.parseObject(data);
+                    msgVo.setData(json);
                     MsgUtils.writeJson(WebSocketClient.channel, msgVo);
                 }
             } catch (Exception e) {
