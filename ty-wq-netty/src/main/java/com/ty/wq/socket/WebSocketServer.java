@@ -1,8 +1,8 @@
 package com.ty.wq.socket;
 
-import com.ty.wq.config.netty.NettyInfoConfig;
+import com.ty.wq.config.NettyConfig;
 import com.ty.wq.initializer.WebSocketInitializer;
-import com.ty.wq.utils.NettyUtils;
+import com.ty.wq.utils.RegisterNettyUtils;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -29,7 +29,7 @@ public class WebSocketServer {
     ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(5, 10, 100, TimeUnit.SECONDS, new LinkedBlockingQueue<>(10));
 
     @Autowired
-    private NettyInfoConfig config;
+    private NettyConfig config;
 
     @Autowired
     private WebSocketInitializer webSocketInitializer;
@@ -60,7 +60,7 @@ public class WebSocketServer {
                 ChannelFuture cf = bootstrap.bind(config.getNport()).sync();
                 log.info("netty启动成功=====websocket占用端口：{}", config.getNport());
                 // 注册服务端信息
-                NettyUtils.regToRedis(config);
+                RegisterNettyUtils.regToRedis(config);
                 // 等待服务端监听端口关闭
                 cf.channel().closeFuture().sync();
             } catch (Exception e) {

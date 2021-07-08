@@ -45,31 +45,44 @@ public interface MsgType {
     /** 修改好友备注 */
     String UPDATE_REMARK = "updateRemark";
 
-    /** 接收好友转账 */
-    String ACCEPT_BANK_TRANSFER = "acceptBankTransfer";
+    /** 获取普通群列表 */
+    String GET_CHAT_ROOMS = "getChatRooms";
 
-
-
-
-
-
-
-
-
-
-
+    /** 获取单个普通群成员信息 */
+    String GET_SINGLE_CHAT_ROOM_MEMBERS = "getSingleChatRoomMembers";
 
     /** 创建群聊 */
-    String CREATE_ROOM = "CreateRoom";
+    String CREATE_CHAT_ROOM = "createChatRoom";
 
-    /** 个人信息 */
-    String MY_INFO = "MyInfo";
+    /** 发送文本消息 */
+    String SEND_TEXT_MESSAGE = "sendTextMessage";
 
-    /** 新好友 */
-    String NEW_FRIEND = "NewFriend";
+    /** 发送群内@文本消息 */
+    String SEND_AT_TEXT_MESSAGE = "sendAtTextMessage";
 
-    /** 好友添加成功 */
-    String NEW_FRIEND_SUCCESS = "NewFriendSuccess";
+    /** 发送图片 */
+    String SEND_PIC_MESSAGE = "sendPicMessage";
+
+    /** 发送文件 */
+    String SEND_FILE_MESSAGE = "sendFileMessage";
+
+    /** 发送视频 */
+    String SEND_VIDEO_MESSAGE = "sendVideoMessage";
+
+    /** 发送GIF表情 */
+    String SEND_GIF_MESSAGE = "sendGifMessage";
+
+    /** 发送链接消息 */
+    String SEND_LINK_MESSAGE = "sendLinkMessage";
+
+    /** 发送名片 */
+    String SEND_CARD_MESSAGE = "sendCardMessage";
+
+    /** 发送小程序 */
+    String SEND_MINI_MESSAGE = "sendMiniMessage";
+
+
+
 
     /** 私聊 */
     String PRIVATE_CHAT = "PrivateChat";

@@ -43,31 +43,4 @@ public class WechatMessageServiceImpl extends BaseServiceImpl<WechatMessage, Wec
     @Autowired
     private WechatService wechatService;
 
-    @Override
-    public void send(WechatMessageReqVo vo) {
-        WechatMessage message = OrikaUtils.convert(vo, WechatMessage.class);
-        message.setCreateTime(new Timestamp(System.currentTimeMillis()));
-
-        // 赋值公司ID和部门ID
-        /*Wechat wechat = wechatService.findByWechatId(vo.getWechatId());
-        message.setCompanyId(wechat.getCompanyId());
-        message.setDepartmentId(wechat.getDepartmentId());*/
-
-        MsgVo msgVo = new MsgVo();
-        WechatMessageRespVo respVo = OrikaUtils.convert(message, WechatMessageRespVo.class);
-        msgVo.setData(respVo);
-        // roomWxId(群微信id)为空，则是私聊(待完成)
-        if (StringUtils.isBlank(vo.getRoomWxId())) {
-            msgVo.setType(MsgType.PRIVATE_CHAT);
-
-            // 修改与好友的上次联系时间
-            /*WechatFriend wechatFriend = wechatFriendService.getByWechatIdAndFriendId(vo.getWxIdFrom(), vo.getWxIdTo());
-            wechatFriend.setContactTime(new Timestamp(System.currentTimeMillis()));
-            wechatFriendService.updateById(wechatFriend);*/
-        } else {
-            // 否则为群聊(待完成)
-            msgVo.setType(MsgType.ROOM_CHAT);
-        }
-        insert(message);
-    }
 }

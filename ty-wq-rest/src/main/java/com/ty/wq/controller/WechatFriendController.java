@@ -1,11 +1,15 @@
 package com.ty.wq.controller;
 
+import com.ty.wq.enums.CodeEnum;
+import com.ty.wq.enums.WechatEnum;
+import com.ty.wq.exception.WqException;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendReqVo;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendRespVo;
 import com.ty.wq.service.client.WechatFriendService;
 import com.ty.wq.utils.ReqVoUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +29,51 @@ public class WechatFriendController {
     private WechatFriendService wechatFriendService;
 
     /**
+     * 获取普通好友列表
+     * @param wechatId 微信id
+     * @return
+     */
+    @PostMapping("/getContacts/{wechatId}")
+    public Result getContacts(@Valid @NotBlank(message = "微信id参数错误") @PathVariable String wechatId) {
+        List<WechatFriendRespVo> vos = wechatFriendService.getWechatFriends(wechatId);
+        return Result.success(vos);
+    }
+
+    /**
+     * 获取微信好友详细信息
+     * @param vo
+     * @return
+     */
+    @PostMapping("/getSingleContact")
+    public Result getSingleContact(@RequestBody WechatFriendReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Info.class);
+        return Result.success(wechatFriendService.getFriendInfo(vo));
+    }
+
+    /**
+     * 添加好友
+     * @return
+     */
+    @PostMapping("/addFriend")
+    public Result addFriend(@RequestBody WechatFriendReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Add.class);
+        if (vo.getScene().equals(WechatEnum.SCENE_CARD.getCode())) {
+            if (StringUtils.isBlank(vo.getV1())) {
+                return Result.error(CodeEnum.ERROR.getCode(), "请传入v1值");
+            }
+        }
+        return wechatFriendService.addFriend(vo);
+    }
+
+
+
+
+
+
+
+
+
+    /**
      * 获取微信好友申请列表
      * @param wechatId 微信id
      * @return
@@ -35,37 +84,7 @@ public class WechatFriendController {
         return Result.success(vos);
     }
 
-    /**
-     * 根据微信id获取微信好友列表
-     * @param wechatId 微信id
-     * @return
-     */
-    @PostMapping("/list/{wechatId}")
-    public Result friends(@Valid @NotBlank(message = "微信id参数错误") @PathVariable String wechatId) {
-        List<WechatFriendRespVo> vos = wechatFriendService.getWechatFriends(wechatId);
-        return Result.success(vos);
-    }
 
-    /**
-     * 获取微信好友详细信息
-     * @param vo
-     * @return
-     */
-    @PostMapping("/info")
-    public Result info(@RequestBody WechatFriendReqVo vo) {
-        ReqVoUtils.validated(vo, BaseReqVo.Info.class);
-        return Result.success(wechatFriendService.getFriendInfo(vo));
-    }
-
-    /**
-     * 获取微信好友详细信息
-     * @param id
-     * @return
-     */
-    @PostMapping("/info/{id}")
-    public Result info(@Valid @NotNull(message = "微信id参数错误") @PathVariable Long id) {
-        return Result.success(wechatFriendService.getFriendInfo(id));
-    }
 
     /**
      * 修改好友部分信息

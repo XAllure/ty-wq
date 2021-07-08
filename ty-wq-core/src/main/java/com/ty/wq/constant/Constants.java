@@ -14,10 +14,12 @@ public interface Constants {
     String WQ_SMS_KEY = "WQ-SMS-KEY:";
 
     /** netty 服务器信息 */
-    String WS_SERVER_INFO = "WQ-WS-SERVER-INFO-";
+    String WQ_SERVER_INFO = "WQ-SERVER-INFO-";
+
+    String WQ_ROUTE_INFO = "WQ-ROUTE-INFO-";
 
     /** 用户对应的服务器 */
-    String WS_USER_SERVER = "WQ-WS-USER-SERVER-";
+    String WQ_USER_SERVER = "WQ-USER-SERVER-";
 
     /** 服务器注册超时时间 */
     int REG_TIMEOUT = 80;

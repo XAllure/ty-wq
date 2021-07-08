@@ -54,26 +54,9 @@ public class WebSocketMsgHandler {
                         log.info("RECEIVED 操作");
                         break;
                     }
-                    // ty-wq-netty-test的scanner测试能不能获取到数据
-                    case MsgType.MY_INFO: {
-                        UserRespVo vo = userService.getById(ChannelUtils.getUserId(ctx.channel()));
-                        msgVo.setData(vo);
-                        MsgUtils.writeJson(channel, Message.success(msgVo));
-                        break;
-                    }
-                    // 往客户端发送WeQuick要轮询的信息
-                    /*case MsgType.SEND_MSG: {
-                        sendMsgHandler.handler(channel, msgVo);
-                        break;
-                    }*/
                     // 接收WeQuick返回的信息
                     case MsgType.RECEIVE_MSG: {
                         receiveMsgHandler.handler(msgVo);
-                        break;
-                    }
-                    // 微信登录
-                    case MsgType.WECHAT_LOGIN: {
-                        wechatHandler.loginHandler(channel, msgVo);
                         break;
                     }
                     // 获取普通好友列表

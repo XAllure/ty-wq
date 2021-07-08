@@ -92,7 +92,7 @@ public class WsTokenUtils {
      */
     public static void setExpire(String token){
         setExpire(Constants.WQ_USER_LOGIN_KEY.concat(token), TOKEN_EXPIRE, TimeUnit.SECONDS);
-        RedisUtils.setExpire(Constants.WS_USER_SERVER + getUserId(token), TOKEN_EXPIRE, TimeUnit.SECONDS);
+        RedisUtils.setExpire(Constants.WQ_USER_SERVER + getUserId(token), TOKEN_EXPIRE, TimeUnit.SECONDS);
     }
 
     /**
@@ -109,7 +109,7 @@ public class WsTokenUtils {
      * @param wsServer
      */
     public static void saveUserWs(Long userId, WsServer wsServer) {
-        RedisUtils.set(Constants.WS_USER_SERVER + userId, wsServer.getId());
+        RedisUtils.set(Constants.WQ_USER_SERVER + userId, wsServer.getId());
     }
 
     /**
@@ -117,7 +117,7 @@ public class WsTokenUtils {
      * @param userId
      */
     public static void delUserWs(Long userId) {
-        RedisUtils.delete(Constants.WS_USER_SERVER + userId);
+        RedisUtils.delete(Constants.WQ_USER_SERVER + userId);
     }
 
     /**
@@ -126,7 +126,7 @@ public class WsTokenUtils {
      * @return
      */
     public static boolean hasUserWs(Long userId){
-        return RedisUtils.hasKey(Constants.WS_USER_SERVER + userId);
+        return RedisUtils.hasKey(Constants.WQ_USER_SERVER + userId);
     }
 
     /**
@@ -135,8 +135,8 @@ public class WsTokenUtils {
      * @return
      */
     public static WsServer getUserWs(Long userId) {
-        String id = String.valueOf(RedisUtils.get(Constants.WS_USER_SERVER + userId));
-        return (WsServer) RedisUtils.get(Constants.WS_SERVER_INFO.concat(id));
+        String id = String.valueOf(RedisUtils.get(Constants.WQ_USER_SERVER + userId));
+        return (WsServer) RedisUtils.get(Constants.WQ_SERVER_INFO.concat(id));
     }
 
     /**
@@ -145,7 +145,7 @@ public class WsTokenUtils {
      * @return
      */
     public static WsServer getWsServer(String serverId) {
-        return (WsServer) RedisUtils.get(Constants.WS_SERVER_INFO.concat(serverId));
+        return (WsServer) RedisUtils.get(Constants.WQ_SERVER_INFO.concat(serverId));
     }
 
 }

@@ -24,17 +24,6 @@ public class WechatMessageController {
     @Autowired
     private WechatMessageService wechatMessageService;
 
-    /**
-     * 发送消息
-     * @param vo
-     * @return
-     */
-    @PostMapping("/send")
-    public Result send(@RequestBody WechatMessageReqVo vo) {
-        ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
-        wechatMessageService.send(vo);
-        return Result.success();
-    }
 
     /**
      * 获取历史消息

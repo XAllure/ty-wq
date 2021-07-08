@@ -5,6 +5,7 @@ import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.utils.ChannelUtils;
 import com.ty.wq.utils.HttpUtils;
 import com.ty.wq.utils.MsgUtils;
+import com.ty.wq.utils.RouteUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
@@ -68,9 +69,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
         if (StringUtils.isBlank(token)) {
             return;
         }
-        Long userId = ChannelUtils.getUserId(ctx.channel());
-        String url = HttpUtils.url(userId, "/system/logout/" + token);
-        System.out.println(url);
+        String url = RouteUtils.url("/system/logout/" + token);
         HttpUtils.post(url, new LinkedHashMap<>());
     }
 

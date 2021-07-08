@@ -127,7 +127,7 @@ public class WebSocketClient {
     public void loginServer() {
         MsgVo msgVo = new MsgVo();
         msgVo.setToken(token);
-        msgVo.setType("Login");
+        msgVo.setType("login");
         JSONObject obj = OrikaUtils.convert(msgVo, JSONObject.class);
         channel.writeAndFlush(new TextWebSocketFrame(obj.toJSONString()));
         log.info("正在登录服务器......");

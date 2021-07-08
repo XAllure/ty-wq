@@ -1,4 +1,4 @@
-package com.ty.wq.config.netty;
+package com.ty.wq.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Data
-public class NettyInfoConfig {
+public class NettyConfig {
 
     /** netty服务器编号 */
     @Value("${custom.netty.websocket.id}")
@@ -24,7 +24,7 @@ public class NettyInfoConfig {
     private Integer nport;
 
     /** http端口 */
-    @Value("${custom.netty.websocket.hport}")
+    @Value("${server.port}")
     private Integer hport;
 
 }

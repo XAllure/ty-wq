@@ -80,7 +80,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
         user.setLoginTime(new Timestamp(System.currentTimeMillis()));
         // 获取 NettyWebSocket 服务器信息(这里使用策略模式 1--轮询，2--推荐，3--随机，4--权重)
         long count = index.incrementAndGet();
-        Set<String> allKeys = RedisUtils.getAllKeys(Constants.WS_SERVER_INFO.concat("*"));
+        Set<String> allKeys = RedisUtils.getAllKeys(Constants.WQ_SERVER_INFO.concat("*"));
         if (allKeys.isEmpty()) {
             throw new WqException(CodeEnum.NOT_WS_SERVER);
         }

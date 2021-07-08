@@ -1,8 +1,7 @@
 package com.ty.wq.task;
 
-import com.ty.wq.config.NettyConfig;
+import com.ty.wq.config.RouteConfig;
 import com.ty.wq.constant.Constants;
-import com.ty.wq.utils.RegisterNettyUtils;
 import com.ty.wq.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +17,15 @@ import org.springframework.stereotype.Component;
 public class TaskManager {
 
     @Autowired
-    private NettyConfig config;
+    private RouteConfig routeConfig;
 
     @Async
     @Scheduled(cron = "0 0/1 * * * ?")
     public void reReg(){
-        RegisterNettyUtils.reRegToRedis(config);
+        routeConfig.reRegToRedis();
         log.info("----------------------------------------------------------------------------------------------------------------------------");
-        log.info("服务器的key{}", RedisUtils.getAllKeys(Constants.WQ_SERVER_INFO + "*"));
-        log.info("用户登录的key{}", RedisUtils.getAllKeys(Constants.WQ_USER_LOGIN_KEY + "*"));
-        log.info("用户服务器的key{}", RedisUtils.getAllKeys(Constants.WQ_USER_SERVER + "*"));
+        log.info("路由的key{}", RedisUtils.getAllKeys(Constants.WQ_ROUTE_INFO + "*"));
         log.info("----------------------------------------------------------------------------------------------------------------------------");
-        /*for (String key : RedisUtils.getAllKeys(Constants.WQ_LOGIN_KEY + "*")) {
-            RedisUtils.delete(key);
-        }
-        for (String key : RedisUtils.getAllKeys(Constants.WS_USER_SERVER + "*")) {
-            RedisUtils.delete(key);
-        }*/
     }
 
 }

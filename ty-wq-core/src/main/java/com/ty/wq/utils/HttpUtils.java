@@ -74,49 +74,4 @@ public class HttpUtils {
         REST_TEMPLATE.postForObject(url, request, String.class);
     }
 
-    /**
-     * 形成 url
-     * @param ip IP地址
-     * @param port 端口
-     * @param suffix 链接后缀
-     * @return 返回 url
-     */
-    public static String url(String ip, Integer port, String suffix) {
-        return "http://" + ip + ":" + port + suffix;
-    }
-
-    /**
-     * 形成 url
-     * @param wsServer 服务器信息
-     * @param suffix 链接后缀
-     * @return 返回 url
-     */
-    public static String url(WsServer wsServer, String suffix) {
-        return url(wsServer.getNip(), wsServer.getHport(), suffix);
-    }
-
-    /**
-     * 通过 userId 获取该用户所在的服务器信息后形成 url
-     * @param userId 用户id
-     * @param suffix 链接后缀
-     * @return 返回 url
-     */
-    public static String url(Long userId, String suffix) {
-        // 通过 userId 获取该用户所在的服务器信息
-        WsServer wsServer = WsTokenUtils.getUserWs(userId);
-        return url(wsServer, suffix);
-    }
-
-    /**
-     * 通过服务器id获取服务器信息后形成 url
-     * @param serverId
-     * @param suffix
-     * @return
-     */
-    public static String url(String serverId, String suffix) {
-        // 通过服务器id获取服务器信息
-        WsServer wsServer = WsTokenUtils.getWsServer(serverId);
-        return url(wsServer, suffix);
-    }
-
 }

@@ -7,6 +7,7 @@ import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.enums.WechatEnum;
 import com.ty.wq.exception.WqException;
 import com.ty.wq.pojo.po.client.*;
+import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendReqVo;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendRespVo;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendSearchVo;
@@ -19,13 +20,16 @@ import com.ty.wq.service.base.impl.BaseServiceImpl;
 import com.ty.wq.utils.ChannelUtils;
 import com.ty.wq.utils.MsgUtils;
 import com.ty.wq.utils.OrikaUtils;
+import com.ty.wq.utils.RouteUtils;
 import io.netty.channel.Channel;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -100,16 +104,28 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
     }
 
     /**
-     * 根据id获取微信好友信息
-     * @param id
-     * @return
+     * 添加好友
+     * @param vo
      */
     @Override
-    public WechatFriendRespVo getFriendInfo(Long id) {
-        WechatFriend wechatFriend = findById(id);
-        WechatFriendRespVo respVo = OrikaUtils.convert(wechatFriend, WechatFriendRespVo.class);
-        setCd(respVo);
-        return respVo;
+    public Result addFriend(WechatFriendReqVo vo) {
+        WechatFriend wechatFriend = OrikaUtils.convert(vo, WechatFriend.class);
+        SendMsg sendMsg = new SendMsg();
+        sendMsg.setApi(MsgType.ADD_FRIEND);
+        sendMsg.setSendId(vo.getWechatId());
+        Map<String, Object> map = new HashMap<>();
+        map.put("wxid", vo.getFriendId());
+        map.put("remark", vo.getRemark());
+        map.put("scene", vo.getScene());
+        map.put("roomWxid", "");
+        sendMsg.setOption(map);
+        // 通知netty服务端
+        Result res = RouteUtils.result(sendMsg, "/wechat/friend/addFried");
+        if (res.getCode().equals(CodeEnum.SUCCESS.getCode())) {
+            wechatFriend.setStatus(WechatEnum.FRIEND_NEW.getCode());
+            insert(wechatFriend);
+        }
+        return res;
     }
 
     /**

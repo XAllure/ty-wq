@@ -18,10 +18,4 @@ import org.springframework.stereotype.Service;
 @Service
 public interface WechatMessageService extends BaseService<WechatMessage, WechatMessageDao, WechatMessageSearchVo> {
 
-    /**
-     * 发送微信消息
-     * @param vo
-     */
-    void send(WechatMessageReqVo vo);
-
 }

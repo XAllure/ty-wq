@@ -95,7 +95,7 @@ public class SystemController {
         for (String key : RedisUtils.getAllKeys(Constants.WQ_USER_LOGIN_KEY + "*")) {
             RedisUtils.delete(key);
         }
-        for (String key : RedisUtils.getAllKeys(Constants.WS_USER_SERVER + "*")) {
+        for (String key : RedisUtils.getAllKeys(Constants.WQ_USER_SERVER + "*")) {
             RedisUtils.delete(key);
         }
         return Result.success();
