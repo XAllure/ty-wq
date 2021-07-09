@@ -29,17 +29,4 @@ public class ReqVoUtils {
         }
     }
 
-    public static <Q> boolean validated(@Validated Q q, Channel channel, MsgVo msgVo, Class<?>... groups){
-        Set<ConstraintViolation<Q>> validateSet = Validation.buildDefaultValidatorFactory().getValidator().validate(q, groups);
-        if (!CollectionUtils.isEmpty(validateSet)){
-            for (ConstraintViolation<Q> constraintViolation : validateSet){
-                if (StringUtils.isNotBlank(constraintViolation.getMessage())){
-                    MsgUtils.writeJson(channel, Message.error(msgVo.getType(), CodeEnum.ERROR_PARAMETER.getCode(), constraintViolation.getMessage()));
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
 }

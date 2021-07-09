@@ -51,21 +51,23 @@ public interface WechatFriendService extends BaseService<WechatFriend, WechatFri
      */
     Result addFriend(WechatFriendReqVo vo);
 
-
-
-
-
-
     /**
-     * 获取好友申请列表
-     * @param wechatId
+     * 删除好友
+     * @param vo
      * @return
      */
-    List<WechatFriendRespVo> getNewFriends(String wechatId);
+    Result delFriend(WechatFriendReqVo vo);
+
+    /**
+     * 修改好友备注
+     * @param vo
+     * @return
+     */
+    Result updateRemark(WechatFriendReqVo vo);
 
 
     /**
-     * 修改好友信息
+     * 修改好友部分信息
      * @param vo
      */
     void updateFriendInfo(WechatFriendReqVo vo);

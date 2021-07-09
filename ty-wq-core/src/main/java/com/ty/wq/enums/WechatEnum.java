@@ -34,6 +34,18 @@ public enum WechatEnum {
     FRIEND_DISTURB(1, "免打扰"),
     FRIEND_NOT_DISTURB(0, "正常"),
 
+    // 微信群状态
+    CHATROOM_DELETED(0, "已经删除"),
+    CHATROOM_NORMAL(1, "正常"),
+    CHATROOM_NEW(2, "新增"),
+    CHATROOM_REFUSE(3, "拒绝"),
+
+    // 微信群成员状态
+    CHATROOM_MEMBER_DELETED(0, "已经删除"),
+    CHATROOM_MEMBER_NORMAL(1, "正常"),
+    CHATROOM_MEMBER_NEW(2, "新增"),
+    CHATROOM_MEMBER_REFUSE(3, "拒绝"),
+
     // 消息类型
     MSG_TYPE_TEXT(1, "文本消息"),
     MSG_TYPE_IMG(3, "图片"),

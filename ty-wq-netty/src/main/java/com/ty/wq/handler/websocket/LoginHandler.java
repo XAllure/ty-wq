@@ -27,7 +27,7 @@ public class LoginHandler {
             return;
         }
         Long userId = WsTokenUtils.getUserId(msgVo.getToken());
-        ChannelUtils.saveUserChannel(userId, msgVo.getToken(), channel);
+        ChannelUtils.setUserChannel(userId, msgVo.getToken(), channel);
         MsgUtils.writeJson(channel, Message.success(msgVo.getType()));
     }
 

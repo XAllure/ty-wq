@@ -21,11 +21,11 @@ public class WechatFriendReqVo extends BaseReqVo {
 
     private static final long serialVersionUID = -1L;
 
-    @NotBlank(message = "微信id不能为空", groups = {Info.class, Add.class, Update.class, Status.class, Top.class, Disturb.class})
+    @NotBlank(message = "微信id不能为空", groups = {Info.class, Add.class, Update.class, Remark.class, Delete.class, Status.class, Top.class, Disturb.class})
     private String wechatId;
 
     /** 好友微信id */
-    @NotBlank(message = "好友微信id不能为空", groups = {Info.class, Add.class, Update.class, Status.class, Top.class, Disturb.class})
+    @NotBlank(message = "好友微信id不能为空", groups = {Info.class, Add.class, Update.class, Remark.class, Delete.class, Status.class, Top.class, Disturb.class})
     private String friendId;
 
     /** 好友微信号 */
@@ -98,7 +98,7 @@ public class WechatFriendReqVo extends BaseReqVo {
     private String remarkTags;
 
     /** 备注 */
-    @NotBlank(message = "备注为空", groups = {Add.class})
+    @NotBlank(message = "备注为空", groups = {Add.class, Remark.class})
     private String remark;
 
     /** 上次联系时间 */

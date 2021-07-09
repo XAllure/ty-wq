@@ -54,6 +54,15 @@ public interface MsgType {
     /** 创建群聊 */
     String CREATE_CHAT_ROOM = "createChatRoom";
 
+    /**退出并删除群*/
+    String QUIT_DEL_CHAT_ROOM = "quitDelChatRoom";
+
+    /** 踢群成员 */
+    String DEL_CHAT_ROOM_MEMBERS = "delChatRoomMembers";
+
+    /** 修改群名称 */
+    String UPDATE_CHAT_ROOM_NAME = "updateChatRoomName";
+
     /** 发送文本消息 */
     String SEND_TEXT_MESSAGE = "sendTextMessage";
 

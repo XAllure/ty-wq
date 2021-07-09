@@ -17,7 +17,6 @@ import com.ty.wq.service.client.DepartmentService;
 import com.ty.wq.service.client.WechatService;
 import com.ty.wq.service.base.impl.BaseServiceImpl;
 import com.ty.wq.utils.AccessUtils;
-import com.ty.wq.utils.ChannelUtils;
 import com.ty.wq.utils.OrikaUtils;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;

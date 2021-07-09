@@ -8,6 +8,7 @@ import com.ty.wq.exception.WqException;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.netty.Route;
 import com.ty.wq.pojo.vo.netty.WsServer;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,11 @@ public class RouteUtils {
      * @param suffix
      * @return
      */
-    public static Result result(Object data, String suffix) {
+    public static Result send(Object data, String suffix) {
+        if (StringUtils.isBlank(suffix)) {
+            //默认发往netty服务器的链接
+            suffix = "/client/sendMsg";
+        }
         Long userId = AccessUtils.userId();
         WsServer server = WsTokenUtils.getUserWs(userId);
         JSONObject json = OrikaUtils.convert(data, JSONObject.class);
@@ -66,6 +71,15 @@ public class RouteUtils {
         String result = HttpUtils.post(url, json);
         JSONObject jsonObject = JSON.parseObject(result);
         return OrikaUtils.convert(jsonObject, Result.class);
+    }
+
+    /**
+     * http发送往netty服务器
+     * @param data
+     * @return
+     */
+    public static Result send(Object data) {
+        return send(data, null);
     }
 
 }

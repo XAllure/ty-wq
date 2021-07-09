@@ -19,13 +19,15 @@ public class BaseReqVo implements Serializable {
     public interface Login{} // 登录
     public interface Add{} // 添加
     public interface Update{} // 修改
+    public interface Delete{} //删除
     public interface Self{} // 修改自身
     public interface Status{} // 状态
     public interface Reset{} // 重置
     public interface Chat{} // 聊天
-    public interface Apply{} // 申请
     public interface Info{} // 信息
     public interface Top{} // 置顶
     public interface Disturb{} // 免打扰
+    public interface Remark{} // 修改好友备注
+    public interface Out{} // 踢群成员
 
 }

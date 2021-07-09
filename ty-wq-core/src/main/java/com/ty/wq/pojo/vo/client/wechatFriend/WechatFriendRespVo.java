@@ -51,14 +51,8 @@ public class WechatFriendRespVo extends BaseRespVo {
     /** 公司ID */
     private Long companyId;
 
-    /** 公司名称 */
-    private String companyName;
-
     /** 部门ID */
     private Long departmentId;
-
-    /** 部门名称 */
-    private String departmentName;
 
     /** 状态 */
     private Integer status;

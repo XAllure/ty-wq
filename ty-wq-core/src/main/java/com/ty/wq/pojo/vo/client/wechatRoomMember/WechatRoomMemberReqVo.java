@@ -5,8 +5,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @author Administrator
@@ -22,31 +24,30 @@ public class WechatRoomMemberReqVo extends BaseReqVo {
     private static final long serialVersionUID = -1L;
 
     /** 拥有者微信ID */
-    @NotBlank(message = "群主ID不能为空", groups = {Apply.class})
+    @NotBlank(message = "群主ID不能为空", groups = {Add.class})
     private String ownerWechatId;
 
     /** 群ID */
-    @NotBlank(message = "群ID不能为空", groups = {Apply.class})
+    @NotBlank(message = "群ID不能为空", groups = {Add.class, Info.class, Out.class})
     private String chatRoomId;
 
     /** 微信ID */
-    @NotBlank(message = "微信ID不能为空", groups = {Apply.class})
+    @NotBlank(message = "微信ID不能为空", groups = {Add.class, Info.class, Out.class})
     private String wechatId;
 
     /** 微信号 */
-    @NotBlank(message = "微信号不能为空", groups = {Apply.class})
     private String wechatNo;
 
     /** 微信昵称 */
-    @NotBlank(message = "微信昵称不能为空", groups = {Apply.class})
+    @NotBlank(message = "微信昵称不能为空", groups = {Add.class})
     private String wechatNick;
 
     /** 高清头像 */
-    @NotBlank(message = "高清头像不能为空", groups = {Apply.class})
+    @NotBlank(message = "高清头像不能为空", groups = {Add.class})
     private String headPic;
 
     /** 性别 0-未知,1-男,2-女 */
-    @NotNull(message = "性别不能为空", groups = {Apply.class})
+    @NotNull(message = "性别不能为空", groups = {Add.class})
     private Integer gender;
 
     /** 国家 */
@@ -59,19 +60,23 @@ public class WechatRoomMemberReqVo extends BaseReqVo {
     private String city;
 
     /** 群昵称 */
-    @NotBlank(message = "群昵称不能为空", groups = {Apply.class})
+    @NotBlank(message = "群昵称不能为空", groups = {Add.class})
     private String displayName;
 
     /** 好友备注 */
-    @NotBlank(message = "好友备注不能为空", groups = {Apply.class})
+    @NotBlank(message = "好友备注不能为空", groups = {Add.class})
     private String remark;
 
     /** 公司ID */
-    @NotNull(message = "公司ID不能为空", groups = {Apply.class})
+    @NotNull(message = "公司ID不能为空", groups = {Add.class})
     private Long companyId;
 
     /** 部门ID */
-    @NotNull(message = "部门ID不能为空", groups = {Apply.class})
+    @NotNull(message = "部门ID不能为空", groups = {Add.class})
     private Long departmentId;
+
+    /** 要踢的群成员 */
+    @NotEmpty(message = "请选择要踢的群成员", groups = {Out.class})
+    private List<String> wxidList;
 
 }

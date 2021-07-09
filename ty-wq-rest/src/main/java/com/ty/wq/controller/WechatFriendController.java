@@ -1,5 +1,7 @@
 package com.ty.wq.controller;
 
+import com.ty.wq.constant.MsgType;
+import com.ty.wq.constant.OptionKey;
 import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.enums.WechatEnum;
 import com.ty.wq.exception.WqException;
@@ -7,6 +9,8 @@ import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendReqVo;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendRespVo;
+import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
+import com.ty.wq.pojo.vo.netty.Option;
 import com.ty.wq.service.client.WechatFriendService;
 import com.ty.wq.utils.ReqVoUtils;
 import org.apache.commons.lang.StringUtils;
@@ -16,7 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Administrator
@@ -65,23 +71,26 @@ public class WechatFriendController {
         return wechatFriendService.addFriend(vo);
     }
 
-
-
-
-
-
-
-
-
     /**
-     * 获取微信好友申请列表
-     * @param wechatId 微信id
+     * 删除好友
+     * @param vo
      * @return
      */
-    @PostMapping("/apply/list/{wechatId}")
-    public Result newFriends(@Valid @NotBlank(message = "微信id参数错误") @PathVariable String wechatId) {
-        List<WechatFriendRespVo> vos = wechatFriendService.getNewFriends(wechatId);
-        return Result.success(vos);
+    @PostMapping("/delFriend")
+    public Result delFriend(@RequestBody WechatFriendReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Delete.class);
+        return wechatFriendService.delFriend(vo);
+    }
+
+    /**
+     * 修改好友备注
+     * @param vo
+     * @return
+     */
+    @PostMapping("/updateRemark")
+    public Result updateRemark(@RequestBody WechatFriendReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Remark.class);
+        return wechatFriendService.updateRemark(vo);
     }
 
 

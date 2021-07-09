@@ -39,7 +39,7 @@ public class WechatController {
         NeWechatLoginReqVo neWechatLoginReqVo = new NeWechatLoginReqVo();
         neWechatLoginReqVo.setUserId(AccessUtils.userId());
         neWechatLoginReqVo.setWechats(respVos);
-        return RouteUtils.result(neWechatLoginReqVo, "/wechat/login");
+        return RouteUtils.send(neWechatLoginReqVo, "/wechat/login");
     }
 
     /**

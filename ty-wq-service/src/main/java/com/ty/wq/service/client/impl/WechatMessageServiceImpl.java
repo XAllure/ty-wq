@@ -14,7 +14,6 @@ import com.ty.wq.service.client.WechatFriendService;
 import com.ty.wq.service.client.WechatMessageService;
 import com.ty.wq.service.base.impl.BaseServiceImpl;
 import com.ty.wq.service.client.WechatService;
-import com.ty.wq.utils.ChannelUtils;
 import com.ty.wq.utils.MsgUtils;
 import com.ty.wq.utils.OrikaUtils;
 import io.netty.channel.Channel;

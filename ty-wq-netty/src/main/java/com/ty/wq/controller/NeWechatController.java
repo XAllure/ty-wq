@@ -26,8 +26,8 @@ public class NeWechatController {
     @PostMapping("/login")
     public Result result(@RequestBody NeWechatLoginReqVo reqVo) {
         ReqVoUtils.validated(reqVo, BaseReqVo.Login.class);
-        Channel channel = ChannelUtils.userChannel(reqVo.getUserId());
-        ChannelUtils.saveWeChatChannels(channel, reqVo.getWechats());
+        Channel channel = ChannelUtils.getUserChannel(reqVo.getUserId());
+        ChannelUtils.setWeChatChannels(channel, reqVo.getWechats());
         return Result.success(reqVo.getWechats());
     }
 

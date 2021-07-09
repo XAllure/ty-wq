@@ -3,14 +3,8 @@ package com.ty.wq.handler;
 import com.ty.wq.constant.MsgType;
 import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.handler.websocket.ReceiveMsgHandler;
-import com.ty.wq.handler.websocket.SendMsgHandler;
-import com.ty.wq.handler.websocket.WechatFriendHandler;
-import com.ty.wq.handler.websocket.WechatHandler;
-import com.ty.wq.pojo.vo.client.user.UserRespVo;
 import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.pojo.vo.netty.MsgVo;
-import com.ty.wq.service.client.UserService;
-import com.ty.wq.utils.ChannelUtils;
 import com.ty.wq.utils.MsgUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -25,20 +19,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class WebSocketMsgHandler {
 
-    @Autowired
-    private SendMsgHandler sendMsgHandler;
 
     @Autowired
     private ReceiveMsgHandler receiveMsgHandler;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private WechatHandler wechatHandler;
-
-    @Autowired
-    private WechatFriendHandler wechatFriendHandler;
 
     public void handler(ChannelHandlerContext ctx, MsgVo msgVo) {
         if (msgVo != null) {
@@ -54,39 +37,9 @@ public class WebSocketMsgHandler {
                         log.info("RECEIVED 操作");
                         break;
                     }
-                    // 接收WeQuick返回的信息
+                    // 接收WeQuick客户端返回的信息
                     case MsgType.RECEIVE_MSG: {
-                        receiveMsgHandler.handler(msgVo);
-                        break;
-                    }
-                    // 获取普通好友列表
-                    case MsgType.GET_CONTACTS: {
-                        wechatFriendHandler.getContactsHandler(channel, msgVo);
-                        break;
-                    }
-                    // 获取单个普通好友信息
-                    case MsgType.GET_SINGLE_CONTACT: {
-                        wechatFriendHandler.getSingleContactHandler(channel, msgVo);
-                        break;
-                    }
-                    // 添加好友
-                    case MsgType.ADD_FRIEND: {
-                        wechatFriendHandler.addFriendHandler(channel, msgVo);
-                        break;
-                    }
-                    // 接收加好友请求
-                    case MsgType.ACCEPT_FRIEND: {
-                        wechatFriendHandler.acceptFriendHandler(channel, msgVo);
-                        break;
-                    }
-                    // 删除好友
-                    case MsgType.DEL_FRIEND: {
-                        wechatFriendHandler.delFriendHandler(channel, msgVo);
-                        break;
-                    }
-                    // 修改好友备注
-                    case MsgType.UPDATE_REMARK: {
-                        wechatFriendHandler.updateRemarkHandler(channel, msgVo);
+                        receiveMsgHandler.handler(channel, msgVo);
                         break;
                     }
                     default: {
