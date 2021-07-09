@@ -27,7 +27,6 @@ public class BaseReqVo implements Serializable {
     public interface Info{} // 信息
     public interface Top{} // 置顶
     public interface Disturb{} // 免打扰
-    public interface Remark{} // 修改好友备注
     public interface Out{} // 踢群成员
 
 }

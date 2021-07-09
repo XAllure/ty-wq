@@ -140,13 +140,13 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
         sendMsg.setSendId(vo.getWechatId());
         sendMsg.setOption(Option.option()
                 .add(OptionKey.WXID, vo.getFriendId())
-                .add(OptionKey.REMARK, vo.getRemark())
+                .add(OptionKey.REMARK, vo.getRemarkName())
                 .getOption());
         // 通知netty服务端
         Result res = RouteUtils.send(sendMsg);
         if (res.getCode().equals(CodeEnum.SUCCESS.getCode())) {
             WechatFriend wechatFriend = getByWechatIdAndFriendId(vo.getWechatId(), vo.getFriendId());
-            wechatFriend.setRemark(vo.getRemark());
+            wechatFriend.setRemarkName(vo.getRemarkName());
             updateById(wechatFriend);
         }
         return res;

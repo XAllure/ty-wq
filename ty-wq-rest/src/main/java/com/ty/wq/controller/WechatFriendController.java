@@ -89,7 +89,7 @@ public class WechatFriendController {
      */
     @PostMapping("/updateRemark")
     public Result updateRemark(@RequestBody WechatFriendReqVo vo) {
-        ReqVoUtils.validated(vo, BaseReqVo.Remark.class);
+        ReqVoUtils.validated(vo, BaseReqVo.Update.class);
         return wechatFriendService.updateRemark(vo);
     }
 
