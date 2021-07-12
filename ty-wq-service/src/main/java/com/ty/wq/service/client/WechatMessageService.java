@@ -2,6 +2,7 @@ package com.ty.wq.service.client;
 
 import com.ty.wq.dao.client.WechatMessageDao;
 import com.ty.wq.pojo.po.client.WechatMessage;
+import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatMessage.WechatMessageReqVo;
 import com.ty.wq.service.base.BaseService;
 import com.ty.wq.pojo.vo.client.wechatMessage.WechatMessageSearchVo;

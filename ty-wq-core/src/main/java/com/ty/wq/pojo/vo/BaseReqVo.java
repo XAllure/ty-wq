@@ -24,9 +24,11 @@ public class BaseReqVo implements Serializable {
     public interface Status{} // 状态
     public interface Reset{} // 重置
     public interface Chat{} // 聊天
+    public interface At{} // 群@
     public interface Info{} // 信息
     public interface Top{} // 置顶
     public interface Disturb{} // 免打扰
     public interface Out{} // 踢群成员
+    public interface Invite{} //邀请群成员
 
 }

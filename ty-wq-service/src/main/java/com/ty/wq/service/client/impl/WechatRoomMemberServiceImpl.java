@@ -8,6 +8,7 @@ import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.enums.WechatEnum;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
+import com.ty.wq.pojo.vo.client.wechatRoom.WechatRoomReqVo;
 import com.ty.wq.pojo.vo.client.wechatRoomMember.WechatRoomMemberReqVo;
 import com.ty.wq.pojo.vo.client.wechatRoomMember.WechatRoomMemberRespVo;
 import com.ty.wq.pojo.vo.client.wechatRoomMember.WechatRoomMemberSearchVo;
@@ -74,7 +75,7 @@ public class WechatRoomMemberServiceImpl extends BaseServiceImpl<WechatRoomMembe
     }
 
     /**
-     * 根据微信id列表和qunid删除成员
+     * 根据微信id列表和群id删除成员
      * @param wechatIds
      * @param chatRoomId
      */
@@ -105,5 +106,24 @@ public class WechatRoomMemberServiceImpl extends BaseServiceImpl<WechatRoomMembe
             deleteByWechatIdsAndChatRoomId(vo.getWxidList(), vo.getChatRoomId());
         }
         return res;
+    }
+
+    /**
+     * 修改我在本群的昵称
+     * @param vo
+     * @return
+     */
+    @Override
+    public Result updateChatRoomDisplayName(WechatRoomMemberReqVo vo) {
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(MsgType.UPDATE_CHAT_ROOM_DISPLAY_NAME);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                .add(OptionKey.ROOM_WXID, vo.getChatRoomId())
+                .add(OptionKey.NICK, vo.getDisplayName())
+                .getOption());
+        // 通知netty服务端
+        Result res = RouteUtils.send(sMsg);
+        return null;
     }
 }

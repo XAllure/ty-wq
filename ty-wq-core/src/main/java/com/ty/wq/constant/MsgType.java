@@ -63,6 +63,18 @@ public interface MsgType {
     /** 修改群名称 */
     String UPDATE_CHAT_ROOM_NAME = "updateChatRoomName";
 
+    /** 修改我在本群的昵称 */
+    String UPDATE_CHAT_ROOM_DISPLAY_NAME = "updateChatRoomDisplayName";
+
+    /** 发送40人以下群邀请 不需要好友同意即可直接拉入群 */
+    String SEND_CHATROOM_LOW = "sendChatroomLow";
+
+    /** 发送40人以上群邀请 需要好友同意 */
+    String SEND_CHATROOM_HIGH = "sendChatroomHigh";
+
+    /** 接受群邀请 */
+    String ACCEPT_CHATROOM_INVITE = "acceptChatroomInvite";
+
     /** 发送文本消息 */
     String SEND_TEXT_MESSAGE = "sendTextMessage";
 

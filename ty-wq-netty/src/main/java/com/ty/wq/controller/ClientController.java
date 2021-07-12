@@ -31,6 +31,7 @@ public class ClientController {
         MsgVo msgVo = new MsgVo();
         msgVo.setType(MsgType.SEND_MSG);
         msgVo.setData(sendMsg);
+        System.out.println(sendMsg);
         MsgUtils.writeJson(ChannelUtils.getClientChannel(sendMsg.getSendId()), msgVo);
         return Result.success();
     }

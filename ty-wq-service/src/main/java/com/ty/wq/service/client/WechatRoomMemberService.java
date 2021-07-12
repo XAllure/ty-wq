@@ -3,6 +3,7 @@ package com.ty.wq.service.client;
 import com.ty.wq.dao.client.WechatRoomMemberDao;
 import com.ty.wq.pojo.po.client.WechatRoomMember;
 import com.ty.wq.pojo.vo.Result;
+import com.ty.wq.pojo.vo.client.wechatRoom.WechatRoomReqVo;
 import com.ty.wq.pojo.vo.client.wechatRoomMember.WechatRoomMemberReqVo;
 import com.ty.wq.pojo.vo.client.wechatRoomMember.WechatRoomMemberRespVo;
 import com.ty.wq.service.base.BaseService;
@@ -56,5 +57,12 @@ public interface WechatRoomMemberService extends BaseService<WechatRoomMember, W
      * @return
      */
     Result delChatRoomMembers(WechatRoomMemberReqVo vo);
+
+    /**
+     * 修改我在本群的昵称
+     * @param vo
+     * @return
+     */
+    Result updateChatRoomDisplayName(WechatRoomMemberReqVo vo);
 
 }

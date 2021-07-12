@@ -28,11 +28,11 @@ public class WechatRoomMemberReqVo extends BaseReqVo {
     private String ownerWechatId;
 
     /** 群ID */
-    @NotBlank(message = "群ID不能为空", groups = {Add.class, Info.class, Out.class})
+    @NotBlank(message = "群ID不能为空", groups = {Add.class, Update.class, Info.class, Out.class, Invite.class})
     private String chatRoomId;
 
     /** 微信ID */
-    @NotBlank(message = "微信ID不能为空", groups = {Add.class, Info.class, Out.class})
+    @NotBlank(message = "微信ID不能为空", groups = {Add.class, Update.class, Info.class, Out.class, Invite.class})
     private String wechatId;
 
     /** 微信号 */
@@ -60,7 +60,7 @@ public class WechatRoomMemberReqVo extends BaseReqVo {
     private String city;
 
     /** 群昵称 */
-    @NotBlank(message = "群昵称不能为空", groups = {Add.class})
+    @NotBlank(message = "群昵称不能为空", groups = {Add.class, Update.class})
     private String displayName;
 
     /** 好友备注 */
@@ -75,8 +75,8 @@ public class WechatRoomMemberReqVo extends BaseReqVo {
     @NotNull(message = "部门ID不能为空", groups = {Add.class})
     private Long departmentId;
 
-    /** 要踢的群成员 */
-    @NotEmpty(message = "请选择要踢的群成员", groups = {Out.class})
+    /** 要踢的群成员/邀请入群的成员列表 */
+    @NotEmpty(message = "请选择群成员", groups = {Out.class, Invite.class})
     private List<String> wxidList;
 
 }

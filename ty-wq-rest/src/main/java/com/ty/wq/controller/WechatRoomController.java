@@ -6,6 +6,7 @@ import com.ty.wq.pojo.po.client.WechatRoom;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
+import com.ty.wq.pojo.vo.client.wechatRoom.AcceptChatroomReqVo;
 import com.ty.wq.pojo.vo.client.wechatRoom.WechatRoomReqVo;
 import com.ty.wq.pojo.vo.client.wechatRoom.WechatRoomRespVo;
 import com.ty.wq.pojo.vo.netty.Option;
@@ -67,6 +68,35 @@ public class WechatRoomController {
     public Result quitDelChatRoom(@RequestBody WechatRoomReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Delete.class);
         return wechatRoomService.quitDelChatRoom(vo);
+    }
+
+    /**
+     * 修改群名称
+     * @param vo
+     * @return
+     */
+    @PostMapping("/updateChatRoomName")
+    public Result updateChatRoomName(@RequestBody WechatRoomReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Delete.class);
+        return wechatRoomService.updateChatRoomName(vo);
+    }
+
+    /**
+     * 接受群邀请
+     * @param vo
+     * @return
+     */
+    @PostMapping("/acceptChatroomInvite")
+    public Result acceptChatroomInvite(@RequestBody AcceptChatroomReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Invite.class);
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(MsgType.ACCEPT_CHATROOM_INVITE);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                .add(OptionKey.WXID, vo.getFriendId())
+                .add(OptionKey.INVITE_URL, vo.getInviteUrl())
+                .getOption());
+        return RouteUtils.send(sMsg);
     }
 
 }

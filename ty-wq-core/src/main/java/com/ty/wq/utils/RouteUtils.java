@@ -64,8 +64,7 @@ public class RouteUtils {
             //默认发往netty服务器的链接
             suffix = "/client/sendMsg";
         }
-        Long userId = AccessUtils.userId();
-        WsServer server = WsTokenUtils.getUserWs(userId);
+        WsServer server = WsTokenUtils.getUserWs(AccessUtils.userId());
         JSONObject json = OrikaUtils.convert(data, JSONObject.class);
         String url = RouteUtils.url(server.getPip(), server.getHport(), suffix);
         String result = HttpUtils.post(url, json);

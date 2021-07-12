@@ -133,13 +133,18 @@ public class WechatRoomServiceImpl extends BaseServiceImpl<WechatRoom, WechatRoo
         SendMsg sMsg = new SendMsg();
         sMsg.setApi(MsgType.UPDATE_CHAT_ROOM_NAME);
         sMsg.setSendId(vo.getWechatId());
-        sMsg.setOption(Option.option().add(OptionKey.NAME, vo.getChatRoomName()).getOption());
+        sMsg.setOption(Option.option()
+                .add(OptionKey.ROOM_WXID, vo.getChatRoomId())
+                .add(OptionKey.NAME, vo.getChatRoomName())
+                .getOption());
         // 通知netty服务端
         Result res = RouteUtils.send(sMsg);
         if (res.getCode().equals(CodeEnum.SUCCESS.getCode())) {
-
+            WechatRoom wechatRoom = findByWechatIdAndChatRoomId(vo.getWechatId(), vo.getChatRoomId());
+            wechatRoom.setChatRoomName(vo.getChatRoomName());
+            updateById(wechatRoom);
         }
-        return null;
+        return res;
     }
 
 

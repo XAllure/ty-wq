@@ -165,7 +165,7 @@ public class ChannelUtils {
                 channels = new ArrayList<>();
             }
             channels.add(channel);
-            WECHAT_ID_CHANNEL.put(wechatId, channels);
+            WECHAT_ID_CLIENT_CHANNEL.put(wechatId, channels);
         }
     }
 
