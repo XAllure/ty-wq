@@ -1,7 +1,7 @@
 package com.ty.wq.service.client.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ty.wq.constant.MsgType;
+import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.OptionKey;
 import com.ty.wq.dao.client.WechatFriendDao;
 import com.ty.wq.enums.CodeEnum;
@@ -17,11 +17,9 @@ import com.ty.wq.service.client.*;
 import com.ty.wq.service.base.impl.BaseServiceImpl;
 import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.RouteUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Administrator
@@ -54,7 +52,7 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
     @Override
     public WechatFriend getByWechatIdAndFriendId(String wechatId, String friendId) {
         QueryWrapper<WechatFriend> qw = new QueryWrapper<>();
-        qw.eq("wechat_id", wechatId).eq("friend_id", wechatId);
+        qw.eq("wechat_id", wechatId).eq("friend_id", friendId);
         return findOne(qw);
     }
 
@@ -78,7 +76,7 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
     public Result addFriend(WechatFriendReqVo vo) {
         WechatFriend wechatFriend = OrikaUtils.convert(vo, WechatFriend.class);
         SendMsg sendMsg = new SendMsg();
-        sendMsg.setApi(MsgType.ADD_FRIEND);
+        sendMsg.setApi(ApiType.ADD_FRIEND);
         sendMsg.setSendId(vo.getWechatId());
         sendMsg.setOption(Option.option()
                 .add(OptionKey.WXID, vo.getFriendId())
@@ -113,7 +111,7 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
     @Override
     public Result delFriend(WechatFriendReqVo vo) {
         SendMsg sendMsg = new SendMsg();
-        sendMsg.setApi(MsgType.DEL_FRIEND);
+        sendMsg.setApi(ApiType.DEL_FRIEND);
         sendMsg.setSendId(vo.getWechatId());
         sendMsg.setOption(Option.option()
                 .add(OptionKey.WXID, vo.getFriendId())
@@ -136,7 +134,7 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
     @Override
     public Result updateRemark(WechatFriendReqVo vo) {
         SendMsg sendMsg = new SendMsg();
-        sendMsg.setApi(MsgType.UPDATE_REMARK);
+        sendMsg.setApi(ApiType.UPDATE_REMARK);
         sendMsg.setSendId(vo.getWechatId());
         sendMsg.setOption(Option.option()
                 .add(OptionKey.WXID, vo.getFriendId())
@@ -168,12 +166,24 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
     /**
      * 是否置顶
      * @param vo
+     * @return
      */
     @Override
-    public void toTop(WechatFriendReqVo vo) {
-        WechatFriend wechatFriend = getByWechatIdAndFriendId(vo.getWechatId(), vo.getFriendId());
-        wechatFriend.setTop(vo.getTop());
-        updateById(wechatFriend);
+    public Result toTop(WechatFriendReqVo vo) {
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.CHAT_SESSION_TOP);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                .add(OptionKey.WXID, vo.getFriendId())
+                .add(OptionKey.CODE, vo.getTop())
+                .getOption());
+        Result res = RouteUtils.send(sMsg);
+        if (res.getCode().equals(CodeEnum.SUCCESS.getCode())) {
+            WechatFriend wechatFriend = getByWechatIdAndFriendId(vo.getWechatId(), vo.getFriendId());
+            wechatFriend.setTop(vo.getTop());
+            updateById(wechatFriend);
+        }
+        return res;
     }
 
     /**
@@ -181,10 +191,21 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
      * @param vo
      */
     @Override
-    public void toDisturb(WechatFriendReqVo vo) {
-        WechatFriend wechatFriend = getByWechatIdAndFriendId(vo.getWechatId(), vo.getFriendId());
-        wechatFriend.setDisturb(vo.getDisturb());
-        updateById(wechatFriend);
+    public Result toDisturb(WechatFriendReqVo vo) {
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.MOD_RECV_NOTIFY);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                .add(OptionKey.WXID, vo.getFriendId())
+                .add(OptionKey.CODE, vo.getDisturb())
+                .getOption());
+        Result res = RouteUtils.send(sMsg);
+        if (res.getCode().equals(CodeEnum.SUCCESS.getCode())) {
+            WechatFriend wechatFriend = getByWechatIdAndFriendId(vo.getWechatId(), vo.getFriendId());
+            wechatFriend.setDisturb(vo.getDisturb());
+            updateById(wechatFriend);
+        }
+        return res;
     }
 
 }

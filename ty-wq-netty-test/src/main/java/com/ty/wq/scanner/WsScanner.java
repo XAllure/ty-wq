@@ -2,7 +2,6 @@ package com.ty.wq.scanner;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.ty.wq.constant.MsgType;
 import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.socket.WebSocketClient;
@@ -10,7 +9,6 @@ import com.ty.wq.utils.HttpUtils;
 import com.ty.wq.utils.MsgUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
@@ -58,7 +56,7 @@ public class WsScanner implements Runnable {
                     data = "{" + data + "}";
                     JSONObject json = JSON.parseObject(data);
                     msgVo.setData(json);
-                    MsgUtils.writeJson(WebSocketClient.channel, msgVo);
+                    MsgUtils.writeJson(WebSocketClient.channel, Message.success(msgVo));
                 }
             } catch (Exception e) {
                 log.info("出错了");

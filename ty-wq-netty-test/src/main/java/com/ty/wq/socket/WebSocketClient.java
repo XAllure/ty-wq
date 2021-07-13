@@ -30,12 +30,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.net.URI;
-import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -127,7 +125,7 @@ public class WebSocketClient {
     public void loginServer() {
         MsgVo msgVo = new MsgVo();
         msgVo.setToken(token);
-        msgVo.setType("login");
+        msgVo.setType("Login");
         JSONObject obj = OrikaUtils.convert(msgVo, JSONObject.class);
         channel.writeAndFlush(new TextWebSocketFrame(obj.toJSONString()));
         log.info("正在登录服务器......");

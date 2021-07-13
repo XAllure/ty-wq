@@ -1,6 +1,6 @@
 package com.ty.wq.controller;
 
-import com.ty.wq.constant.MsgType;
+import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.OptionKey;
 import com.ty.wq.pojo.po.client.WechatRoomMember;
 import com.ty.wq.pojo.vo.BaseReqVo;
@@ -73,7 +73,7 @@ public class WechatRoomMemberController {
     public Result sendChatroomLow(@RequestBody WechatRoomMemberReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Invite.class);
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.SEND_CHATROOM_LOW);
+        sMsg.setApi(ApiType.SEND_CHATROOM_LOW);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.ROOM_WXID, vo.getChatRoomId())
@@ -91,7 +91,7 @@ public class WechatRoomMemberController {
     public Result sendChatroomHigh(@RequestBody WechatRoomMemberReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Invite.class);
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.SEND_CHATROOM_HIGH);
+        sMsg.setApi(ApiType.SEND_CHATROOM_HIGH);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.ROOM_WXID, vo.getChatRoomId())

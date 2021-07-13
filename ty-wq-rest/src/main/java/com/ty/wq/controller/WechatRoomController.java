@@ -1,8 +1,7 @@
 package com.ty.wq.controller;
 
-import com.ty.wq.constant.MsgType;
+import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.OptionKey;
-import com.ty.wq.pojo.po.client.WechatRoom;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
@@ -11,7 +10,6 @@ import com.ty.wq.pojo.vo.client.wechatRoom.WechatRoomReqVo;
 import com.ty.wq.pojo.vo.client.wechatRoom.WechatRoomRespVo;
 import com.ty.wq.pojo.vo.netty.Option;
 import com.ty.wq.service.client.WechatRoomService;
-import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
 import com.ty.wq.utils.RouteUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +49,7 @@ public class WechatRoomController {
     public Result createChatRoom(@RequestBody WechatRoomReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Add.class);
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.CREATE_CHAT_ROOM);
+        sMsg.setApi(ApiType.CREATE_CHAT_ROOM);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.WXID_LISTS, vo.getWxidLists())
@@ -90,7 +88,7 @@ public class WechatRoomController {
     public Result acceptChatroomInvite(@RequestBody AcceptChatroomReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Invite.class);
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.ACCEPT_CHATROOM_INVITE);
+        sMsg.setApi(ApiType.ACCEPT_CHATROOM_INVITE);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.WXID, vo.getFriendId())

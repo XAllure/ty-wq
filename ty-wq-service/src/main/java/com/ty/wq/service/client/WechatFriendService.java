@@ -75,13 +75,14 @@ public interface WechatFriendService extends BaseService<WechatFriend, WechatFri
     /**
      * 是否置顶
      * @param vo
+     * @return
      */
-    void toTop(WechatFriendReqVo vo);
+    Result toTop(WechatFriendReqVo vo);
 
     /**
      * 是否免打扰
      * @param vo
      */
-    void toDisturb(WechatFriendReqVo vo);
+    Result toDisturb(WechatFriendReqVo vo);
 
 }

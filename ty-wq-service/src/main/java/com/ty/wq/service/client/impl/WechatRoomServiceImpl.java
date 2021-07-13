@@ -1,7 +1,7 @@
 package com.ty.wq.service.client.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ty.wq.constant.MsgType;
+import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.OptionKey;
 import com.ty.wq.dao.client.WechatRoomDao;
 import com.ty.wq.enums.CodeEnum;
@@ -20,6 +20,7 @@ import com.ty.wq.service.base.impl.BaseServiceImpl;
 import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.RouteUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +35,7 @@ import java.util.List;
 @Service
 public class WechatRoomServiceImpl extends BaseServiceImpl<WechatRoom, WechatRoomDao, WechatRoomSearchVo> implements WechatRoomService {
 
+    @Lazy
     @Autowired
     private WechatRoomMemberService wechatRoomMemberService;
 
@@ -95,7 +97,7 @@ public class WechatRoomServiceImpl extends BaseServiceImpl<WechatRoom, WechatRoo
     @Override
     public Result quitDelChatRoom(WechatRoomReqVo vo) {
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.QUIT_DEL_CHAT_ROOM);
+        sMsg.setApi(ApiType.QUIT_DEL_CHAT_ROOM);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option().add(OptionKey.ROOM_WXID, vo.getChatRoomId()).getOption());
         // 通知netty服务端
@@ -131,7 +133,7 @@ public class WechatRoomServiceImpl extends BaseServiceImpl<WechatRoom, WechatRoo
     @Override
     public Result updateChatRoomName(WechatRoomReqVo vo) {
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.UPDATE_CHAT_ROOM_NAME);
+        sMsg.setApi(ApiType.UPDATE_CHAT_ROOM_NAME);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.ROOM_WXID, vo.getChatRoomId())

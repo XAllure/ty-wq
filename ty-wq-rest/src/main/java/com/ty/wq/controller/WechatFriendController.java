@@ -1,10 +1,9 @@
 package com.ty.wq.controller;
 
-import com.ty.wq.constant.MsgType;
+import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.OptionKey;
 import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.enums.WechatEnum;
-import com.ty.wq.exception.WqException;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendReqVo;
@@ -13,16 +12,14 @@ import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
 import com.ty.wq.pojo.vo.netty.Option;
 import com.ty.wq.service.client.WechatFriendService;
 import com.ty.wq.utils.ReqVoUtils;
+import com.ty.wq.utils.RouteUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Administrator
@@ -33,6 +30,18 @@ public class WechatFriendController {
 
     @Autowired
     private WechatFriendService wechatFriendService;
+
+    /**
+     * 测试获取好友
+     * @return
+     */
+    @PostMapping("/getContacts")
+    public Result getContacts2() {
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.GET_CONTACTS);
+        sMsg.setSendId("wxid_0199001977912");
+        return RouteUtils.send(sMsg);
+    }
 
     /**
      * 获取普通好友列表
@@ -93,6 +102,26 @@ public class WechatFriendController {
         return wechatFriendService.updateRemark(vo);
     }
 
+    /**
+     * 接收加好友请求
+     * @param vo
+     * @return
+     */
+    @PostMapping("/acceptFriend")
+    public Result acceptFriend(@RequestBody WechatFriendReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Update.class);
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.ACCEPT_FRIEND);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                .add(OptionKey.V1, vo.getV1())
+                .add(OptionKey.V2, vo.getV2())
+                // 好友来源，接收到的加好友请求XML信息中有
+                .add(OptionKey.SCENE, vo.getScene())
+                .getOption());
+        return RouteUtils.send(sMsg);
+    }
+
 
 
     /**
@@ -115,8 +144,7 @@ public class WechatFriendController {
     @PostMapping("/top")
     public Result top(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Top.class);
-        wechatFriendService.toTop(vo);
-        return Result.success();
+        return wechatFriendService.toTop(vo);
     }
 
     /**
@@ -127,8 +155,7 @@ public class WechatFriendController {
     @PostMapping("/disturb")
     public Result disturb(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Disturb.class);
-        wechatFriendService.toDisturb(vo);
-        return Result.success();
+        return wechatFriendService.toDisturb(vo);
     }
 
 }

@@ -61,11 +61,13 @@ public enum WechatEnum {
 
     // 是否发送
     IS_SEND(1, "发送"),
-    NOT_SEND(0, "接受"),
+    NOT_SEND(0, "接收"),
 
     // 是否pc端发出
     IS_PC(1, "是"),
-    NOT_PC(0, "否")
+    NOT_PC(0, "否"),
+
+    My_Msg(1, "我的消息"),
 
     ;
 

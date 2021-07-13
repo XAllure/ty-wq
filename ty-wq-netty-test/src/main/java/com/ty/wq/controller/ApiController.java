@@ -3,7 +3,9 @@ package com.ty.wq.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ty.wq.constant.MsgType;
+import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
+import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.socket.WebSocketClient;
 import com.ty.wq.utils.MsgUtils;
@@ -11,6 +13,7 @@ import com.ty.wq.utils.QueueUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +27,17 @@ import java.util.*;
 @RestController
 @Slf4j
 public class ApiController {
+
+    /**
+     * 测试
+     * @param sendMsg
+     * @return
+     */
+    @PostMapping("/send_msg")
+    public Result sendMsg(@RequestBody SendMsg sendMsg) {
+        QueueUtils.messages.offer(sendMsg);
+        return Result.success();
+    }
 
     /**
      * 轮询消息
@@ -56,7 +70,7 @@ public class ApiController {
         MsgVo msgVo = new MsgVo();
         msgVo.setType(MsgType.RECEIVE_MSG);
         msgVo.setData(data.getJSONObject("data"));
-        MsgUtils.writeJson(WebSocketClient.channel, msgVo);
+        MsgUtils.writeJson(WebSocketClient.channel, Message.success(msgVo));
     }
 
 }
@@ -67,7 +81,7 @@ SendMsg
 
 "api":"getLoginUser","sendId":"xxx","option" : {}
 
-"api":"getImContacts","sendId":"xxx","option" : {}
+"api":"getContacts","sendId":"xxx","option" : {}
 
 "api":"getPublics","sendId":"xxx","option" : {}
 

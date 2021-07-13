@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class WebSocketMsgHandler {
 
-
     @Autowired
     private ReceiveMsgHandler receiveMsgHandler;
 

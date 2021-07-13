@@ -6,109 +6,25 @@ package com.ty.wq.constant;
  */
 public interface MsgType {
 
+    /** netty客户端登录服务器 */
+    String CLIENT_LOGIN = "ClientLogin";
+
     /** 登录服务器 */
-    String  LOGIN = "login";
+    String LOGIN = "Login";
 
     /** 微信消息回调 */
-    String RECEIVE_MSG = "receiveMsg";
+    String RECEIVE_MSG = "ReceiveMsg";
 
     /** 微信消息轮询 */
-    String SEND_MSG = "sendMsg";
-
-    /** 微信登录 */
-    String WECHAT_LOGIN = "wechatLogin";
+    String SEND_MSG = "SendMsg";
 
     /** 错误 */
-    String  ERROR = "error";
+    String  ERROR = "Error";
 
     /** 心跳 */
-    String  HEART_BEAT = "heartBeat";
+    String  HEART_BEAT = "HeartBeat";
 
     /** 已收到 */
-    String  RECEIVED = "received";
-
-    /** 获取微信普通好友列表 */
-    String GET_CONTACTS = "getContacts";
-
-    /** 获取单个普通好友信息 */
-    String GET_SINGLE_CONTACT = "getSingleContact";
-
-    /** 添加好友 */
-    String ADD_FRIEND = "addFriend";
-
-    /** 接收加好友请求 */
-    String ACCEPT_FRIEND = "acceptFriend";
-
-    /** 删除好友 */
-    String DEL_FRIEND = "delFriend";
-
-    /** 修改好友备注 */
-    String UPDATE_REMARK = "updateRemark";
-
-    /** 获取普通群列表 */
-    String GET_CHAT_ROOMS = "getChatRooms";
-
-    /** 获取单个普通群成员信息 */
-    String GET_SINGLE_CHAT_ROOM_MEMBERS = "getSingleChatRoomMembers";
-
-    /** 创建群聊 */
-    String CREATE_CHAT_ROOM = "createChatRoom";
-
-    /**退出并删除群*/
-    String QUIT_DEL_CHAT_ROOM = "quitDelChatRoom";
-
-    /** 踢群成员 */
-    String DEL_CHAT_ROOM_MEMBERS = "delChatRoomMembers";
-
-    /** 修改群名称 */
-    String UPDATE_CHAT_ROOM_NAME = "updateChatRoomName";
-
-    /** 修改我在本群的昵称 */
-    String UPDATE_CHAT_ROOM_DISPLAY_NAME = "updateChatRoomDisplayName";
-
-    /** 发送40人以下群邀请 不需要好友同意即可直接拉入群 */
-    String SEND_CHATROOM_LOW = "sendChatroomLow";
-
-    /** 发送40人以上群邀请 需要好友同意 */
-    String SEND_CHATROOM_HIGH = "sendChatroomHigh";
-
-    /** 接受群邀请 */
-    String ACCEPT_CHATROOM_INVITE = "acceptChatroomInvite";
-
-    /** 发送文本消息 */
-    String SEND_TEXT_MESSAGE = "sendTextMessage";
-
-    /** 发送群内@文本消息 */
-    String SEND_AT_TEXT_MESSAGE = "sendAtTextMessage";
-
-    /** 发送图片 */
-    String SEND_PIC_MESSAGE = "sendPicMessage";
-
-    /** 发送文件 */
-    String SEND_FILE_MESSAGE = "sendFileMessage";
-
-    /** 发送视频 */
-    String SEND_VIDEO_MESSAGE = "sendVideoMessage";
-
-    /** 发送GIF表情 */
-    String SEND_GIF_MESSAGE = "sendGifMessage";
-
-    /** 发送链接消息 */
-    String SEND_LINK_MESSAGE = "sendLinkMessage";
-
-    /** 发送名片 */
-    String SEND_CARD_MESSAGE = "sendCardMessage";
-
-    /** 发送小程序 */
-    String SEND_MINI_MESSAGE = "sendMiniMessage";
-
-
-
-
-    /** 私聊 */
-    String PRIVATE_CHAT = "PrivateChat";
-
-    /** 群聊 */
-    String ROOM_CHAT = "RoomChat";
+    String  RECEIVED = "Received";
 
 }

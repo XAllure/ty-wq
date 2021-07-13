@@ -1,16 +1,13 @@
 package com.ty.wq.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ty.wq.constant.MsgType;
+import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.OptionKey;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatMessage.*;
 import com.ty.wq.pojo.vo.netty.Option;
-import com.ty.wq.service.client.WechatMessageService;
 import com.ty.wq.utils.ReqVoUtils;
 import com.ty.wq.utils.RouteUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/wechat/message")
 public class WechatMessageController {
 
-    @Autowired
-    private WechatMessageService wechatMessageService;
-
     /**
      * 发送文本消息
      * @param vo
@@ -35,7 +29,7 @@ public class WechatMessageController {
     public Result sendTextMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.SEND_TEXT_MESSAGE);
+        sMsg.setApi(ApiType.SEND_TEXT_MESSAGE);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.WXID, vo.getWxIdTo())
@@ -55,7 +49,7 @@ public class WechatMessageController {
     public Result sendAtTextMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.At.class);
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.SEND_AT_TEXT_MESSAGE);
+        sMsg.setApi(ApiType.SEND_AT_TEXT_MESSAGE);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.WXID, vo.getWxIdTo())
@@ -74,7 +68,7 @@ public class WechatMessageController {
     public Result sendPicMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.SEND_PIC_MESSAGE);
+        sMsg.setApi(ApiType.SEND_PIC_MESSAGE);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.WXID, vo.getWxIdTo())
@@ -92,7 +86,7 @@ public class WechatMessageController {
     public Result sendFileMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.SEND_FILE_MESSAGE);
+        sMsg.setApi(ApiType.SEND_FILE_MESSAGE);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.WXID, vo.getWxIdTo())
@@ -110,7 +104,7 @@ public class WechatMessageController {
     public Result sendVideoMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.SEND_VIDEO_MESSAGE);
+        sMsg.setApi(ApiType.SEND_VIDEO_MESSAGE);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.WXID, vo.getWxIdTo())
@@ -128,7 +122,7 @@ public class WechatMessageController {
     public Result sendGifMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.SEND_GIF_MESSAGE);
+        sMsg.setApi(ApiType.SEND_GIF_MESSAGE);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.WXID, vo.getWxIdTo())
@@ -146,7 +140,7 @@ public class WechatMessageController {
     public Result sendLinkMessage(@RequestBody LinkMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.SEND_LINK_MESSAGE);
+        sMsg.setApi(ApiType.SEND_LINK_MESSAGE);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.WXID, vo.getWxIdTo())
@@ -167,7 +161,7 @@ public class WechatMessageController {
     public Result sendCardMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.SEND_CARD_MESSAGE);
+        sMsg.setApi(ApiType.SEND_CARD_MESSAGE);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.WXID, vo.getWxIdTo())
@@ -177,7 +171,7 @@ public class WechatMessageController {
     }
 
     /**
-     * 发送GIF表情
+     * 发送小程序
      * @param vo
      * @return
      */
@@ -185,11 +179,84 @@ public class WechatMessageController {
     public Result sendMiniMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.SEND_MINI_MESSAGE);
+        sMsg.setApi(ApiType.SEND_MINI_MESSAGE);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.WXID, vo.getWxIdTo())
                 .add(OptionKey.MSG_ID, vo.getContent())
+                .getOption());
+        return RouteUtils.send(sMsg);
+    }
+
+    /**
+     * 发送xml消息
+     * @param vo
+     * @return
+     */
+    @PostMapping("/sendXmlMessage")
+    public Result sendXmlMessage(@RequestBody WechatMessageReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.SEND_XML_MESSAGE);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                .add(OptionKey.WXID, vo.getWxIdTo())
+                .add(OptionKey.XML, vo.getContent())
+                .getOption());
+        return RouteUtils.send(sMsg);
+    }
+
+    /**
+     * 发送名片xml消息
+     * @param vo
+     * @return
+     */
+    @PostMapping("/sendCardXmlMessage")
+    public Result sendCardXmlMessage(@RequestBody WechatMessageReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.SEND_CARD_XML_MESSAGE);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                .add(OptionKey.WXID, vo.getWxIdTo())
+                .add(OptionKey.XML, vo.getContent())
+                .getOption());
+        return RouteUtils.send(sMsg);
+    }
+
+
+    /**
+     * 接收好友转账
+     * @param vo
+     * @return
+     */
+    @PostMapping("/acceptBankTransfer")
+    public Result acceptBankTransfer(@RequestBody WechatMessageReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Update.class);
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.ACCEPT_BANK_TRANSFER);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                // 收哪一笔转账(收到转账xml信息 中的 transferid)
+                .add(OptionKey.TRANSFER_ID, vo.getContent())
+                .getOption());
+        return RouteUtils.send(sMsg);
+    }
+
+    /**
+     * 退还好友转账
+     * @param vo
+     * @return
+     */
+    @PostMapping("/refuseFriendWcpay")
+    public Result refuseFriendWcpay(@RequestBody WechatMessageReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Update.class);
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.REFUSE_FRIEND_WCPAY);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                // 退还哪一笔转账(收到转账xml信息 中的 transferid)
+                .add(OptionKey.TRANSFER_ID, vo.getContent())
                 .getOption());
         return RouteUtils.send(sMsg);
     }

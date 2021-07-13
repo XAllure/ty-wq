@@ -2,7 +2,6 @@ package com.ty.wq.controller;
 
 import com.ty.wq.pojo.po.client.Company;
 import com.ty.wq.pojo.vo.Result;
-import com.ty.wq.pojo.vo.client.company.CompanyReqVo;
 import com.ty.wq.pojo.vo.client.company.CompanyRespVo;
 import com.ty.wq.service.client.CompanyService;
 import com.ty.wq.utils.OrikaUtils;

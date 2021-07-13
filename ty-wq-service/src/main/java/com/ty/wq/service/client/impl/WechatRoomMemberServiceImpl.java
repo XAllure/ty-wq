@@ -1,23 +1,20 @@
 package com.ty.wq.service.client.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ty.wq.constant.MsgType;
+import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.OptionKey;
 import com.ty.wq.dao.client.WechatRoomMemberDao;
 import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.enums.WechatEnum;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
-import com.ty.wq.pojo.vo.client.wechatRoom.WechatRoomReqVo;
 import com.ty.wq.pojo.vo.client.wechatRoomMember.WechatRoomMemberReqVo;
-import com.ty.wq.pojo.vo.client.wechatRoomMember.WechatRoomMemberRespVo;
 import com.ty.wq.pojo.vo.client.wechatRoomMember.WechatRoomMemberSearchVo;
 import com.ty.wq.pojo.po.client.WechatRoomMember;
 import com.ty.wq.pojo.vo.netty.Option;
 import com.ty.wq.service.client.WechatRoomMemberService;
 import com.ty.wq.service.base.impl.BaseServiceImpl;
 import com.ty.wq.service.client.WechatRoomService;
-import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.RouteUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,7 +91,7 @@ public class WechatRoomMemberServiceImpl extends BaseServiceImpl<WechatRoomMembe
     @Override
     public Result delChatRoomMembers(WechatRoomMemberReqVo vo) {
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.DEL_CHAT_ROOM_MEMBERS);
+        sMsg.setApi(ApiType.DEL_CHAT_ROOM_MEMBERS);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.WXID_LIST, vo.getWxidList())
@@ -116,7 +113,7 @@ public class WechatRoomMemberServiceImpl extends BaseServiceImpl<WechatRoomMembe
     @Override
     public Result updateChatRoomDisplayName(WechatRoomMemberReqVo vo) {
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(MsgType.UPDATE_CHAT_ROOM_DISPLAY_NAME);
+        sMsg.setApi(ApiType.UPDATE_CHAT_ROOM_DISPLAY_NAME);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
                 .add(OptionKey.ROOM_WXID, vo.getChatRoomId())

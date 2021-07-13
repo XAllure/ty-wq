@@ -74,5 +74,13 @@ public interface OptionKey {
     /** 小程序的消息id */
     String MSG_ID = "msgid";
 
+    /** 发送xml消息 */
+    String XML = "xml";
+
+    /** 接收好友转账,收哪一笔转账(收到转账xml信息 中的 transferid) */
+    String TRANSFER_ID = "transferid";
+
+    String CODE = "code";
+
 
 }

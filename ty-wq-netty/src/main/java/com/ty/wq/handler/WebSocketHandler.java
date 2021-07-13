@@ -1,6 +1,5 @@
 package com.ty.wq.handler;
 
-import com.ty.wq.constant.MsgType;
 import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.utils.ChannelUtils;
 import com.ty.wq.utils.HttpUtils;
@@ -39,7 +38,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
         // 打印请求日志
         if (msg instanceof TextWebSocketFrame) {
             MsgVo msgVo = MsgUtils.msgVo((TextWebSocketFrame)msg);
-            /*if (!msgVo.getType().equals(MsgType.HEART_BEAT)) {
+            /*if (!msgVo.getType().equals(ApiType.HEART_BEAT)) {
                 log.info("WebSocket[channelId-{}]请求参数", ctx.channel().id().asLongText());
                 log.info("IP: {}", ctx.channel().remoteAddress());
                 log.info("Parameter: {}", msgVo);
