@@ -32,18 +32,6 @@ public class WechatFriendController {
     private WechatFriendService wechatFriendService;
 
     /**
-     * 测试获取好友
-     * @return
-     */
-    @PostMapping("/getContacts")
-    public Result getContacts2() {
-        SendMsg sMsg = new SendMsg();
-        sMsg.setApi(ApiType.GET_CONTACTS);
-        sMsg.setSendId("wxid_0199001977912");
-        return RouteUtils.send(sMsg);
-    }
-
-    /**
      * 获取普通好友列表
      * @param wechatId 微信id
      * @return
@@ -63,6 +51,23 @@ public class WechatFriendController {
     public Result getSingleContact(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Info.class);
         return Result.success(wechatFriendService.getFriendInfo(vo));
+    }
+
+    /**
+     * 任意普通微信反查详细信息
+     * @param vo
+     * @return
+     */
+    @PostMapping("/updateContact")
+    public Result updateContact(@RequestBody WechatFriendReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Info.class);
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.UPDATE_CONTACT);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                .add(OptionKey.WXID, vo.getFriendId())
+                .getOption());
+        return RouteUtils.send(sMsg);
     }
 
     /**
@@ -88,7 +93,14 @@ public class WechatFriendController {
     @PostMapping("/delFriend")
     public Result delFriend(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Delete.class);
-        return wechatFriendService.delFriend(vo);
+        SendMsg sendMsg = new SendMsg();
+        sendMsg.setApi(ApiType.DEL_FRIEND);
+        sendMsg.setSendId(vo.getWechatId());
+        sendMsg.setOption(Option.option()
+                .add(OptionKey.WXID, vo.getFriendId())
+                .getOption());
+        // 通知netty服务端
+        return RouteUtils.send(sendMsg);
     }
 
     /**
@@ -103,7 +115,7 @@ public class WechatFriendController {
     }
 
     /**
-     * 接收加好友请求
+     * 接受加好友请求
      * @param vo
      * @return
      */
@@ -116,12 +128,34 @@ public class WechatFriendController {
         sMsg.setOption(Option.option()
                 .add(OptionKey.V1, vo.getV1())
                 .add(OptionKey.V2, vo.getV2())
-                // 好友来源，接收到的加好友请求XML信息中有
                 .add(OptionKey.SCENE, vo.getScene())
                 .getOption());
         return RouteUtils.send(sMsg);
     }
 
+    /**
+     * 通过手机号/微信号/QQ号查询任意微信号信息
+     * @param vo
+     * @return
+     */
+    @PostMapping("/searchContact")
+    public Result searchContact(@RequestBody WechatFriendReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Info.class, BaseReqVo.Search.class);
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.ACCEPT_FRIEND);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                .add(OptionKey.SEARCH, vo.getSearch())
+                .getOption());
+        return RouteUtils.send(sMsg);
+    }
+
+
+    @PostMapping("/addSearchContact")
+    public Result addSearchContact(@RequestBody WechatFriendReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Add.class);
+        return wechatFriendService.addSearchContact(vo);
+    }
 
 
     /**

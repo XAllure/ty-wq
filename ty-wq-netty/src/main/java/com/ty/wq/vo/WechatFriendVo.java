@@ -57,4 +57,10 @@ public class WechatFriendVo {
     /** 用户v2 */
     private String v2;
 
+    /** 查询任意微信时的查询内容 */
+    private String search;
+
+    /** 查询任意微信时的是否好友 */
+    private String isFriend;
+
 }

@@ -74,7 +74,6 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
      */
     @Override
     public Result addFriend(WechatFriendReqVo vo) {
-        WechatFriend wechatFriend = OrikaUtils.convert(vo, WechatFriend.class);
         SendMsg sendMsg = new SendMsg();
         sendMsg.setApi(ApiType.ADD_FRIEND);
         sendMsg.setSendId(vo.getWechatId());
@@ -90,12 +89,15 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
             // 如果之前添加过
             WechatFriend wf = getByWechatIdAndFriendId(vo.getWechatId(), vo.getFriendId());
             if (wf != null) {
-                wf.setStatus(WechatEnum.FRIEND_NORMAL.getCode());
-                wf.setScene(vo.getScene());
-                wf.setDeleted(0);
-                updateById(wf);
+                if (!wf.getStatus().equals(WechatEnum.FRIEND_NORMAL.getCode())) {
+                    wf.setStatus(WechatEnum.FRIEND_NEW.getCode());
+                    wf.setScene(vo.getScene());
+                    wf.setDeleted(0);
+                    updateById(wf);
+                }
             } else {
                 // 没有添加过
+                WechatFriend wechatFriend = OrikaUtils.convert(vo, WechatFriend.class);
                 wechatFriend.setStatus(WechatEnum.FRIEND_NEW.getCode());
                 insert(wechatFriend);
             }
@@ -104,26 +106,41 @@ public class WechatFriendServiceImpl extends BaseServiceImpl<WechatFriend, Wecha
     }
 
     /**
-     * 删除好友
+     * 添加通过任意手机号/微信号/QQ号查询的联系人
      * @param vo
-     * @return res
+     * @return
      */
     @Override
-    public Result delFriend(WechatFriendReqVo vo) {
+    public Result addSearchContact(WechatFriendReqVo vo) {
         SendMsg sendMsg = new SendMsg();
-        sendMsg.setApi(ApiType.DEL_FRIEND);
+        sendMsg.setApi(ApiType.ADD_FRIEND);
         sendMsg.setSendId(vo.getWechatId());
         sendMsg.setOption(Option.option()
-                .add(OptionKey.WXID, vo.getFriendId())
+                .add(OptionKey.V1, vo.getV1())
+                .add(OptionKey.V2, vo.getV2())
+                .add(OptionKey.REMARK, vo.getRemark())
+                .add(OptionKey.SCENE, vo.getScene())
                 .getOption());
         // 通知netty服务端
         Result res = RouteUtils.send(sendMsg);
         if (res.getCode().equals(CodeEnum.SUCCESS.getCode())) {
-            WechatFriend wechatFriend = getByWechatIdAndFriendId(vo.getWechatId(), vo.getFriendId());
-            wechatFriend.setStatus(WechatEnum.FRIEND_DELETED.getCode());
-            delete(wechatFriend);
+            // 如果之前添加过
+            WechatFriend wf = getByWechatIdAndFriendId(vo.getWechatId(), vo.getFriendId());
+            if (wf != null) {
+                if (!wf.getStatus().equals(WechatEnum.FRIEND_NORMAL.getCode())) {
+                    wf.setStatus(WechatEnum.FRIEND_NEW.getCode());
+                    wf.setScene(vo.getScene());
+                    wf.setDeleted(0);
+                    updateById(wf);
+                }
+            } else {
+                // 没有添加过
+                WechatFriend wechatFriend = OrikaUtils.convert(vo, WechatFriend.class);
+                wechatFriend.setStatus(WechatEnum.FRIEND_NEW.getCode());
+                insert(wechatFriend);
+            }
         }
-        return res;
+        return null;
     }
 
     /**

@@ -82,5 +82,8 @@ public interface OptionKey {
 
     String CODE = "code";
 
+    /** 要查询的手机号/微信号/QQ号 */
+    String SEARCH = "search";
+
 
 }

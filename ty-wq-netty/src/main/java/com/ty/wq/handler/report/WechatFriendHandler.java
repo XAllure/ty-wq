@@ -1,5 +1,4 @@
 package com.ty.wq.handler.report;
-import java.sql.Timestamp;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -13,6 +12,7 @@ import com.ty.wq.service.client.WechatFriendService;
 import com.ty.wq.service.client.WechatService;
 import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.SendUtils;
+import com.ty.wq.vo.WechatFriendAddVo;
 import com.ty.wq.vo.WechatFriendVo;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
@@ -37,55 +37,180 @@ public class WechatFriendHandler {
     @Autowired
     private WechatFriendService wechatFriendService;
 
+    /**
+     * 上报普通好友列表
+     * @param rMsg
+     */
     @Async
-    public void friendListHandler(Channel channel, ReceiveMsg rMsg) {
+    public void friendListHandler(ReceiveMsg rMsg) {
         JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
         // 获取好友列表
         JSONArray friendList = data.getJSONArray("friendList");
         // 转换
         List<WechatFriendVo> vos = OrikaUtils.converts(friendList, WechatFriendVo.class);
         List<WechatFriend> friends = new ArrayList<>();
+        // 暂时一个个循环判断
         vos.forEach(vo -> {
             // 查询是否已有该好友
             WechatFriend friend = wechatFriendService.getByWechatIdAndFriendId(rMsg.getCwxid(), vo.getWxid());
-            // 查询微信信息
-            Wechat wechat = wechatService.findByWechatId(rMsg.getCwxid());
-            // 有该好友
+            // 有该好友 更新
             if (friend != null) {
-                friend.setFriendWeChatNo(vo.getAlias());
-                friend.setFriendWeChatNick(vo.getNick());
-                friend.setHeadPic(vo.getHeadPic());
-                friend.setGender(vo.getSex());
-                friend.setCountry(vo.getCountry());
-                friend.setProvince(vo.getProvince());
-                friend.setCity(vo.getCity());
-                friend.setCompanyId(wechat.getCompanyId());
-                friend.setDepartmentId(wechat.getDepartmentId());
-                friend.setRemarkName(vo.getRemark());
+                setFriend(rMsg.getCwxid(), vo, friend);
                 wechatFriendService.updateById(friend);
             } else {
-                // 没有该好友
+                // 无该好友
                 friend = new WechatFriend();
                 friend.setWechatId(rMsg.getCwxid());
                 friend.setFriendId(vo.getWxid());
-                friend.setFriendWeChatNo(vo.getAlias());
-                friend.setFriendWeChatNick(vo.getNick());
-                friend.setHeadPic(vo.getHeadPic());
-                friend.setGender(vo.getSex());
-                friend.setCountry(vo.getCountry());
-                friend.setProvince(vo.getProvince());
-                friend.setCity(vo.getCity());
-                friend.setCompanyId(wechat.getCompanyId());
-                friend.setDepartmentId(wechat.getDepartmentId());
-                friend.setRemarkName(vo.getRemark());
+                friend.setWechatId(rMsg.getCwxid());
                 friend.setStatus(WechatEnum.FRIEND_NORMAL.getCode());
-                friend.setTop(WechatEnum.FRIEND_NOT_TOP.getCode());
-                friend.setDisturb(WechatEnum.FRIEND_NOT_DISTURB.getCode());
+                friend.setFriendId(vo.getWxid());
+                setFriend(rMsg.getCwxid(), vo, friend);
                 wechatFriendService.insert(friend);
             }
             friends.add(friend);
         });
         List<WechatFriendRespVo> respVos = OrikaUtils.converts(friends, WechatFriendRespVo.class);
         SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVos);
+    }
+
+    /**
+     * 上报单个普通好友信息
+     * @param rMsg
+     */
+    @Async
+    public void friendInfoHandler(ReceiveMsg rMsg) {
+        JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
+        WechatFriendVo vo = OrikaUtils.convert(data, WechatFriendVo.class);
+        // 查询是否已有该好友
+        WechatFriend friend = wechatFriendService.getByWechatIdAndFriendId(rMsg.getCwxid(), vo.getWxid());
+        if (friend != null) {
+            setFriend(rMsg.getCwxid(), vo, friend);
+            wechatFriendService.updateById(friend);
+            WechatFriendRespVo respVo = OrikaUtils.convert(friend, WechatFriendRespVo.class);
+            SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVo);
+        }
+    }
+
+    /**
+     * 上报任意普通微信反查详细信息
+     * @param rMsg
+     */
+    @Async
+    public void updateContactHandler(ReceiveMsg rMsg) {
+        JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
+        WechatFriendVo vo = OrikaUtils.convert(data, WechatFriendVo.class);
+        // 查询是否已有该好友
+        WechatFriend friend = wechatFriendService.getByWechatIdAndFriendId(rMsg.getCwxid(), vo.getWxid());
+        if (friend != null) {
+            // 赋值
+            setFriend(rMsg.getCwxid(), vo, friend);
+            friend.setSignature(vo.getSignature());
+            friend.setSnsPic(vo.getSnspic());
+            friend.setScene(vo.getScene());
+            friend.setV1(vo.getV1());
+            friend.setV2(vo.getV2());
+            wechatFriendService.updateById(friend);
+            WechatFriendRespVo respVo = OrikaUtils.convert(friend, WechatFriendRespVo.class);
+            SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVo);
+        }
+    }
+
+    /**
+     * 上报联系人新增通知
+     * @param rMsg
+     */
+    @Async
+    public void addFriendHandler(ReceiveMsg rMsg) {
+        JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
+        WechatFriendVo vo = OrikaUtils.convert(data, WechatFriendVo.class);
+        WechatFriend friend = wechatFriendService.getByWechatIdAndFriendId(rMsg.getCwxid(), vo.getWxid());
+        friend.setStatus(WechatEnum.FRIEND_NEW.getCode());
+        setFriend(rMsg.getCwxid(), vo, friend);
+        wechatFriendService.updateById(friend);
+        WechatFriendRespVo respVo = OrikaUtils.convert(friend, WechatFriendRespVo.class);
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVo);
+    }
+
+    /**
+     * 上报联系人删除通知
+     * @param rMsg
+     */
+    @Async
+    public void delFriendHandler(ReceiveMsg rMsg) {
+        JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
+        WechatFriendVo vo = OrikaUtils.convert(data, WechatFriendVo.class);
+        WechatFriend friend = wechatFriendService.getByWechatIdAndFriendId(rMsg.getCwxid(), vo.getWxid());
+        friend.setStatus(WechatEnum.CHATROOM_DELETED.getCode());
+        wechatFriendService.updateById(friend);
+        WechatFriendRespVo respVo = OrikaUtils.convert(friend, WechatFriendRespVo.class);
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVo);
+    }
+
+    /**
+     * 上报新的加好友请求
+     * @param rMsg
+     */
+    @Async
+    public void friendAddRequestHandler(ReceiveMsg rMsg) {
+        JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
+        WechatFriendAddVo addVo = OrikaUtils.convert(data, WechatFriendAddVo.class);
+        WechatFriend friend = new WechatFriend();
+        friend.setWechatId(rMsg.getCwxid());
+        friend.setFriendId(addVo.getWxidFrom());
+        friend.setStatus(WechatEnum.FRIEND_NEW.getCode());
+        // 后续再操作
+        // addVo.getXmlmsg() 里获取 scene 信息
+        //friend.setScene();
+        // addVo.getXmlmsg() 里获取 v1 信息
+        //friend.setV1();
+        // addVo.getXmlmsg() 里获取 v2 信息
+        //friend.setV2();
+        wechatFriendService.insert(friend);
+        WechatFriendRespVo respVo = OrikaUtils.convert(friend, WechatFriendRespVo.class);
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVo);
+    }
+
+    /**
+     * 上报加好友指令返回状态
+     * @param rMsg
+     */
+    @Async
+    public void addFriendMessageHandler(ReceiveMsg rMsg) {
+        JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), data);
+    }
+
+    /**
+     * 上报通过手机号/微信号/QQ号查询任意微信号信息
+     * @param rMsg
+     */
+    @Async
+    public void searchContactHandler(ReceiveMsg rMsg) {
+        JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
+        WechatFriendVo vo = OrikaUtils.convert(data, WechatFriendVo.class);
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), vo);
+    }
+
+    /**
+     * 赋值
+     * @param wechatId
+     * @param vo
+     * @param friend
+     */
+    private void setFriend(String wechatId, WechatFriendVo vo, WechatFriend friend) {
+        // 查询微信信息
+        Wechat wechat = wechatService.findByWechatId(wechatId);
+        // 赋值
+        friend.setFriendWeChatNo(vo.getAlias());
+        friend.setFriendWeChatNick(vo.getNick());
+        friend.setHeadPic(vo.getHeadPic());
+        friend.setGender(vo.getSex());
+        friend.setCountry(vo.getCountry());
+        friend.setProvince(vo.getProvince());
+        friend.setCity(vo.getCity());
+        friend.setCompanyId(wechat.getCompanyId());
+        friend.setDepartmentId(wechat.getDepartmentId());
+        friend.setRemarkName(vo.getRemark());
     }
 }

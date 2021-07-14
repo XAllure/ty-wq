@@ -32,7 +32,7 @@ public class WechatFriendReqVo extends BaseReqVo {
     private String friendWeChatNo;
 
     /** 好友微信昵称 */
-    @NotBlank(message = "好友微信昵称不能为空", groups = {Add.class, Update.class})
+    // @NotBlank(message = "好友微信昵称不能为空", groups = {Add.class, Update.class})
     private String friendWeChatNick;
 
     /** 头像 */
@@ -104,5 +104,9 @@ public class WechatFriendReqVo extends BaseReqVo {
 
     /** 上次联系时间 */
     private String contactTime;
+
+    /** 要查询的手机号/微信号/QQ号 */
+    @NotBlank(message = "要查询的手机号/微信号/QQ号不能为空", groups = {Search.class})
+    private String search;
 
 }

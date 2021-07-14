@@ -19,6 +19,8 @@ spring:
     username: ${com.ty.db.username}
     password: ${com.ty.db.password}
     type: com.alibaba.druid.pool.DruidDataSource
+    hikari:
+      connection-init-sql: SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci
 
   #redis配置
   redis:

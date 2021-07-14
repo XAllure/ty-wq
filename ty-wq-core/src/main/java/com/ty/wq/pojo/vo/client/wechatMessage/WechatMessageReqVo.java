@@ -27,7 +27,7 @@ public class WechatMessageReqVo extends BaseReqVo {
     private String wechatId;
 
     /** 消息类型 1-文本 3-图片 4906-文件 43-视频 34-语音 47-gif表情 42-个人名片 48-位置消息 4905-链接消息 4933-小程序消息 4920-转账消息 */
-    @NotNull(message = "消息类型不能为空", groups = {Chat.class, At.class})
+    // @NotNull(message = "消息类型不能为空", groups = {Chat.class, At.class})
     private Integer msgType;
 
     /** 是否发送 1-发送 0-接受 */

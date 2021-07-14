@@ -1,8 +1,7 @@
 package com.ty.wq.handler.websocket;
 
 import com.ty.wq.constant.Action;
-import com.ty.wq.handler.report.WechatFriendHandler;
-import com.ty.wq.handler.report.LoginUserHandler;
+import com.ty.wq.handler.report.*;
 import com.ty.wq.pojo.vo.client.wechatMessage.ReceiveMsg;
 import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.utils.OrikaUtils;
@@ -27,6 +26,15 @@ public class ReceiveMsgHandler {
     @Autowired
     private WechatFriendHandler wechatFriendHandler;
 
+    @Autowired
+    private ChatRoomHandler chatRoomHandler;
+
+    @Autowired
+    private ChatRoomMemberHandler chatRoomMemberHandler;
+
+    @Autowired
+    private OtherHandler otherHandler;
+
     /**
      * 微信消息回调
      * @param msgVo
@@ -44,21 +52,66 @@ public class ReceiveMsgHandler {
                 }
                 // 上报普通好友列表
                 case Action.REPORT_CONTACTS: {
-                    wechatFriendHandler.friendListHandler(channel, rMsg);
+                    wechatFriendHandler.friendListHandler(rMsg);
+                    break;
+                }
+                // 上报单个普通好友信息
+                case Action.REPORT_SINGLE_CONTACT: {
+                    wechatFriendHandler.friendInfoHandler(rMsg);
+                    break;
+                }
+                // 上报任意普通微信反查详细信息
+                case Action.REPORT_UPDATE_CONTACT: {
+                    wechatFriendHandler.updateContactHandler(rMsg);
+                    break;
+                }
+                // 上报联系人新增通知
+                case Action.REPORT_CONTACT_ADD: {
+                    wechatFriendHandler.addFriendHandler(rMsg);
+                    break;
+                }
+                // 上报联系人删除通知
+                case Action.REPORT_CONTACT_DEL: {
+                    wechatFriendHandler.delFriendHandler(rMsg);
+                    break;
+                }
+                // 上报新的加好友请求
+                case Action.REPORT_FRIEND_ADD_REQUEST: {
+                    wechatFriendHandler.friendAddRequestHandler(rMsg);
+                    break;
+                }
+                // 上报加好友指令返回状态
+                case Action.REPORT_ADD_FRIEND_MESSAGE: {
+                    wechatFriendHandler.addFriendMessageHandler(rMsg);
+                    break;
+                }
+                // 上报通过手机号/微信号/QQ号查询任意微信号信息
+                case Action.REPORT_SEARCH_CONTACT: {
+                    wechatFriendHandler.searchContactHandler(rMsg);
+                    break;
+                }
+                // 上报普通群列表
+                case Action.REPORT_CHAT_ROOMS: {
+                    chatRoomHandler.chatRoomsHandler(rMsg);
+                    break;
+                }
+                // 上报单个普通群成员信息
+                case Action.REPORT_SINGLE_CHAT_ROOM_MEMBERS: {
+                    chatRoomMemberHandler.singleChatRoomMembersHandler(rMsg);
+                    break;
+                }
+
+
+
+
+                case Action.REPORT_TALKER_CHANGE: {
+                    otherHandler.talkerChangeHandler(rMsg);
                     break;
                 }
                 default: {
                     break;
                 }
             }
-            /*List<Channel> channels = ChannelUtils.getChannelsByWechatId(rMsg.getCwxid());
-            if (channels != null) {
-                for (Channel ch : channels) {
-                    msgVo.setType(rMsg.getAction());
-                    // 后续再进行详细处理
-                    MsgUtils.writeJson(ch, Message.success(msgVo));
-                }
-            }*/
         }
     }
 

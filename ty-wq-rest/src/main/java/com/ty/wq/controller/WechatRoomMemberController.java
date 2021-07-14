@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author Administrator
  */
@@ -37,8 +39,8 @@ public class WechatRoomMemberController {
     @PostMapping("/getSingleChatRoomMembers")
     public Result getSingleChatRoomMembers(@RequestBody WechatRoomMemberReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Info.class);
-        WechatRoomMember wechatRoomMember = wechatRoomMemberService.getSingleChatRoomMembers(vo);
-        WechatRoomMemberRespVo respVo = OrikaUtils.convert(wechatRoomMember, WechatRoomMemberRespVo.class);
+        List<WechatRoomMember> wechatRoomMember = wechatRoomMemberService.getSingleChatRoomMembers(vo);
+        List<WechatRoomMemberRespVo> respVo = OrikaUtils.converts(wechatRoomMember, WechatRoomMemberRespVo.class);
         return Result.success(respVo);
     }
 

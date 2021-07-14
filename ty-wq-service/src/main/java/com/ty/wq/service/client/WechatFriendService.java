@@ -52,11 +52,11 @@ public interface WechatFriendService extends BaseService<WechatFriend, WechatFri
     Result addFriend(WechatFriendReqVo vo);
 
     /**
-     * 删除好友
+     * 添加通过任意手机号/微信号/QQ号查询的联系人
      * @param vo
      * @return
      */
-    Result delFriend(WechatFriendReqVo vo);
+    Result addSearchContact(WechatFriendReqVo vo);
 
     /**
      * 修改好友备注
@@ -82,6 +82,7 @@ public interface WechatFriendService extends BaseService<WechatFriend, WechatFri
     /**
      * 是否免打扰
      * @param vo
+     * @return
      */
     Result toDisturb(WechatFriendReqVo vo);
 

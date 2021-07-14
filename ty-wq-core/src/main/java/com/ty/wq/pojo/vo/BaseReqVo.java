@@ -17,6 +17,7 @@ public class BaseReqVo implements Serializable {
     protected Long id;
 
     public interface Login{} // 登录
+    public interface Get{} // 获取
     public interface Add{} // 添加
     public interface Update{} // 修改
     public interface Delete{} //删除
@@ -30,5 +31,6 @@ public class BaseReqVo implements Serializable {
     public interface Disturb{} // 免打扰
     public interface Out{} // 踢群成员
     public interface Invite{} //邀请群成员
+    public interface Search{} //邀请群成员
 
 }

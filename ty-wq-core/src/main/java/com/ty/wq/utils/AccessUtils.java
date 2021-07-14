@@ -19,7 +19,9 @@ public class AccessUtils {
         String token = request.getHeader(WsTokenUtils.WQ_TOKEN_HEADER);
         Object obj = RedisUtils.get(Constants.WQ_USER_LOGIN_KEY + token);
         if (obj == null) {
-            return null;
+            // 测试用
+            return 1L;
+            // return null;
         }
         return Long.valueOf(obj.toString());
     }

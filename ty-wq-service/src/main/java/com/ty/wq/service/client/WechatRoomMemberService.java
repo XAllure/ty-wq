@@ -36,7 +36,7 @@ public interface WechatRoomMemberService extends BaseService<WechatRoomMember, W
      * @param vo
      * @return
      */
-    WechatRoomMember getSingleChatRoomMembers(WechatRoomMemberReqVo vo);
+    List<WechatRoomMember> getSingleChatRoomMembers(WechatRoomMemberReqVo vo);
 
     /**
      * 删除群时根据群id删除群成员

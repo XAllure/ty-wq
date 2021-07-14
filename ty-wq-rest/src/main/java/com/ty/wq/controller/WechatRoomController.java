@@ -31,6 +31,19 @@ public class WechatRoomController {
 
     /**
      * 获取普通群列表
+     * @return
+     */
+    @PostMapping("/getChatRooms")
+    public Result getChatRooms(@RequestBody WechatRoomReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Get.class);
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.GET_CHAT_ROOMS);
+        sMsg.setSendId(vo.getWechatId());
+        return RouteUtils.send(sMsg);
+    }
+
+    /**
+     * 获取普通群列表
      * @param wechatId
      * @return
      */

@@ -36,7 +36,6 @@ public class WechatRoomMemberServiceImpl extends BaseServiceImpl<WechatRoomMembe
 
     /**
      * 通过微信id和群id查询
-     *
      * @param wechatId
      * @param chatRoomId
      * @return
@@ -56,8 +55,11 @@ public class WechatRoomMemberServiceImpl extends BaseServiceImpl<WechatRoomMembe
      * @return
      */
     @Override
-    public WechatRoomMember getSingleChatRoomMembers(WechatRoomMemberReqVo vo) {
-        return getByWechatIdAndChatRoomId(vo.getWechatId(), vo.getChatRoomId());
+    public List<WechatRoomMember> getSingleChatRoomMembers(WechatRoomMemberReqVo vo) {
+        QueryWrapper<WechatRoomMember> qw =new QueryWrapper<>();
+        qw.eq("chat_room_id", vo.getChatRoomId())
+                .eq("status", WechatEnum.CHATROOM_MEMBER_NORMAL.getCode());
+        return findList(qw);
     }
 
     /**

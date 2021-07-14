@@ -24,7 +24,7 @@ public class WechatRoomReqVo extends BaseReqVo {
 
     private static final long serialVersionUID = -1L;
 
-    @NotBlank(message = "微信ID不能为空", groups = {Add.class, Update.class, Delete.class, Out.class})
+    @NotBlank(message = "微信ID不能为空", groups = {Get.class, Add.class, Update.class, Delete.class, Out.class})
     private String wechatId;
 
     @NotBlank(message = "群微信ID不能为空", groups = {Delete.class, Update.class, Out.class})

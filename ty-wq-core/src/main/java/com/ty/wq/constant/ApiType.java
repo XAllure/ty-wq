@@ -15,6 +15,9 @@ public interface ApiType {
     /** 获取单个普通好友信息 */
     String GET_SINGLE_CONTACT = "getSingleContact";
 
+    /** 获取任意普通微信反查详细信息 */
+    String UPDATE_CONTACT = "updateContact";
+
     /** 添加好友 */
     String ADD_FRIEND = "addFriend";
 
