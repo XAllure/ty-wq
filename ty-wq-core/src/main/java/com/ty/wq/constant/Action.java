@@ -41,4 +41,28 @@ public interface Action {
 
     /** 上报单个普通群成员信息 */
     String REPORT_SINGLE_CHAT_ROOM_MEMBERS = "reportSingleChatRoomMembers";
+
+    /** 上报群成员新增通知 */
+    String REPORT_CHAT_ROOM_MEMBER_ADD = "reportChatRoomMemberAdd";
+
+    /** 上报群成员删除通知 */
+    String REPORT_CHAT_ROOM_MEMBER_DEL = "reportChatRoomMemberDel";
+
+    /** 上报检测到的新群通知 */
+    String REPORT_NEW_CHAT_ROOM = "reportNewChatRoom";
+
+    /** 上报退群或被踢通知 */
+    String REPORT_CHAT_ROOM_QUIT = "reportChatRoomQuit";
+
+    /** 上报文本消息 */
+    String REPORT_TEXT_MESSAGE = "reportTextMessage";
+
+    /** 上报图片消息 */
+    String REPORT_PIC_MESSAGE = "reportPicMessage";
+
+    /** 上报文件消息 */
+    String REPORT_FILE_MESSAGE = "reportFileMessage";
+
+    /** 上报视频消息 */
+    String REPORT_VIDEO_MESSAGE = "reportVideoMessage";
 }

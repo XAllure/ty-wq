@@ -56,7 +56,34 @@ public class WechatMessageRespVo extends BaseRespVo {
     /** 部门ID */
     private Long departmentId;
 
+    /** 群内发送消息@用户列表 */
+    private String atList;
+
+    /** 图片本地路径 */
+    private String image;
+
+    /** 缩略图本地路径 */
+    private String imageThumb;
+
+    /** 文件下载后的本地路径 */
+    private String fileIndex;
+
+    /** 视频文件封面图片的本地路径 */
+    private String coverIndex;
+
+    /** 视频文件下载后的本地路径 */
+    private String videoIndex;
+
+    /** 语音文件下载后的本地路径 */
+    private String voiceIndex;
+
+    /** 语音转换后的本地路径 */
+    private String mp3Index;
+
     /** 消息时间戳 */
     private Long timestamp;
+
+    /** 微信原始的xml信息 */
+    private String xmlMsg;
 
 }

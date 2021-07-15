@@ -67,8 +67,6 @@ public enum WechatEnum {
     IS_PC(1, "是"),
     NOT_PC(0, "否"),
 
-    My_Msg(1, "我的消息"),
-
     ;
 
     private Integer code;

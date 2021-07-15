@@ -27,10 +27,13 @@ public class ReceiveMsgHandler {
     private WechatFriendHandler wechatFriendHandler;
 
     @Autowired
-    private ChatRoomHandler chatRoomHandler;
+    private WechatChatRoomHandler wechatChatRoomHandler;
 
     @Autowired
-    private ChatRoomMemberHandler chatRoomMemberHandler;
+    private WechatChatRoomMemberHandler wechatChatRoomMemberHandler;
+
+    @Autowired
+    private WechatMessageHandler wechatMessageHandler;
 
     @Autowired
     private OtherHandler otherHandler;
@@ -92,15 +95,42 @@ public class ReceiveMsgHandler {
                 }
                 // 上报普通群列表
                 case Action.REPORT_CHAT_ROOMS: {
-                    chatRoomHandler.chatRoomsHandler(rMsg);
+                    wechatChatRoomHandler.chatRoomsHandler(rMsg);
                     break;
                 }
                 // 上报单个普通群成员信息
                 case Action.REPORT_SINGLE_CHAT_ROOM_MEMBERS: {
-                    chatRoomMemberHandler.singleChatRoomMembersHandler(rMsg);
+                    wechatChatRoomMemberHandler.singleChatRoomMembersHandler(rMsg);
                     break;
                 }
-
+                // 上报群成员新增通知
+                case Action.REPORT_CHAT_ROOM_MEMBER_ADD: {
+                    wechatChatRoomHandler.chatRoomMemberAddHandler(rMsg);
+                    break;
+                }
+                // 上报群成员删除通知
+                case Action.REPORT_CHAT_ROOM_MEMBER_DEL: {
+                    wechatChatRoomHandler.chatRoomMemberDelHandler(rMsg);
+                    break;
+                }
+                // 上报检测到的新群通知
+                case Action.REPORT_NEW_CHAT_ROOM: {
+                    wechatChatRoomHandler.newChatRoomHandler(rMsg);
+                    break;
+                }
+                // 上报退群或被踢通知
+                case Action.REPORT_CHAT_ROOM_QUIT: {
+                    wechatChatRoomHandler.chatRoomQuitHandler(rMsg);
+                    break;
+                }
+                case Action.REPORT_TEXT_MESSAGE: {
+                    wechatMessageHandler.textMessageHandler(rMsg);
+                    break;
+                }
+                case Action.REPORT_PIC_MESSAGE: {
+                    wechatMessageHandler.picMessageHandler(rMsg);
+                    break;
+                }
 
 
 

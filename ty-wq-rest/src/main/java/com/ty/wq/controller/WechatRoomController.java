@@ -2,6 +2,7 @@ package com.ty.wq.controller;
 
 import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.OptionKey;
+import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
@@ -78,7 +79,16 @@ public class WechatRoomController {
     @PostMapping("/quitDelChatRoom")
     public Result quitDelChatRoom(@RequestBody WechatRoomReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Delete.class);
-        return wechatRoomService.quitDelChatRoom(vo);
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.QUIT_DEL_CHAT_ROOM);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                .add(OptionKey.ROOM_WXID, vo.getChatRoomId())
+                .getOption());
+        // 通知netty服务端
+        Result res = RouteUtils.send(sMsg);
+        // wechatRoomService.quitDelChatRoom(vo.getWechatId(), vo.getChatRoomId());
+        return res;
     }
 
     /**
@@ -89,7 +99,19 @@ public class WechatRoomController {
     @PostMapping("/updateChatRoomName")
     public Result updateChatRoomName(@RequestBody WechatRoomReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Delete.class);
-        return wechatRoomService.updateChatRoomName(vo);
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.UPDATE_CHAT_ROOM_NAME);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                .add(OptionKey.ROOM_WXID, vo.getChatRoomId())
+                .add(OptionKey.NAME, vo.getChatRoomName())
+                .getOption());
+        // 通知netty服务端
+        Result res = RouteUtils.send(sMsg);
+        if (res.getCode().equals(CodeEnum.SUCCESS.getCode())) {
+            wechatRoomService.updateChatRoomName(vo);
+        }
+        return res;
     }
 
     /**

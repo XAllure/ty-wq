@@ -14,7 +14,6 @@ import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.SendUtils;
 import com.ty.wq.vo.WechatFriendAddVo;
 import com.ty.wq.vo.WechatFriendVo;
-import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;

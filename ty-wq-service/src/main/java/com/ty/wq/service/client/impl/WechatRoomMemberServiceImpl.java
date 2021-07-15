@@ -1,22 +1,13 @@
 package com.ty.wq.service.client.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ty.wq.constant.ApiType;
-import com.ty.wq.constant.OptionKey;
 import com.ty.wq.dao.client.WechatRoomMemberDao;
-import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.enums.WechatEnum;
-import com.ty.wq.pojo.vo.Result;
-import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
 import com.ty.wq.pojo.vo.client.wechatRoomMember.WechatRoomMemberReqVo;
 import com.ty.wq.pojo.vo.client.wechatRoomMember.WechatRoomMemberSearchVo;
 import com.ty.wq.pojo.po.client.WechatRoomMember;
-import com.ty.wq.pojo.vo.netty.Option;
 import com.ty.wq.service.client.WechatRoomMemberService;
 import com.ty.wq.service.base.impl.BaseServiceImpl;
-import com.ty.wq.service.client.WechatRoomService;
-import com.ty.wq.utils.RouteUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,9 +21,6 @@ import java.util.List;
  */
 @Service
 public class WechatRoomMemberServiceImpl extends BaseServiceImpl<WechatRoomMember, WechatRoomMemberDao, WechatRoomMemberSearchVo> implements WechatRoomMemberService {
-
-    @Autowired
-    private WechatRoomService wechatRoomService;
 
     /**
      * 通过微信id和群id查询
@@ -86,43 +74,13 @@ public class WechatRoomMemberServiceImpl extends BaseServiceImpl<WechatRoomMembe
     }
 
     /**
-     * 踢群成员
-     * @param vo
-     * @return res
-     */
-    @Override
-    public Result delChatRoomMembers(WechatRoomMemberReqVo vo) {
-        SendMsg sMsg = new SendMsg();
-        sMsg.setApi(ApiType.DEL_CHAT_ROOM_MEMBERS);
-        sMsg.setSendId(vo.getWechatId());
-        sMsg.setOption(Option.option()
-                .add(OptionKey.WXID_LIST, vo.getWxidList())
-                .add(OptionKey.ROOM_WXID, vo.getChatRoomId())
-                .getOption());
-        Result res = RouteUtils.send(sMsg);
-        if (res.getCode().equals(CodeEnum.SUCCESS.getCode())) {
-            wechatRoomService.deleteByWechatIdsAndChatRoomId(vo.getWxidList(), vo.getChatRoomId());
-            deleteByWechatIdsAndChatRoomId(vo.getWxidList(), vo.getChatRoomId());
-        }
-        return res;
-    }
-
-    /**
      * 修改我在本群的昵称
      * @param vo
-     * @return
      */
     @Override
-    public Result updateChatRoomDisplayName(WechatRoomMemberReqVo vo) {
-        SendMsg sMsg = new SendMsg();
-        sMsg.setApi(ApiType.UPDATE_CHAT_ROOM_DISPLAY_NAME);
-        sMsg.setSendId(vo.getWechatId());
-        sMsg.setOption(Option.option()
-                .add(OptionKey.ROOM_WXID, vo.getChatRoomId())
-                .add(OptionKey.NICK, vo.getDisplayName())
-                .getOption());
-        // 通知netty服务端
-        Result res = RouteUtils.send(sMsg);
-        return null;
+    public void updateChatRoomDisplayName(WechatRoomMemberReqVo vo) {
+        WechatRoomMember member = getByWechatIdAndChatRoomId(vo.getWechatId(), vo.getChatRoomId());
+        member.setDisplayName(vo.getDisplayName());
+        updateById(member);
     }
 }

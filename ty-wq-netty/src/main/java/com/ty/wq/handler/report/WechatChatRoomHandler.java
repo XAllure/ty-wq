@@ -23,6 +23,7 @@ import com.ty.wq.utils.ChannelUtils;
 import com.ty.wq.utils.MsgUtils;
 import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.SendUtils;
+import com.ty.wq.vo.ChatRoomMemberVo;
 import com.ty.wq.vo.ChatRoomVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class ChatRoomHandler {
+public class WechatChatRoomHandler {
 
     @Autowired
     private WechatService wechatService;
@@ -73,7 +74,6 @@ public class ChatRoomHandler {
                 wechatRoom = new WechatRoom();
                 wechatRoom.setWechatId(rMsg.getCwxid());
                 wechatRoom.setChatRoomId(roomVo.getWxid());
-                wechatRoom.setStatus(WechatEnum.CHATROOM_NORMAL.getCode());
                 setWechatRoom(rMsg.getCwxid(), roomVo, wechatRoom);
                 // 插入
                 wechatRoomService.insert(wechatRoom);
@@ -103,6 +103,84 @@ public class ChatRoomHandler {
     }
 
     /**
+     * 上报群成员新增通知
+     * @param rMsg
+     */
+    @Async
+    public void chatRoomMemberAddHandler(ReceiveMsg rMsg) {
+        JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
+        ChatRoomVo roomVo = OrikaUtils.convert(data, ChatRoomVo.class);
+        getMembers(rMsg.getCwxid(), roomVo.getWxid());
+        WechatRoom wechatRoom = wechatRoomService.findByWechatIdAndChatRoomId(rMsg.getCwxid(), roomVo.getWxid());
+        // 赋值
+        setWechatRoom(rMsg.getCwxid(), roomVo, wechatRoom);
+        // 更新
+        wechatRoomService.updateById(wechatRoom);
+        // 发送邀请人邀请入群信息
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), JSON.parseArray(roomVo.getUserLists()));
+    }
+
+    /**
+     * 上报群成员删除通知
+     * @param rMsg
+     */
+    @Async
+    public void chatRoomMemberDelHandler(ReceiveMsg rMsg) {
+        JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
+        ChatRoomVo roomVo = OrikaUtils.convert(data, ChatRoomVo.class);
+        WechatRoom wechatRoom = wechatRoomService.findByWechatIdAndChatRoomId(rMsg.getCwxid(), roomVo.getWxid());
+        // 赋值
+        setWechatRoom(rMsg.getCwxid(), roomVo, wechatRoom);
+        // 更新
+        wechatRoomService.updateById(wechatRoom);
+        // 列出被删除的成员
+        JSONArray userLists = JSON.parseArray(roomVo.getUserLists());
+        List<ChatRoomMemberVo> memberVos = OrikaUtils.converts(userLists, ChatRoomMemberVo.class);
+        List<String> wechatIds = new ArrayList<>();
+        for (ChatRoomMemberVo memberVo : memberVos) {
+            wechatIds.add(memberVo.getWxid());
+        }
+        // 删除群成员
+        wechatRoomMemberService.deleteByWechatIdsAndChatRoomId(wechatIds, roomVo.getWxid());
+        // 通知
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), userLists);
+    }
+
+    /**
+     * 上报检测到的新群通知
+     * @param rMsg
+     */
+    @Async
+    public void newChatRoomHandler(ReceiveMsg rMsg) {
+        JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
+        ChatRoomVo roomVo = OrikaUtils.convert(data, ChatRoomVo.class);
+        getMembers(rMsg.getCwxid(), roomVo.getWxid());
+        WechatRoom wechatRoom = new WechatRoom();
+        wechatRoom.setWechatId(rMsg.getCwxid());
+        wechatRoom.setChatRoomId(roomVo.getWxid());
+        setWechatRoom(rMsg.getCwxid(), roomVo, wechatRoom);
+        // 插入
+        wechatRoomService.insert(wechatRoom);
+        // 通知
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), roomVo);
+    }
+
+    /**
+     * 上报退群或被踢通知
+     * @param rMsg
+     */
+    @Async
+    public void chatRoomQuitHandler(ReceiveMsg rMsg) {
+        JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
+        String chatRoomId = data.getString("roomWxid");
+        wechatRoomService.quitDelChatRoom(rMsg.getCwxid(), chatRoomId);
+        // 通知
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), chatRoomId);
+    }
+
+
+
+    /**
      * 赋值
      * @param roomVo
      * @param wechatRoom
@@ -121,6 +199,8 @@ public class ChatRoomHandler {
         wechatRoom.setIsOwner(roomVo.getIsowner());
         wechatRoom.setCompanyId(wechat.getCompanyId());
         wechatRoom.setDepartmentId(wechat.getDepartmentId());
+        wechatRoom.setStatus(WechatEnum.CHATROOM_NORMAL.getCode());
+        wechatRoom.setDeleted(0);
     }
 
 

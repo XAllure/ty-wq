@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class ChatRoomMemberHandler {
+public class WechatChatRoomMemberHandler {
 
     @Autowired
     private WechatRoomService wechatRoomService;
@@ -53,22 +53,21 @@ public class ChatRoomMemberHandler {
                 wechatRoomMemberService.updateById(member);
             } else {
                 member = new WechatRoomMember();
+                member.setWechatId(memberVo.getWxid());
                 member.setChatRoomId(membersVo.getWxid());
-                member.setStatus(WechatEnum.CHATROOM_MEMBER_NORMAL.getCode());
                 setChatRoomMembers(rMsg.getCwxid(), membersVo, memberVo, member);
                 wechatRoomMemberService.insert(member);
             }
             members.add(member);
         }
-        /*List<WechatRoomMemberRespVo> respVos = OrikaUtils.converts(members, WechatRoomMemberRespVo.class);
-        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVos);*/
+        List<WechatRoomMemberRespVo> respVos = OrikaUtils.converts(members, WechatRoomMemberRespVo.class);
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVos);
     }
 
     private void setChatRoomMembers(String wechatId, ChatRoomMembersVo membersVo, ChatRoomMemberVo memberVo, WechatRoomMember member) {
         // 获取群主id
         WechatRoom wechatRoom = wechatRoomService.findByWechatIdAndChatRoomId(wechatId, membersVo.getWxid());
         member.setOwnerWechatId(wechatRoom.getOwner());
-        member.setWechatId(memberVo.getWxid());
         member.setWechatNo(memberVo.getAlias());
         member.setWechatNick(memberVo.getNick());
         member.setHeadPic(memberVo.getHeadPic());
@@ -80,6 +79,8 @@ public class ChatRoomMemberHandler {
         member.setRemark(memberVo.getRemark());
         member.setCompanyId(wechatRoom.getCompanyId());
         member.setDepartmentId(wechatRoom.getDepartmentId());
+        member.setStatus(WechatEnum.CHATROOM_MEMBER_NORMAL.getCode());
+        member.setDeleted(0);
     }
 
 }

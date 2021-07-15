@@ -15,7 +15,7 @@ public class GenerateUtils {
     public static final String GENERATE_CODES = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     public static final String GENERATE_SIMPLE_CODES = "23456789ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz";
     public static final String NUMBER_CODES = "0123456789";
-    private static Random RANDOM = new Random();
+    private static final Random RANDOM = new Random();
 
     /**
      * 使用系统默认字符源生成验证码

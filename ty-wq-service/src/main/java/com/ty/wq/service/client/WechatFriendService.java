@@ -2,7 +2,6 @@ package com.ty.wq.service.client;
 
 import com.ty.wq.dao.client.WechatFriendDao;
 import com.ty.wq.pojo.po.client.WechatFriend;
-import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendReqVo;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendRespVo;
 import com.ty.wq.service.base.BaseService;
@@ -47,24 +46,14 @@ public interface WechatFriendService extends BaseService<WechatFriend, WechatFri
     /**
      * 添加好友
      * @param vo
-     * @return
      */
-    Result addFriend(WechatFriendReqVo vo);
-
-    /**
-     * 添加通过任意手机号/微信号/QQ号查询的联系人
-     * @param vo
-     * @return
-     */
-    Result addSearchContact(WechatFriendReqVo vo);
+    void addFriend(WechatFriendReqVo vo);
 
     /**
      * 修改好友备注
      * @param vo
-     * @return
      */
-    Result updateRemark(WechatFriendReqVo vo);
-
+    void updateRemark(WechatFriendReqVo vo);
 
     /**
      * 修改好友部分信息
@@ -75,15 +64,13 @@ public interface WechatFriendService extends BaseService<WechatFriend, WechatFri
     /**
      * 是否置顶
      * @param vo
-     * @return
      */
-    Result toTop(WechatFriendReqVo vo);
+    void toTop(WechatFriendReqVo vo);
 
     /**
      * 是否免打扰
      * @param vo
-     * @return
      */
-    Result toDisturb(WechatFriendReqVo vo);
+    void toDisturb(WechatFriendReqVo vo);
 
 }

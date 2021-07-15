@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
+import com.gitee.sunchenbin.mybatis.actable.annotation.Unique;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import com.ty.wq.pojo.po.BasePo;
 import lombok.Data;
@@ -34,9 +35,11 @@ public class WechatMessage extends BasePo {
     @Column( type = MySqlTypeConstant.INT, length = 1, comment = "是否pc端发出 1-是 0-否")
     private Integer isPc;
 
+    @Unique
     @Column( type = MySqlTypeConstant.VARCHAR, length = 64, comment = "消息ID")
     private String msgId;
 
+    @Unique
     @Column( type = MySqlTypeConstant.VARCHAR, length = 64, comment = "服务端消息ID")
     private String msgSvrId;
 

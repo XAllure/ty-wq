@@ -2,10 +2,7 @@ package com.ty.wq.service.client;
 
 import com.ty.wq.dao.client.WechatRoomMemberDao;
 import com.ty.wq.pojo.po.client.WechatRoomMember;
-import com.ty.wq.pojo.vo.Result;
-import com.ty.wq.pojo.vo.client.wechatRoom.WechatRoomReqVo;
 import com.ty.wq.pojo.vo.client.wechatRoomMember.WechatRoomMemberReqVo;
-import com.ty.wq.pojo.vo.client.wechatRoomMember.WechatRoomMemberRespVo;
 import com.ty.wq.service.base.BaseService;
 import com.ty.wq.pojo.vo.client.wechatRoomMember.WechatRoomMemberSearchVo;
 import org.springframework.stereotype.Service;
@@ -52,17 +49,10 @@ public interface WechatRoomMemberService extends BaseService<WechatRoomMember, W
     void deleteByWechatIdsAndChatRoomId(List<String> wechatIds, String chatRoomId);
 
     /**
-     * 踢群成员
-     * @param vo
-     * @return
-     */
-    Result delChatRoomMembers(WechatRoomMemberReqVo vo);
-
-    /**
      * 修改我在本群的昵称
      * @param vo
      * @return
      */
-    Result updateChatRoomDisplayName(WechatRoomMemberReqVo vo);
+    void updateChatRoomDisplayName(WechatRoomMemberReqVo vo);
 
 }

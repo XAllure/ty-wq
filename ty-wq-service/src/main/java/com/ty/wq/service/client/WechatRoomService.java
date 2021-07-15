@@ -2,7 +2,6 @@ package com.ty.wq.service.client;
 
 import com.ty.wq.dao.client.WechatRoomDao;
 import com.ty.wq.pojo.po.client.WechatRoom;
-import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatRoom.WechatRoomReqVo;
 import com.ty.wq.pojo.vo.client.wechatRoom.WechatRoomRespVo;
 import com.ty.wq.service.base.BaseService;
@@ -44,24 +43,17 @@ public interface WechatRoomService extends BaseService<WechatRoom, WechatRoomDao
     void deleteByChatRoomId(String chatRoomId);
 
     /**
-     * 据微信id列表和群id删除微信id列表的群
-     * @param wechatIds
+     * 退出并删除群
+     * @param wechatId
      * @param chatRoomId
      */
-    void deleteByWechatIdsAndChatRoomId(List<String> wechatIds, String chatRoomId);
-
-    /**
-     * 退出并删除群
-     * @param vo
-     * @return
-     */
-    Result quitDelChatRoom(WechatRoomReqVo vo);
+    void quitDelChatRoom(String wechatId, String chatRoomId);
 
     /**
      * 修改群名称
      * @param vo
      * @return
      */
-    Result updateChatRoomName(WechatRoomReqVo vo);
+    void updateChatRoomName(WechatRoomReqVo vo);
 
 }

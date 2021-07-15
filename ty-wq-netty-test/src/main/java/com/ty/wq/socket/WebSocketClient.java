@@ -79,7 +79,8 @@ public class WebSocketClient {
                 URI wsUri = new URI("ws://" + server.getPip() + ":" + server.getNport() + "/");
                 HttpHeaders httpHeaders = new DefaultHttpHeaders();
                 //进行握手
-                WebSocketClientHandshaker handshaker = WebSocketClientHandshakerFactory.newHandshaker(wsUri, WebSocketVersion.V13, (String) null, true, httpHeaders);
+                WebSocketClientHandshaker handshaker = WebSocketClientHandshakerFactory.newHandshaker(wsUri,
+                        WebSocketVersion.V13, null, true, httpHeaders);
 
                 ChannelFuture future = bootstrap.connect(wsUri.getHost(), wsUri.getPort()).sync();
                 log.info("netty客户端启动成功， 连接端口为：{}", server.getNport());

@@ -82,7 +82,21 @@ public class WechatFriendController {
                 return Result.error(CodeEnum.ERROR.getCode(), "请传入v1值");
             }
         }
-        return wechatFriendService.addFriend(vo);
+        SendMsg sendMsg = new SendMsg();
+        sendMsg.setApi(ApiType.ADD_FRIEND);
+        sendMsg.setSendId(vo.getWechatId());
+        sendMsg.setOption(Option.option()
+                .add(OptionKey.WXID, vo.getFriendId())
+                .add(OptionKey.REMARK, vo.getRemark())
+                .add(OptionKey.SCENE, vo.getScene())
+                .add(OptionKey.ROOM_WXID, "")
+                .getOption());
+        // 通知netty服务端
+        Result res = RouteUtils.send(sendMsg);
+        if (res.getCode().equals(CodeEnum.SUCCESS.getCode())) {
+            wechatFriendService.addFriend(vo);
+        }
+        return res;
     }
 
     /**
@@ -111,7 +125,19 @@ public class WechatFriendController {
     @PostMapping("/updateRemark")
     public Result updateRemark(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Update.class);
-        return wechatFriendService.updateRemark(vo);
+        SendMsg sendMsg = new SendMsg();
+        sendMsg.setApi(ApiType.UPDATE_REMARK);
+        sendMsg.setSendId(vo.getWechatId());
+        sendMsg.setOption(Option.option()
+                .add(OptionKey.WXID, vo.getFriendId())
+                .add(OptionKey.REMARK, vo.getRemarkName())
+                .getOption());
+        // 通知netty服务端
+        Result res = RouteUtils.send(sendMsg);
+        if (res.getCode().equals(CodeEnum.SUCCESS.getCode())) {
+            wechatFriendService.updateRemark(vo);
+        }
+        return res;
     }
 
     /**
@@ -150,11 +176,29 @@ public class WechatFriendController {
         return RouteUtils.send(sMsg);
     }
 
-
+    /**
+     * 添加通过手机号/微信号/QQ号查询任意微信号信息
+     * @param vo
+     * @return
+     */
     @PostMapping("/addSearchContact")
     public Result addSearchContact(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Add.class);
-        return wechatFriendService.addSearchContact(vo);
+        SendMsg sendMsg = new SendMsg();
+        sendMsg.setApi(ApiType.ADD_FRIEND);
+        sendMsg.setSendId(vo.getWechatId());
+        sendMsg.setOption(Option.option()
+                .add(OptionKey.V1, vo.getV1())
+                .add(OptionKey.V2, vo.getV2())
+                .add(OptionKey.REMARK, vo.getRemark())
+                .add(OptionKey.SCENE, vo.getScene())
+                .getOption());
+        // 通知netty服务端
+        Result res = RouteUtils.send(sendMsg);
+        if (res.getCode().equals(CodeEnum.SUCCESS.getCode())) {
+            wechatFriendService.addFriend(vo);
+        }
+        return res;
     }
 
 
@@ -178,7 +222,18 @@ public class WechatFriendController {
     @PostMapping("/top")
     public Result top(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Top.class);
-        return wechatFriendService.toTop(vo);
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.CHAT_SESSION_TOP);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                .add(OptionKey.WXID, vo.getFriendId())
+                .add(OptionKey.CODE, vo.getTop())
+                .getOption());
+        Result res = RouteUtils.send(sMsg);
+        if (res.getCode().equals(CodeEnum.SUCCESS.getCode())) {
+            wechatFriendService.toTop(vo);
+        }
+        return res;
     }
 
     /**
@@ -189,7 +244,18 @@ public class WechatFriendController {
     @PostMapping("/disturb")
     public Result disturb(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Disturb.class);
-        return wechatFriendService.toDisturb(vo);
+        SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.MOD_RECV_NOTIFY);
+        sMsg.setSendId(vo.getWechatId());
+        sMsg.setOption(Option.option()
+                .add(OptionKey.WXID, vo.getFriendId())
+                .add(OptionKey.CODE, vo.getDisturb())
+                .getOption());
+        Result res = RouteUtils.send(sMsg);
+        if (res.getCode().equals(CodeEnum.SUCCESS.getCode())) {
+            wechatFriendService.toDisturb(vo);
+        }
+        return res;
     }
 
 }
