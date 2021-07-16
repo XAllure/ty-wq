@@ -306,7 +306,7 @@ public class WechatMessageController {
         Collections.reverse(respVos);
         Page<WechatMessageRespVo> respVoPage = OrikaUtils.pageNoRecords(messages);
         respVoPage.setRecords(respVos);
-        return Result.success(respVos);
+        return Result.success(respVoPage);
     }
 
 }
