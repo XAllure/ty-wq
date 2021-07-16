@@ -1,4 +1,4 @@
-package com.ty.wq.vo;
+package com.ty.wq.pojo.vo.netty.report;
 
 import lombok.Data;
 

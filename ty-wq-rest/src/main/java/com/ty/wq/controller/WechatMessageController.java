@@ -1,24 +1,41 @@
 package com.ty.wq.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.OptionKey;
+import com.ty.wq.pojo.po.client.WechatMessage;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatMessage.*;
 import com.ty.wq.pojo.vo.netty.Option;
+import com.ty.wq.pojo.vo.netty.report.WechatMessageVo;
+import com.ty.wq.service.client.WechatMessageService;
+import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
 import com.ty.wq.utils.RouteUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Administrator
  */
 @RestController
 @RequestMapping("/wechat/message")
+@Slf4j
 public class WechatMessageController {
+
+    @Autowired
+    private WechatMessageService wechatMessageService;
 
     /**
      * 发送文本消息
@@ -153,7 +170,7 @@ public class WechatMessageController {
     }
 
     /**
-     * 发送GIF表情
+     * 发送名片消息
      * @param vo
      * @return
      */
@@ -259,6 +276,37 @@ public class WechatMessageController {
                 .add(OptionKey.TRANSFER_ID, vo.getContent())
                 .getOption());
         return RouteUtils.send(sMsg);
+    }
+
+    /**
+     * 分页获取消息记录
+     * @param searchVo
+     * @return
+     */
+    @PostMapping("/records")
+    public Result records(@RequestBody WechatMessageSearchVo searchVo) {
+        Page<WechatMessage> messages = wechatMessageService.getRecordMsg(searchVo);
+        List<WechatMessageRespVo> respVos = new ArrayList<>();
+        for (WechatMessage message : messages.getRecords()) {
+            JSONObject data = JSON.parseObject(message.getContent());
+            WechatMessageVo mVo = data.toJavaObject(WechatMessageVo.class);
+            WechatMessageRespVo respVo = OrikaUtils.convert(message, WechatMessageRespVo.class);
+            respVo.setContent(mVo.getMessage());
+            respVo.setAtList(mVo.getAtlist());
+            respVo.setImage(mVo.getImage());
+            respVo.setImageThumb(mVo.getImagethumb());
+            respVo.setXmlMsg(mVo.getXmlmsg());
+            respVo.setFileIndex(mVo.getFileIndex());
+            respVo.setCoverIndex(mVo.getCoverIndex());
+            respVo.setVideoIndex(mVo.getVideoIndex());
+            respVo.setVoiceIndex(mVo.getVoiceIndex());
+            respVo.setMp3Index(mVo.getMp3Index());
+            respVos.add(respVo);
+        }
+        Collections.reverse(respVos);
+        Page<WechatMessageRespVo> respVoPage = OrikaUtils.pageNoRecords(messages);
+        respVoPage.setRecords(respVos);
+        return Result.success(respVos);
     }
 
 }

@@ -23,7 +23,7 @@ public class WechatMessageReqVo extends BaseReqVo {
     private static final long serialVersionUID = -1L;
 
     /** 微信id */
-    @NotBlank(message = "微信id不能为空", groups = {Chat.class, At.class})
+    @NotBlank(message = "微信id不能为空", groups = {Chat.class, At.class, Get.class})
     private String wechatId;
 
     /** 消息类型 1-文本 3-图片 4906-文件 43-视频 34-语音 47-gif表情 42-个人名片 48-位置消息 4905-链接消息 4933-小程序消息 4920-转账消息 */
@@ -41,11 +41,11 @@ public class WechatMessageReqVo extends BaseReqVo {
     private String roomWxId;
 
     /** 微信发送者 */
-    @NotBlank(message = "微信发送者不能为空", groups = {Chat.class, At.class})
+    @NotBlank(message = "微信发送者不能为空", groups = {Chat.class, At.class, Get.class})
     private String wxIdFrom;
 
     /** 微信接收者 如果发往群的消息,这个值就是群的wxid 如果是别人私聊给自己的消息,这里就是自己的微信号 */
-    @NotBlank(message = "微信接收者不能为空", groups = {Chat.class, At.class})
+    @NotBlank(message = "微信接收者不能为空", groups = {Chat.class, At.class, Get.class})
     private String wxIdTo;
 
     /** 消息内容 存json数据 */

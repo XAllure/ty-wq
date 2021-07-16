@@ -95,7 +95,7 @@ public class OrikaUtils {
     }
 
     /**
-     * 映射 mybatis 分页字段集合，需要字段一样
+     * 映射 mybatis-plus 分页字段集合，需要字段一样
      * 映射为集合的形式
      * @param targetClass 映射类对象 DTO对象
      * @param source    数据（集合） DO对象
@@ -105,6 +105,16 @@ public class OrikaUtils {
         Page<D> dPage = convert(source, Page.class);
         dPage.setRecords(converts(source.getRecords(), targetClass));
         return dPage;
+    }
+
+    /**
+     * 映射 mybatis-plus 分页字段集合，需要字段一样
+     * 映射为集合的形式
+     * @param source    数据（集合） DO对象
+     * @return 映射类对象
+     */
+    public static <S, D> Page<D> pageNoRecords(Page<S> source) {
+        return convert(source, Page.class);
     }
 
     /**

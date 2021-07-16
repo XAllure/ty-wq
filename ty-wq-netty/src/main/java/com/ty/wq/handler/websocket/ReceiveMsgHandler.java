@@ -123,19 +123,62 @@ public class ReceiveMsgHandler {
                     wechatChatRoomHandler.chatRoomQuitHandler(rMsg);
                     break;
                 }
+                // 上报文本消息
                 case Action.REPORT_TEXT_MESSAGE: {
                     wechatMessageHandler.textMessageHandler(rMsg);
                     break;
                 }
+                // 上报图片消息
                 case Action.REPORT_PIC_MESSAGE: {
                     wechatMessageHandler.picMessageHandler(rMsg);
                     break;
                 }
+                // 上报文件消息
+                case Action.REPORT_FILE_MESSAGE: {
+                    wechatMessageHandler.fileMessageHandler(rMsg);
+                    break;
+                }
+                // 上报视频消息
+                case Action.REPORT_VIDEO_MESSAGE: {
+                    wechatMessageHandler.videoMessageHandler(rMsg);
+                    break;
+                }
+                case Action.REPORT_VOICE_MESSAGE: {
+                    wechatMessageHandler.voiceMessageHandler(rMsg);
+                    break;
+                }
+                // 上报GIF表情消息/上报个人名片消息/上报位置消息/上报链接消息/上报小程序消息/上报转账消息
+                case Action.REPORT_GIF_MESSAGE:
+                case Action.REPORT_CARD_MESSAGE:
+                case Action.REPORT_LOCATION_MESSAGE:
+                case Action.REPORT_LINK_MESSAGE:
+                case Action.REPORT_MINI_MESSAGE:
+                case Action.REPORT_TRANSFER_MESSAGE:{
+                    wechatMessageHandler.gifOrCardOrLocationOrLinkOrMiniOrTransferMessageHandler(rMsg);
+                    break;
+                }
+                // 上报系统消息/上报其他消息/上报其他接收应用未知消息
+                case Action.REPORT_SYSTEM_MESSAGE:
+                case Action.REPORT_OTHER_MESSAGE:
+                case Action.REPORT_OTHER_APP_MESSAGE: {
+                    wechatMessageHandler.systemOrOtherOrOtherAppMessageHandler(rMsg);
+                }
 
 
 
+                // 上报当前聊天对象改变
                 case Action.REPORT_TALKER_CHANGE: {
                     otherHandler.talkerChangeHandler(rMsg);
+                    break;
+                }
+                // 上报URL访问状态
+                case Action.REPORT_CHECK_URL_STATUS: {
+                    otherHandler.checkUrlStatusHandler(rMsg);
+                    break;
+                }
+                // 上报上传客户端文件到服务端结果
+                case Action.RES_UPLOAD_FILE: {
+                    otherHandler.resUploadFileHandler(rMsg);
                     break;
                 }
                 default: {

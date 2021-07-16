@@ -80,7 +80,7 @@ public class WebSocketClient {
                 HttpHeaders httpHeaders = new DefaultHttpHeaders();
                 //进行握手
                 WebSocketClientHandshaker handshaker = WebSocketClientHandshakerFactory.newHandshaker(wsUri,
-                        WebSocketVersion.V13, null, true, httpHeaders);
+                        WebSocketVersion.V13, null, true, httpHeaders, 65536 * 10);
 
                 ChannelFuture future = bootstrap.connect(wsUri.getHost(), wsUri.getPort()).sync();
                 log.info("netty客户端启动成功， 连接端口为：{}", server.getNport());

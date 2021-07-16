@@ -24,4 +24,26 @@ public class OtherHandler {
         SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), data);
     }
 
+    /**
+     * 上报URL访问状态
+     * @param rMsg
+     */
+    @Async
+    public void checkUrlStatusHandler(ReceiveMsg rMsg) {
+        // 后续再改
+        JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), data);
+    }
+
+    /**
+     * 上报URL访问状态
+     * @param rMsg
+     */
+    @Async
+    public void resUploadFileHandler(ReceiveMsg rMsg) {
+        // 后续再改
+        JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), data);
+    }
+
 }

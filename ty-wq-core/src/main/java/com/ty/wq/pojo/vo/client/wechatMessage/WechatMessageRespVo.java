@@ -47,7 +47,7 @@ public class WechatMessageRespVo extends BaseRespVo {
     /** 微信接收者 如果发往群的消息,这个值就是群的wxid 如果是别人私聊给自己的消息,这里就是自己的微信号 */
     private String wxIdTo;
 
-    /** 消息内容 存json数据 */
+    /** 消息内容 */
     private String content;
 
     /** 公司ID */

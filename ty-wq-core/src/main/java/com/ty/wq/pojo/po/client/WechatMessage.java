@@ -35,7 +35,6 @@ public class WechatMessage extends BasePo {
     @Column( type = MySqlTypeConstant.INT, length = 1, comment = "是否pc端发出 1-是 0-否")
     private Integer isPc;
 
-    @Unique
     @Column( type = MySqlTypeConstant.VARCHAR, length = 64, comment = "消息ID")
     private String msgId;
 

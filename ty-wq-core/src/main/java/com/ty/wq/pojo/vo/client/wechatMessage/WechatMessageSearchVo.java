@@ -21,10 +21,16 @@ public class WechatMessageSearchVo extends BaseSearchVo {
 
     private static final long serialVersionUID = -1L;
 
-    @SearchCondition(compare = CompareEnum.GE,filed = "create_time")
-    private String startTime;
+    @SearchCondition(compare = CompareEnum.GE, filed = "wechat_id")
+    private String wechatId;
 
-    @SearchCondition(compare = CompareEnum.LE,filed = "create_time")
-    private String endTime;
-    
+    @SearchCondition(compare = CompareEnum.GE, filed = "room_wx_id")
+    private String roomWxId;
+
+    @SearchCondition(compare = CompareEnum.GE, filed = "wx_id_from")
+    private String wxIdFrom;
+
+    @SearchCondition(compare = CompareEnum.GE, filed = "wx_id_to")
+    private String wxIdTo;
+
 }
