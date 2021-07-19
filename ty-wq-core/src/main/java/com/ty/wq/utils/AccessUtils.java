@@ -15,8 +15,7 @@ public class AccessUtils {
      * @return 返回用户id
      */
     public static Long userId(){
-        HttpServletRequest request = CommonUtils.getRequest();
-        String token = request.getHeader(WsTokenUtils.WQ_TOKEN_HEADER);
+        String token = userToken();
         Object obj = RedisUtils.get(Constants.WQ_USER_LOGIN_KEY + token);
         if (obj == null) {
             // 测试用
@@ -24,6 +23,11 @@ public class AccessUtils {
             // return null;
         }
         return Long.valueOf(obj.toString());
+    }
+
+    public static String userToken() {
+        HttpServletRequest request = CommonUtils.getRequest();
+        return request.getHeader(WsTokenUtils.WQ_TOKEN_HEADER);
     }
 
 }

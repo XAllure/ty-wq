@@ -36,7 +36,7 @@ public class WechatChatRoomMemberHandler {
     private WechatRoomMemberService wechatRoomMemberService;
 
     /**
-     * 获取单个普通群成员信息
+     * 上报单个普通群成员信息
      * @param rMsg
      */
     @Async

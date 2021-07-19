@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class ChannelUtils {
 
     /** 用户连接 netty 进行登录时, channel 绑定的 token 属性 */
-    public static final AttributeKey<String> WS_TOKEN = AttributeKey.valueOf("token");
+    public static final AttributeKey<String> USER_TOKEN = AttributeKey.valueOf("token");
 
     /** 用户连接 netty 进行登录时, channel 绑定的 userId 属性 */
     public static final AttributeKey<String> USER_ID = AttributeKey.valueOf("userId");
@@ -45,7 +45,7 @@ public class ChannelUtils {
     public static synchronized void setUserChannel(Long userId, String token, Channel channel) {
         if (USER_ID_CHANNEL.containsKey(userId)) {
             Channel oldChannel = USER_ID_CHANNEL.get(userId);
-            String oldToken = oldChannel.attr(WS_TOKEN).get();
+            String oldToken = oldChannel.attr(USER_TOKEN).get();
             if (!token.equals(oldToken)) {
                 RedisUtils.delete(Constants.WQ_USER_LOGIN_KEY.concat(oldToken));
                 oldChannel.close();
@@ -53,7 +53,7 @@ public class ChannelUtils {
                 return;
             }
         }
-        channel.attr(WS_TOKEN).set(token);
+        channel.attr(USER_TOKEN).set(token);
         channel.attr(USER_ID).set(String.valueOf(userId));
         USER_ID_CHANNEL.put(userId, channel);
     }
@@ -92,8 +92,8 @@ public class ChannelUtils {
      * @param channel
      * @return
      */
-    public static synchronized String getToken(Channel channel) {
-        return channel.attr(WS_TOKEN).get();
+    public static synchronized String getUserToken(Channel channel) {
+        return channel.attr(USER_TOKEN).get();
     }
 
     /**

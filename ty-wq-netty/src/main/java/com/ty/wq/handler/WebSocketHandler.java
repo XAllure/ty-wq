@@ -64,7 +64,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        String token = ChannelUtils.getToken(ctx.channel());
+        String token = ChannelUtils.getUserToken(ctx.channel());
         if (StringUtils.isBlank(token)) {
             return;
         }

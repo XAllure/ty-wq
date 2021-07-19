@@ -9,6 +9,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.util.ResourceLeakDetector;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 import org.springframework.beans.factory.InitializingBean;
@@ -56,6 +57,8 @@ public class WebSocketServer {
                         // 保持连接
                         .childOption(ChannelOption.SO_KEEPALIVE, true)
                         .childHandler(webSocketInitializer);
+
+                ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.ADVANCED);
                 // 绑定端口
                 ChannelFuture cf = bootstrap.bind(config.getNport()).sync();
                 log.info("netty启动成功=====websocket占用端口：{}", config.getNport());

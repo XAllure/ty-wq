@@ -134,6 +134,7 @@ public class WechatMessageHandler {
      */
     private WechatMessageVo setWechatMessageVo(ReceiveMsg rMsg) {
         JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
+        log.info(String.valueOf(data));
         return data.toJavaObject(WechatMessageVo.class);
     }
 

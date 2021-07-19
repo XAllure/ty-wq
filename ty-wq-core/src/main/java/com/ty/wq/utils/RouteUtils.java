@@ -62,7 +62,7 @@ public class RouteUtils {
     public static Result send(Object data, String suffix) {
         if (StringUtils.isBlank(suffix)) {
             //默认发往netty服务器的链接
-            suffix = "/client/sendMsg";
+            suffix = "/client/sendMsg/" + AccessUtils.userToken();;
         }
         WsServer server = WsTokenUtils.getUserWs(AccessUtils.userId());
         JSONObject json = OrikaUtils.convert(data, JSONObject.class);

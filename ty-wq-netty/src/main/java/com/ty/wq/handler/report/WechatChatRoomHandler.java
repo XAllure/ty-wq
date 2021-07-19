@@ -203,6 +203,4 @@ public class WechatChatRoomHandler {
         wechatRoom.setDeleted(0);
     }
 
-
-
 }

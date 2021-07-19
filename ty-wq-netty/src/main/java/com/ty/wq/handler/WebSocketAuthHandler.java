@@ -48,9 +48,9 @@ public class WebSocketAuthHandler extends ChannelInboundHandlerAdapter {
             return;
         }
         // 如果没有登录，则提醒用户登录
-        if (StringUtils.isBlank(ChannelUtils.getToken(channel))) {
+        if (StringUtils.isBlank(ChannelUtils.getUserToken(channel))) {
             log.info("用户[{}]没有登录， 提醒用户登录！！！", channel.id().asLongText());
-            MsgUtils.writeJson(channel, Message.error(MsgType.ERROR, CodeEnum.SERVER_NOT_LOGIN));
+            MsgUtils.writeJson(channel, Message.error(MsgType.LOGIN, CodeEnum.SERVER_NOT_LOGIN));
             return;
         }
         // 否则的话就直接传给下一个 handler 处理, 并删除该 handler（也可不删除，只是重复验证会影响性能）

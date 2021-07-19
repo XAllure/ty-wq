@@ -26,6 +26,12 @@ public class NeWechatController {
     @PostMapping("/login")
     public Result result(@RequestBody NeWechatLoginReqVo reqVo) {
         ReqVoUtils.validated(reqVo, BaseReqVo.Login.class);
+        if (reqVo.getUserId() == null) {
+            return Result.error("用户ID不能为空");
+        }
+        if (reqVo.getWechats() == null || reqVo.getWechats().isEmpty()) {
+            return Result.error("请选择要登录的微信");
+        }
         Channel channel = ChannelUtils.getUserChannel(reqVo.getUserId());
         ChannelUtils.setWeChatChannels(channel, reqVo.getWechats());
         return Result.success(reqVo.getWechats());

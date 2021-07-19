@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.annotation.Resource;
 
 /**
- * @author xuxilan
+ * @author Administrator
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -38,6 +38,21 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return new CorsFilter(source);
     }
 
+    /*@Resource
+    private InterceptorConfig interceptorConfig;
+
+    private final String[] paths = new String[]{
+            "/system/login",
+            "/img/**",
+    };
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // 多个拦截器组成一个拦截器链
+        // addPathPatterns 用于添加拦截规则，/**表示拦截所有请求
+        // excludePathPatterns 用户排除拦截
+        registry.addInterceptor(interceptorConfig).addPathPatterns("/**").excludePathPatterns(paths);
+    }*/
 
     @Value("${custom.img.path}")
     private String imgPath;

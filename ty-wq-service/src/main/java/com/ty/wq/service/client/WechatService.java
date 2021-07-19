@@ -54,6 +54,6 @@ public interface WechatService extends BaseService<Wechat, WechatDao, WechatSear
      * 修改微信信息
      * @param vo
      */
-    void update(WechatReqVo vo);
+    void updateSelf(WechatReqVo vo);
 
 }

@@ -29,7 +29,7 @@ public class WebSocketMsgHandler {
                 switch (msgVo.getType()) {
                     // 心跳
                     case MsgType.HEART_BEAT: {
-                        log.info("HEARTBEAT 操作");
+                        MsgUtils.writeJson(channel, Message.success(msgVo));
                         break;
                     }
                     case MsgType.RECEIVED: {

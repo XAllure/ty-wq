@@ -33,7 +33,9 @@ public class SocketClientHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
 
-        System.out.println("当前握手的状态"+this.handshaker.isHandshakeComplete());
+        if (!this.handshaker.isHandshakeComplete()) {
+            log.info("当前握手的状态: {}", this.handshaker.isHandshakeComplete());
+        }
         Channel ch = ctx.channel();
         FullHttpResponse response;
         //进行握手操作
@@ -44,7 +46,7 @@ public class SocketClientHandler extends SimpleChannelInboundHandler<Object> {
                 this.handshaker.finishHandshake(ch, response);
                 //设置成功
                 this.handshakeFuture.setSuccess();
-                System.out.println("服务端的消息"+response.headers());
+                log.info("服务端的消息: {}", response.headers());
             } catch (WebSocketHandshakeException var7) {
                 FullHttpResponse res = (FullHttpResponse)msg;
                 String errorMsg = String.format("握手失败,status:%s,reason:%s", res.status(), res.content().toString(CharsetUtil.UTF_8));
@@ -52,18 +54,24 @@ public class SocketClientHandler extends SimpleChannelInboundHandler<Object> {
             }
         } else if (msg instanceof FullHttpResponse) {
             response = (FullHttpResponse)msg;
-            throw new IllegalStateException("Unexpected FullHttpResponse (getStatus=" + response.status() + ", content=" + response.content().toString(CharsetUtil.UTF_8) + ')');
+            throw new IllegalStateException("Unexpected FullHttpResponse (getStatus=" + response.status() +
+                    ", content=" + response.content().toString(CharsetUtil.UTF_8) + ')');
         }else {
             //接收服务端的消息
             WebSocketFrame frame = (WebSocketFrame)msg;
             //文本信息
             if (frame instanceof TextWebSocketFrame) {
                 Message message = MsgUtils.message((TextWebSocketFrame)msg);
-                log.info("客户端接收的消息是: {}", message);
                 if (message.getType().equals(MsgType.SEND_MSG)) {
                     SendMsg sendMsg = MsgUtils.convert(message.getData(), SendMsg.class);
                     QueueUtils.messages.offer(sendMsg);
+                    return;
                 }
+                if (message.getType().equals(MsgType.HEART_BEAT)) {
+                    log.debug("心跳返回接收");
+                    return;
+                }
+                log.info("客户端接收的消息是: {}", message);
             }
             //二进制信息
             if (frame instanceof BinaryWebSocketFrame) {

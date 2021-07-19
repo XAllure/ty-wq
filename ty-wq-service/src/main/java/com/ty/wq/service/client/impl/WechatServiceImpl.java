@@ -110,7 +110,7 @@ public class WechatServiceImpl extends BaseServiceImpl<Wechat, WechatDao, Wechat
      * @param vo
      */
     @Override
-    public void update(WechatReqVo vo) {
+    public void updateSelf(WechatReqVo vo) {
         Wechat wechat = findByWechatId(vo.getWechatId());
         wechat.setWechatNick(vo.getWechatNick());
         wechat.setHeadPic(vo.getHeadPic());

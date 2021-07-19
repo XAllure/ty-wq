@@ -61,7 +61,7 @@ public class WechatController {
     @PostMapping("/update")
     public Result update(@RequestBody WechatReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Update.class);
-        wechatService.update(vo);
+        wechatService.updateSelf(vo);
         return Result.success();
     }
 
