@@ -60,6 +60,9 @@ public class WechatRespVo extends BaseRespVo {
     /** 设备ID */
     private String deviceId;
 
+    /** 状态 */
+    private Integer status;
+
     /** 公司ID */
     private Long companyId;
 
