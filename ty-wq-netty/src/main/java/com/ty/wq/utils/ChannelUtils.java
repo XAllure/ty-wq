@@ -110,6 +110,16 @@ public class ChannelUtils {
     }
 
     /**
+     * 用户退出时调用，清理数据
+     * @param ctx
+     */
+    public static synchronized void exit(ChannelHandlerContext ctx) {
+        Channel channel = ctx.channel();
+        delUserChannel(channel);
+        ctx.close();
+    }
+
+    /**
      * 根据微信id存储所有用户的Channel通道
      * @param channel
      * @param wechats
@@ -146,13 +156,18 @@ public class ChannelUtils {
     }
 
     /**
-     * 用户退出时调用，清理数据
-     * @param ctx
+     * 退出微信登录删除该微信对应的channel
+     * @param wechatId
+     * @param channel
      */
-    public static synchronized void exit(ChannelHandlerContext ctx) {
-        Channel channel = ctx.channel();
-        delUserChannel(channel);
-        ctx.close();
+    public static synchronized void delByWechatIdAndChannel(String wechatId, Channel channel) {
+        List<Channel> channels = getChannelsByWechatId(wechatId);
+        channels.removeIf(ch -> ch == channel);
+        if (channels.size() > 0) {
+            WECHAT_ID_CHANNEL.put(wechatId, channels);
+        } else {
+            WECHAT_ID_CHANNEL.remove(wechatId);
+        }
     }
 
     /** 保存微信id和转发客户端的channel */
@@ -191,5 +206,19 @@ public class ChannelUtils {
         return channels.get((int) (count % channels.size()));
     }
 
+    /**
+     * 删除微信id对应的转发客户端的channel
+     * @param wechatId
+     * @param channel
+     */
+    public static synchronized void delClientByWechatIdAndChannel(String wechatId, Channel channel) {
+        List<Channel> channels = getWechatClientChannels(wechatId);
+        channels.removeIf(ch -> ch == channel);
+        if (channels.size() > 0) {
+            WECHAT_ID_CLIENT_CHANNEL.put(wechatId, channels);
+        } else {
+            WECHAT_ID_CLIENT_CHANNEL.remove(wechatId);
+        }
+    }
 
 }

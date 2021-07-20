@@ -5,7 +5,7 @@ import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechat.WechatLoginReqVo;
 import com.ty.wq.pojo.vo.client.wechat.WechatReqVo;
 import com.ty.wq.pojo.vo.client.wechat.WechatRespVo;
-import com.ty.wq.pojo.vo.netty.Wechat.NeWechatLoginReqVo;
+import com.ty.wq.pojo.vo.netty.Wechat.NeWechatReqVo;
 import com.ty.wq.service.client.WechatService;
 import com.ty.wq.utils.*;
 import lombok.extern.slf4j.Slf4j;
@@ -36,10 +36,10 @@ public class WechatController {
     public Result login(@RequestBody WechatLoginReqVo wechatLoginReqVo) {
         ReqVoUtils.validated(wechatLoginReqVo, BaseReqVo.Login.class);
         List<WechatRespVo> respVos = wechatService.login(wechatLoginReqVo);
-        NeWechatLoginReqVo neWechatLoginReqVo = new NeWechatLoginReqVo();
-        neWechatLoginReqVo.setUserId(AccessUtils.userId());
-        neWechatLoginReqVo.setWechats(respVos);
-        return RouteUtils.send(neWechatLoginReqVo, "/wechat/login");
+        NeWechatReqVo neWechatReqVo = new NeWechatReqVo();
+        neWechatReqVo.setUserId(AccessUtils.userId());
+        neWechatReqVo.setWechats(respVos);
+        return RouteUtils.send(neWechatReqVo, "/wechat/login");
     }
 
     /**
@@ -63,6 +63,19 @@ public class WechatController {
         ReqVoUtils.validated(vo, BaseReqVo.Update.class);
         wechatService.updateSelf(vo);
         return Result.success();
+    }
+
+    /**
+     * 退出微信登录
+     * @param wechatId
+     * @return
+     */
+    @PostMapping("/logout/{wechatId}")
+    public Result logout(@Valid @NotBlank(message = "微信id参数错误") @PathVariable String wechatId) {
+        NeWechatReqVo neWechatReqVo = new NeWechatReqVo();
+        neWechatReqVo.setUserId(AccessUtils.userId());
+        neWechatReqVo.setWechatId(wechatId);
+        return RouteUtils.send(neWechatReqVo, "/wechat/logout");
     }
 
 }

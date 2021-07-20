@@ -8,7 +8,7 @@ public enum WechatEnum {
     //枚举类型
 
     LOGGED_IN(1, "已登录"),
-    LOGGED_OUT(0, "已退出"),
+    LOGGED_OUT(0, "未登录"),
 
     // 微信在线离线
     ONLINE(1, "在线"),

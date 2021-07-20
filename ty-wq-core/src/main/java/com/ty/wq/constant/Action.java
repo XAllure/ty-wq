@@ -9,6 +9,9 @@ public interface Action {
     /** 上报当前登录微信详细信息 */
     String REPORT_LOGIN_USER = "reportLoginUser";
 
+    /** 上报退出登录事件 */
+    String REPORT_LOGOUT = "reportLogout";
+
     /** 上报普通好友列表 */
     String REPORT_CONTACTS = "reportContacts";
 

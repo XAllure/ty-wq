@@ -47,7 +47,7 @@ public class WechatFriendHandler {
         JSONArray friendList = data.getJSONArray("friendList");
         // 转换
         List<WechatFriendVo> vos = OrikaUtils.converts(friendList, WechatFriendVo.class);
-        List<WechatFriend> friends = new ArrayList<>();
+        // List<WechatFriend> friends = new ArrayList<>();
         // 暂时一个个循环判断
         vos.forEach(vo -> {
             // 查询是否已有该好友
@@ -67,10 +67,10 @@ public class WechatFriendHandler {
                 setFriend(rMsg.getCwxid(), vo, friend);
                 wechatFriendService.insert(friend);
             }
-            friends.add(friend);
+            // friends.add(friend);
         });
-        List<WechatFriendRespVo> respVos = OrikaUtils.converts(friends, WechatFriendRespVo.class);
-        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVos);
+        /*List<WechatFriendRespVo> respVos = OrikaUtils.converts(friends, WechatFriendRespVo.class);
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVos);*/
     }
 
     /**
@@ -86,8 +86,8 @@ public class WechatFriendHandler {
         if (friend != null) {
             setFriend(rMsg.getCwxid(), vo, friend);
             wechatFriendService.updateById(friend);
-            WechatFriendRespVo respVo = OrikaUtils.convert(friend, WechatFriendRespVo.class);
-            SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVo);
+            /*WechatFriendRespVo respVo = OrikaUtils.convert(friend, WechatFriendRespVo.class);
+            SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVo);*/
         }
     }
 
@@ -103,16 +103,22 @@ public class WechatFriendHandler {
         WechatFriend friend = wechatFriendService.getByWechatIdAndFriendId(rMsg.getCwxid(), vo.getWxid());
         if (friend != null) {
             // 赋值
-            setFriend(rMsg.getCwxid(), vo, friend);
-            friend.setSignature(vo.getSignature());
-            friend.setSnsPic(vo.getSnspic());
-            friend.setScene(vo.getScene());
-            friend.setV1(vo.getV1());
-            friend.setV2(vo.getV2());
+            setUpdateContact(rMsg.getCwxid(), vo, friend);
             wechatFriendService.updateById(friend);
-            WechatFriendRespVo respVo = OrikaUtils.convert(friend, WechatFriendRespVo.class);
-            SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVo);
+        } else {
+            friend = new WechatFriend();
+            setUpdateContact(rMsg.getCwxid(), vo, friend);
         }
+        WechatFriendRespVo respVo = OrikaUtils.convert(friend, WechatFriendRespVo.class);
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVo);
+    }
+    private void setUpdateContact(String wechatId, WechatFriendVo vo, WechatFriend friend) {
+        setFriend(wechatId, vo, friend);
+        friend.setSignature(vo.getSignature());
+        friend.setSnsPic(vo.getSnspic());
+        friend.setScene(vo.getScene());
+        friend.setV1(vo.getV1());
+        friend.setV2(vo.getV2());
     }
 
     /**
@@ -124,9 +130,18 @@ public class WechatFriendHandler {
         JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
         WechatFriendVo vo = OrikaUtils.convert(data, WechatFriendVo.class);
         WechatFriend friend = wechatFriendService.getByWechatIdAndFriendId(rMsg.getCwxid(), vo.getWxid());
-        friend.setStatus(WechatEnum.FRIEND_NEW.getCode());
-        setFriend(rMsg.getCwxid(), vo, friend);
-        wechatFriendService.updateById(friend);
+        if (friend != null) {
+            friend.setStatus(WechatEnum.FRIEND_NEW.getCode());
+            setFriend(rMsg.getCwxid(), vo, friend);
+            wechatFriendService.updateById(friend);
+        } else {
+            friend = new WechatFriend();
+            friend.setWechatId(rMsg.getCwxid());
+            friend.setFriendId(vo.getWxid());
+            friend.setStatus(WechatEnum.FRIEND_NORMAL.getCode());
+            setFriend(rMsg.getCwxid(), vo, friend);
+            wechatFriendService.insert(friend);
+        }
         WechatFriendRespVo respVo = OrikaUtils.convert(friend, WechatFriendRespVo.class);
         SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVo);
     }
@@ -140,10 +155,12 @@ public class WechatFriendHandler {
         JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
         WechatFriendVo vo = OrikaUtils.convert(data, WechatFriendVo.class);
         WechatFriend friend = wechatFriendService.getByWechatIdAndFriendId(rMsg.getCwxid(), vo.getWxid());
-        friend.setStatus(WechatEnum.CHATROOM_DELETED.getCode());
-        wechatFriendService.updateById(friend);
-        WechatFriendRespVo respVo = OrikaUtils.convert(friend, WechatFriendRespVo.class);
-        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVo);
+        if (friend != null) {
+            friend.setStatus(WechatEnum.FRIEND_DELETED.getCode());
+            wechatFriendService.updateById(friend);
+            WechatFriendRespVo respVo = OrikaUtils.convert(friend, WechatFriendRespVo.class);
+            SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVo);
+        }
     }
 
     /**
@@ -153,21 +170,19 @@ public class WechatFriendHandler {
     @Async
     public void friendAddRequestHandler(ReceiveMsg rMsg) {
         JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
-        WechatFriendAddVo addVo = OrikaUtils.convert(data, WechatFriendAddVo.class);
-        WechatFriend friend = new WechatFriend();
+        WechatFriendAddVo addVo = data.toJavaObject(WechatFriendAddVo.class);
+        // 后续再操作
+        /*WechatFriend friend = new WechatFriend();
         friend.setWechatId(rMsg.getCwxid());
         friend.setFriendId(addVo.getWxidFrom());
         friend.setStatus(WechatEnum.FRIEND_NEW.getCode());
-        // 后续再操作
-        // addVo.getXmlmsg() 里获取 scene 信息
-        //friend.setScene();
-        // addVo.getXmlmsg() 里获取 v1 信息
-        //friend.setV1();
-        // addVo.getXmlmsg() 里获取 v2 信息
-        //friend.setV2();
+        friend.setScene();
+        friend.setV1();
+        friend.setV2();
         wechatFriendService.insert(friend);
         WechatFriendRespVo respVo = OrikaUtils.convert(friend, WechatFriendRespVo.class);
-        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVo);
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVo);*/
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), addVo);
     }
 
     /**

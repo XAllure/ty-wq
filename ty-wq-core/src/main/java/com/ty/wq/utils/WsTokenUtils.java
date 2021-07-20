@@ -109,7 +109,7 @@ public class WsTokenUtils {
      * @param wsServer
      */
     public static void saveUserWs(Long userId, WsServer wsServer) {
-        RedisUtils.set(Constants.WQ_USER_SERVER + userId, wsServer.getId());
+        RedisUtils.setSeconds(Constants.WQ_USER_SERVER + userId, wsServer.getId(), TOKEN_EXPIRE);
     }
 
     /**

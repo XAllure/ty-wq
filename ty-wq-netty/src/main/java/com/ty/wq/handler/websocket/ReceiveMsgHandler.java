@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 public class ReceiveMsgHandler {
 
     @Autowired
-    private LoginUserHandler loginUserHandler;
+    private WechatHandler wechatHandler;
 
     @Autowired
     private WechatFriendHandler wechatFriendHandler;
@@ -50,7 +50,12 @@ public class ReceiveMsgHandler {
             switch (rMsg.getAction()) {
                 // 上报当前登录微信详细信息（相当于WeQuick工具登录微信）
                 case Action.REPORT_LOGIN_USER: {
-                    loginUserHandler.handler(channel, rMsg);
+                    wechatHandler.loginUserHandler(channel, rMsg);
+                    break;
+                }
+                // 上报退出登录事件
+                case Action.REPORT_LOGOUT: {
+                    wechatHandler.logoutHandler(channel, rMsg);
                     break;
                 }
                 // 上报普通好友列表
@@ -143,6 +148,7 @@ public class ReceiveMsgHandler {
                     wechatMessageHandler.videoMessageHandler(rMsg);
                     break;
                 }
+                // 上报语音消息
                 case Action.REPORT_VOICE_MESSAGE: {
                     wechatMessageHandler.voiceMessageHandler(rMsg);
                     break;
@@ -163,7 +169,6 @@ public class ReceiveMsgHandler {
                 case Action.REPORT_OTHER_APP_MESSAGE: {
                     wechatMessageHandler.systemOrOtherOrOtherAppMessageHandler(rMsg);
                 }
-
 
 
                 // 上报当前聊天对象改变

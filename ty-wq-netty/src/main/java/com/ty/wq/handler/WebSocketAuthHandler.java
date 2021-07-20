@@ -39,6 +39,7 @@ public class WebSocketAuthHandler extends ChannelInboundHandlerAdapter {
         if (msgVo.getType().equals(MsgType.LOGIN)) {
             // 进行登录
             loginHandler.handler(channel, msgVo);
+            ctx.flush();
             return;
         }
         // 如果是心跳检测
@@ -51,6 +52,7 @@ public class WebSocketAuthHandler extends ChannelInboundHandlerAdapter {
         if (StringUtils.isBlank(ChannelUtils.getUserToken(channel))) {
             log.info("用户[{}]没有登录， 提醒用户登录！！！", channel.id().asLongText());
             MsgUtils.writeJson(channel, Message.error(MsgType.LOGIN, CodeEnum.SERVER_NOT_LOGIN));
+            ctx.flush();
             return;
         }
         // 否则的话就直接传给下一个 handler 处理, 并删除该 handler（也可不删除，只是重复验证会影响性能）
@@ -59,6 +61,4 @@ public class WebSocketAuthHandler extends ChannelInboundHandlerAdapter {
         // 传给下一个handler处理
         super.channelRead(ctx, msg);
     }
-
-
 }

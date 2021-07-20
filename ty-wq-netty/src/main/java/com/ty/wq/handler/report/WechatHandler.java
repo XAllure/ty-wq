@@ -25,13 +25,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class LoginUserHandler {
+public class WechatHandler {
 
     @Autowired
     private WechatService wechatService;
 
     @Async
-    public void handler(Channel channel, ReceiveMsg rMsg) {
+    public void loginUserHandler(Channel channel, ReceiveMsg rMsg) {
         // 保存当前微信对应的转发客户端channel
         ChannelUtils.setWechatClientChannel(rMsg.getCwxid(), channel);
         log.info(String.valueOf(rMsg));
@@ -46,6 +46,16 @@ public class LoginUserHandler {
         wechatService.updateById(wechat);
         getWechatFriend(wechat.getWechatId());
         getWechatRooms(wechat.getWechatId());
+    }
+
+    /**
+     * 上报退出登录事件
+     * @param channel
+     * @param rMsg
+     */
+    @Async
+    public void logoutHandler(Channel channel, ReceiveMsg rMsg) {
+        ChannelUtils.delClientByWechatIdAndChannel(rMsg.getCwxid(), channel);
     }
 
     /**

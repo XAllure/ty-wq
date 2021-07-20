@@ -59,7 +59,7 @@ public class WechatChatRoomHandler {
         // 获取好友列表
         JSONArray groupList = data.getJSONArray("groupList");
         List<ChatRoomVo> roomVos = OrikaUtils.converts(groupList, ChatRoomVo.class);
-        List<WechatRoom> wechatRooms = new ArrayList<>();
+        // List<WechatRoom> wechatRooms = new ArrayList<>();
         // 暂时一个个循环判断
         for (ChatRoomVo roomVo : roomVos) {
             getMembers(rMsg.getCwxid(), roomVo.getWxid());
@@ -78,10 +78,10 @@ public class WechatChatRoomHandler {
                 // 插入
                 wechatRoomService.insert(wechatRoom);
             }
-            wechatRooms.add(wechatRoom);
+            // wechatRooms.add(wechatRoom);
         }
-        List<WechatRoomRespVo> respVos = OrikaUtils.converts(wechatRooms, WechatRoomRespVo.class);
-        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVos);
+        /*List<WechatRoomRespVo> respVos = OrikaUtils.converts(wechatRooms, WechatRoomRespVo.class);
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVos);*/
     }
 
     /**

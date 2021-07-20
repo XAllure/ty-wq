@@ -45,7 +45,7 @@ public class WechatChatRoomMemberHandler {
         ChatRoomMembersVo membersVo = OrikaUtils.convert(data, ChatRoomMembersVo.class);
         JSONArray array = JSON.parseArray(membersVo.getUserLists());
         List<ChatRoomMemberVo> memberVos = OrikaUtils.converts(array, ChatRoomMemberVo.class);
-        List<WechatRoomMember> members = new ArrayList<>();
+        // List<WechatRoomMember> members = new ArrayList<>();
         for (ChatRoomMemberVo memberVo : memberVos) {
             WechatRoomMember member = wechatRoomMemberService.getByWechatIdAndChatRoomId(memberVo.getWxid(), membersVo.getWxid());
             if (member != null) {
@@ -58,10 +58,10 @@ public class WechatChatRoomMemberHandler {
                 setChatRoomMembers(rMsg.getCwxid(), membersVo, memberVo, member);
                 wechatRoomMemberService.insert(member);
             }
-            members.add(member);
+            // members.add(member);
         }
-        List<WechatRoomMemberRespVo> respVos = OrikaUtils.converts(members, WechatRoomMemberRespVo.class);
-        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVos);
+        /*List<WechatRoomMemberRespVo> respVos = OrikaUtils.converts(members, WechatRoomMemberRespVo.class);
+        SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVos);*/
     }
 
     private void setChatRoomMembers(String wechatId, ChatRoomMembersVo membersVo, ChatRoomMemberVo memberVo, WechatRoomMember member) {
