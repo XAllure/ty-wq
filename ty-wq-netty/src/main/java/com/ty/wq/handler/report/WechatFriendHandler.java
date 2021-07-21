@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -216,8 +215,8 @@ public class WechatFriendHandler {
         // 查询微信信息
         Wechat wechat = wechatService.findByWechatId(wechatId);
         // 赋值
-        friend.setFriendWeChatNo(vo.getAlias());
-        friend.setFriendWeChatNick(vo.getNick());
+        friend.setFriendWechatNo(vo.getAlias());
+        friend.setFriendWechatNick(vo.getNick());
         friend.setHeadPic(vo.getHeadPic());
         friend.setGender(vo.getSex());
         friend.setCountry(vo.getCountry());

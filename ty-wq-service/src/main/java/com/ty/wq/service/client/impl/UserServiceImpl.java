@@ -107,9 +107,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
     }
 
     @Override
-    public List<UserRespVo> toPageUsers(List<UserRespVo> userRespVos) {
+    public List<UserRespVo> toPageUsers(List<UserRespVo> respVos) {
         List<UserRespVo> vos = new ArrayList<>();
-        for (UserRespVo vo : userRespVos) {
+        for (UserRespVo vo : respVos) {
             setCd(vo);
             vos.add(vo);
         }
@@ -121,7 +121,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
      * @param vo
      */
     @Override
-    public void updateMine(UserReqVo vo) {
+    public void updateSelf(UserReqVo vo) {
         User user = findById(AccessUtils.userId());
         user.setUsername(vo.getUsername());
         user.setUserNick(vo.getUserNick());

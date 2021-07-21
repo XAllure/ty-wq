@@ -29,11 +29,11 @@ public class WechatFriendReqVo extends BaseReqVo {
     private String friendId;
 
     /** 好友微信号 */
-    private String friendWeChatNo;
+    private String friendWechatNo;
 
     /** 好友微信昵称 */
     // @NotBlank(message = "好友微信昵称不能为空", groups = {Add.class, Update.class})
-    private String friendWeChatNick;
+    private String friendWechatNick;
 
     /** 头像 */
     @NotBlank(message = "好友头像不能为空", groups = {Add.class, Update.class})

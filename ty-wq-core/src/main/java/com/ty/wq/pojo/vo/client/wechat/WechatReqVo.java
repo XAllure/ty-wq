@@ -38,13 +38,13 @@ public class WechatReqVo extends BaseReqVo {
     @NotNull(message = "性别不能为空", groups = {Update.class})
     private Integer gender;
 
-    @NotBlank(message = "请选择国家", groups = {Update.class})
+    //@NotBlank(message = "请选择国家", groups = {Update.class})
     private String country;
 
-    @NotBlank(message = "请选择省份", groups = {Update.class})
+    //@NotBlank(message = "请选择省份", groups = {Update.class})
     private String province;
 
-    @NotBlank(message = "请选择城市", groups = {Update.class})
+    //@NotBlank(message = "请选择城市", groups = {Update.class})
     private String city;
 
     /** 朋友圈个性签名 */

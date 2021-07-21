@@ -3,6 +3,7 @@ package com.ty.wq.service.client.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ty.wq.dao.client.WechatDao;
 import com.ty.wq.enums.CodeEnum;
+import com.ty.wq.enums.StatusEnum;
 import com.ty.wq.enums.WechatEnum;
 import com.ty.wq.exception.WqException;
 import com.ty.wq.pojo.po.client.Company;
@@ -53,7 +54,7 @@ public class WechatServiceImpl extends BaseServiceImpl<Wechat, WechatDao, Wechat
         List<WechatRespVo> vos = new ArrayList<>();
         for (String weChatId : wechatLoginReqVo.getWechatIds()) {
             Wechat wechat = findByWechatId(weChatId);
-            if (null != wechat) {
+            if (null != wechat && wechat.getStatus().equals(StatusEnum.NORMAL.getCode())) {
                 wechat.setIsLogin(WechatEnum.LOGGED_IN.getCode());
                 wechat.setIsOnline(WechatEnum.ONLINE.getCode());
                 wechat.setLoginTime(new Timestamp(System.currentTimeMillis()));

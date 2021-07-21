@@ -32,20 +32,22 @@ public class WechatHandler {
 
     @Async
     public void loginUserHandler(Channel channel, ReceiveMsg rMsg) {
-        // 保存当前微信对应的转发客户端channel
-        ChannelUtils.setWechatClientChannel(rMsg.getCwxid(), channel);
-        log.info(String.valueOf(rMsg));
-        // 将当前微信比如微信信息、好友列表等等同步到数据库（后续操作）
         JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
         WechatFriendVo vo = data.toJavaObject(WechatFriendVo.class);
-        // 同步个人微信信息
+        // 将当前微信比如微信信息、好友列表等等同步到数据库（后续操作）
         Wechat wechat = wechatService.findByWechatId(vo.getWxid());
-        wechat.setWechatNick(vo.getNick());
-        wechat.setWechatNo(vo.getAlias());
-        wechat.setHeadPic(vo.getHeadPic());
-        wechatService.updateById(wechat);
-        getWechatFriend(wechat.getWechatId());
-        getWechatRooms(wechat.getWechatId());
+        if (wechat != null) {
+            // 保存当前微信对应的转发客户端channel
+            ChannelUtils.setWechatClientChannel(rMsg.getCwxid(), channel);
+            // 同步个人微信信息
+            wechat.setWechatNick(vo.getNick());
+            wechat.setWechatNo(vo.getAlias());
+            wechat.setHeadPic(vo.getHeadPic());
+            wechatService.updateById(wechat);
+            // 同步好友列表、群等
+            getWechatFriend(wechat.getWechatId());
+            getWechatRooms(wechat.getWechatId());
+        }
     }
 
     /**

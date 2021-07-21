@@ -10,6 +10,6 @@ import java.util.Queue;
  */
 public class QueueUtils {
 
-    public static Queue<SendMsg> messages = new LinkedList<>();
+    public static LinkedList<SendMsg> messages = new LinkedList<>();
 
 }

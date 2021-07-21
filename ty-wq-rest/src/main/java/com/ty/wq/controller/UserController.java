@@ -53,7 +53,7 @@ public class UserController {
     @PostMapping("/update")
     public Result update(@RequestBody UserReqVo userReqVo) {
         ReqVoUtils.validated(userReqVo, BaseReqVo.Self.class);
-        userService.updateMine(userReqVo);
+        userService.updateSelf(userReqVo);
         return Result.success();
     }
 

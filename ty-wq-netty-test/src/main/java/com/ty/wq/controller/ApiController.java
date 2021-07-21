@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
+ *
  * @author Administrator
  */
 @RestController
@@ -29,23 +30,12 @@ import java.util.*;
 public class ApiController {
 
     /**
-     * 测试
-     * @param sendMsg
-     * @return
-     */
-    @PostMapping("/send_msg")
-    public Result sendMsg(@RequestBody SendMsg sendMsg) {
-        QueueUtils.messages.offer(sendMsg);
-        return Result.success();
-    }
-
-    /**
      * 轮询消息
      * @return
      */
     @GetMapping("/send_msg")
     public Object friends() {
-        Queue<SendMsg> list = new LinkedList<>();
+        LinkedList<SendMsg> list = new LinkedList<>();
         int size = QueueUtils.messages.size();
         for (int i = 0; i < size; i++) {
             list.add(QueueUtils.messages.poll());
@@ -74,19 +64,3 @@ public class ApiController {
     }
 
 }
-
-/*
-
-SendMsg
-
-"api":"getLoginUser","sendId":"xxx","option" : {}
-
-"api":"getContacts","sendId":"xxx","option" : {}
-
-"api":"getPublics","sendId":"xxx","option" : {}
-
-"api":"getChatRooms","sendId":"xxx","option" : {}
-
-"api":"getSingleContact","sendId":"xxx","option" : {"wxid":"xxx"}
-
-*/

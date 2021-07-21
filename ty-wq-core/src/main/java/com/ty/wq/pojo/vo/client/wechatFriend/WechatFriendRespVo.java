@@ -28,10 +28,10 @@ public class WechatFriendRespVo extends BaseRespVo {
     private String friendId;
 
     /** 好友微信号 */
-    private String friendWeChatNo;
+    private String friendWechatNo;
 
     /** 好友微信昵称 */
-    private String friendWeChatNick;
+    private String friendWechatNick;
 
     /** 头像 */
     private String headPic;

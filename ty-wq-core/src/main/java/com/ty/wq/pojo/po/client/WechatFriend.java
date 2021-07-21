@@ -30,10 +30,10 @@ public class WechatFriend extends BasePo {
     private String friendId;
 
     @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "好友微信号")
-    private String friendWeChatNo;
+    private String friendWechatNo;
 
     @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "好友微信昵称")
-    private String friendWeChatNick;
+    private String friendWechatNick;
 
     @Column( type = MySqlTypeConstant.VARCHAR, comment = "头像")
     private String headPic;

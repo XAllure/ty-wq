@@ -41,15 +41,15 @@ public interface UserService extends BaseService<User, UserDao, UserSearchVo> {
 
     /**
      * 转化为分页的user数据
-     * @param userRespVos
+     * @param respVos
      * @return
      */
-    List<UserRespVo> toPageUsers(List<UserRespVo> userRespVos);
+    List<UserRespVo> toPageUsers(List<UserRespVo> respVos);
 
     /**
      * 修改个人信息
      * @param vo
      */
-    void updateMine(UserReqVo vo);
+    void updateSelf(UserReqVo vo);
 
 }
