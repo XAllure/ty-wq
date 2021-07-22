@@ -3,6 +3,8 @@ package com.ty.wq.pojo.vo.client.wechatRoom;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import com.ty.wq.pojo.vo.BaseReqVo;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,46 +22,54 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@ApiModel
 public class WechatRoomReqVo extends BaseReqVo {
 
     private static final long serialVersionUID = -1L;
 
+    @ApiModelProperty("微信ID")
     @NotBlank(message = "微信ID不能为空", groups = {Get.class, Add.class, Update.class, Delete.class, Out.class})
     private String wechatId;
 
+    @ApiModelProperty("群微信ID")
     @NotBlank(message = "群微信ID不能为空", groups = {Delete.class, Update.class, Out.class})
     private String chatRoomId;
 
+    @ApiModelProperty("群名称")
     @NotBlank(message = "群名称不能为空", groups = {Update.class})
     private String chatRoomName;
 
+    @ApiModelProperty("群成员数量")
     private Integer roomMemberCount;
 
+    @ApiModelProperty("群头像")
     @NotBlank(message = "群头像不能为空", groups = {Update.class})
     private String avatar;
 
+    @ApiModelProperty("群主微信ID")
     @NotBlank(message = "群主微信ID不能为空", groups = {Update.class})
     private String owner;
 
+    @ApiModelProperty("群主微信昵称")
     @NotBlank(message = "群主微信昵称不能为空", groups = {Update.class})
     private String ownerNickName;
 
-    @NotNull(message = "是否为群主", groups = {Update.class})
+    @ApiModelProperty("是否为群主 1是 0不是")
     private Integer isOwner;
 
-    /** 群二维码地址 */
+    @ApiModelProperty("群二维码地址")
     private String url;
 
-    /** 限制进群人数 */
+    @ApiModelProperty("限制进群人数")
     private Integer limitCount;
 
-    /**公司ID*/
+    @ApiModelProperty("公司ID")
     private Long companyId;
 
-    /** 部门ID */
+    @ApiModelProperty("部门ID")
     private Long departmentId;
 
-    /** 要添加群聊的人员的微信id(由于群聊必须至少3个人, 因此必须包含至少2个好友的wxid) */
+    @ApiModelProperty("要添加群聊的人员的微信id(由于群聊必须至少3个人, 因此必须包含至少2个好友的wxid)")
     @NotEmpty(message = "请选择要添加群聊的人员，至少2个好友", groups = {Add.class})
     private List<String> wxidLists;
 

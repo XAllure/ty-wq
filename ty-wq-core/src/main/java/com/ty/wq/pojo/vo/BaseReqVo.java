@@ -1,5 +1,7 @@
 package com.ty.wq.pojo.vo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -9,10 +11,12 @@ import java.io.Serializable;
  * @author Administrator
  */
 @Data
+@ApiModel
 public class BaseReqVo implements Serializable {
 
     private static final long serialVersionUID = -6758663212374473172L;
 
+    @ApiModelProperty("ID")
     @NotNull(message = "id不能为空", groups = {Update.class, Status.class})
     protected Long id;
 
@@ -31,6 +35,5 @@ public class BaseReqVo implements Serializable {
     public interface Disturb{} // 免打扰
     public interface Out{} // 踢群成员
     public interface Invite{} //邀请群成员
-    public interface Search{} //邀请群成员
 
 }

@@ -27,7 +27,7 @@ public class AccessUtils {
 
     public static String userToken() {
         HttpServletRequest request = CommonUtils.getRequest();
-        return request.getHeader(WsTokenUtils.WQ_TOKEN_HEADER);
+        return request.getHeader(Constants.WQ_TOKEN_HEADER);
     }
 
 }

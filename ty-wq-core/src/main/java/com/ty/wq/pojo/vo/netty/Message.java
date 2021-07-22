@@ -1,6 +1,8 @@
 package com.ty.wq.pojo.vo.netty;
 
 import com.ty.wq.enums.CodeEnum;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -9,20 +11,21 @@ import java.io.Serializable;
  * @author Administrator
  */
 @Data
+@ApiModel
 public class Message implements Serializable {
 
     private static final long serialVersionUID = -4946511696855662893L;
 
-    /** 消息类型 */
+    @ApiModelProperty("消息类型")
     private String type;
 
-    /** 状态码 */
+    @ApiModelProperty("状态码")
     private Integer code;
 
-    /** 返回消息 */
+    @ApiModelProperty("返回消息")
     private String msg;
 
-    /** 返回数据 */
+    @ApiModelProperty("返回数据")
     private Object data;
 
     /**

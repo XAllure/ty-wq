@@ -13,8 +13,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class WsTokenUtils {
 
-    public final static String WQ_TOKEN_HEADER = "TY-WQ-LOGIN-TOKEN";
-
     /** token保存时间86400秒，即1440分钟，24小时 */
     private final static int TOKEN_EXPIRE = 86400;
 

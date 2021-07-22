@@ -78,7 +78,12 @@ public class WechatRoomServiceImpl extends BaseServiceImpl<WechatRoom, WechatRoo
     @Override
     public void quitDelChatRoom(String wechatId, String chatRoomId) {
         WechatRoom wechatRoom = findByWechatIdAndChatRoomId(wechatId, chatRoomId);
-        // 如果自己是群主
+        wechatRoom.setStatus(WechatEnum.CHATROOM_DELETED.getCode());
+        // 删除群
+        deleteByChatRoomId(chatRoomId);
+        // 删除成员
+        wechatRoomMemberService.deleteByChatRoomId(wechatRoom.getChatRoomId());
+        /*// 如果自己是群主
         if (wechatRoom.getOwner().equals(wechatId)) {
             wechatRoom.setStatus(WechatEnum.CHATROOM_DELETED.getCode());
             // 删除群
@@ -94,7 +99,7 @@ public class WechatRoomServiceImpl extends BaseServiceImpl<WechatRoom, WechatRoo
             delete(wechatRoom);
             // 退出群聊
             wechatRoomMemberService.delete(wechatRoomMember);
-        }
+        }*/
     }
 
     /**

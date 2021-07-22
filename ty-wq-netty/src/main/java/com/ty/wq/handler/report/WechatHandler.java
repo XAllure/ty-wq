@@ -39,6 +39,7 @@ public class WechatHandler {
         if (wechat != null) {
             // 保存当前微信对应的转发客户端channel
             ChannelUtils.setWechatClientChannel(rMsg.getCwxid(), channel);
+            log.info("保存当前微信对应的转发客户端channel[{}]", channel);
             // 同步个人微信信息
             wechat.setWechatNick(vo.getNick());
             wechat.setWechatNo(vo.getAlias());
@@ -57,6 +58,7 @@ public class WechatHandler {
      */
     @Async
     public void logoutHandler(Channel channel, ReceiveMsg rMsg) {
+        log.info("用户[{}]退出微信", rMsg.getCwxid());
         ChannelUtils.delClientByWechatIdAndChannel(rMsg.getCwxid(), channel);
     }
 

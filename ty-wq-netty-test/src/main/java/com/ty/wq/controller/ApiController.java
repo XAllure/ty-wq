@@ -10,11 +10,14 @@ import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.socket.WebSocketClient;
 import com.ty.wq.utils.MsgUtils;
 import com.ty.wq.utils.QueueUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -27,12 +30,10 @@ import java.util.*;
  */
 @RestController
 @Slf4j
+@ApiIgnore
 public class ApiController {
 
-    /**
-     * 轮询消息
-     * @return
-     */
+    @ApiOperation(value = "轮询消息")
     @GetMapping("/send_msg")
     public Object friends() {
         LinkedList<SendMsg> list = new LinkedList<>();
@@ -43,11 +44,7 @@ public class ApiController {
         return list;
     }
 
-    /**
-     * 轮询消息回调
-     * @param request
-     * @throws IOException
-     */
+    @ApiOperation(value = "轮询消息回调")
     @PostMapping("/recieve_msg")
     public void receiveMsg(HttpServletRequest request) throws IOException {
         BufferedReader br = request.getReader();
@@ -60,6 +57,7 @@ public class ApiController {
         MsgVo msgVo = new MsgVo();
         msgVo.setType(MsgType.RECEIVE_MSG);
         msgVo.setData(data.getJSONObject("data"));
+        // log.info(String.valueOf(msgVo));
         MsgUtils.writeJson(WebSocketClient.channel, Message.success(msgVo));
     }
 

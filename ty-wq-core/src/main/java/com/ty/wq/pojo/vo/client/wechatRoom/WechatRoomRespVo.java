@@ -4,6 +4,8 @@ import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.BaseRespVo;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,44 +22,45 @@ import java.sql.Timestamp;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@ApiModel
 public class WechatRoomRespVo extends BaseRespVo {
 
     private static final long serialVersionUID = -1L;
 
-    /** 微信ID */
+    @ApiModelProperty("微信ID")
     private String wechatId;
 
-    /** 微信ID */
+    @ApiModelProperty("群微信ID")
     private String chatRoomId;
 
-    /**  */
+    @ApiModelProperty("群名称")
     private String chatRoomName;
 
-    /** 群成员数量 */
+    @ApiModelProperty("群成员数量")
     private Integer roomMemberCount;
 
-    /** 群头像 */
+    @ApiModelProperty("群头像")
     private String avatar;
 
-    /** 群主微信ID */
+    @ApiModelProperty("群主微信ID")
     private String owner;
 
-    /** 群主微信昵称 */
+    @ApiModelProperty("群主微信昵称")
     private String ownerNickName;
 
-    /** 是否为群主 是否为群主 1是 0 */
+    @ApiModelProperty("是否为群主 1是 0不是")
     private Integer isOwner;
 
-    /** 群二维码地址 */
+    @ApiModelProperty("群二维码地址")
     private String url;
 
-    /** 限制进群人数 */
+    @ApiModelProperty("限制进群人数")
     private Integer limitCount;
 
-    /** 公司ID */
+    @ApiModelProperty("公司ID")
     private Long companyId;
 
-    /** 部门ID */
+    @ApiModelProperty("部门ID")
     private Long departmentId;
 
 }

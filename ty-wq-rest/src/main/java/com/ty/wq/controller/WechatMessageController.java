@@ -15,6 +15,8 @@ import com.ty.wq.service.client.WechatMessageService;
 import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
 import com.ty.wq.utils.RouteUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,16 +34,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/wechat/message")
 @Slf4j
+@Api(tags = "微信消息相关")
 public class WechatMessageController {
 
     @Autowired
     private WechatMessageService wechatMessageService;
 
-    /**
-     * 发送文本消息
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "发送文本消息")
     @PostMapping("/sendTextMessage")
     public Result sendTextMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
@@ -55,13 +54,7 @@ public class WechatMessageController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 发送@文本消息
-     * 文本消息text的内容中设置占位符{$@},代表被@群成员，
-     * 占位符的数量必须和atlist中的微信号数量相等
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "发送@文本消息,文本消息text的内容中设置占位符{$@},代表被@群成员，占位符的数量必须和atlist中的微信号数量相等")
     @PostMapping("/sendAtTextMessage")
     public Result sendAtTextMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.At.class);
@@ -76,11 +69,7 @@ public class WechatMessageController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 发送图片
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "发送图片")
     @PostMapping("/sendPicMessage")
     public Result sendPicMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
@@ -94,11 +83,7 @@ public class WechatMessageController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 发送文件
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "发送文件")
     @PostMapping("/sendFileMessage")
     public Result sendFileMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
@@ -112,11 +97,7 @@ public class WechatMessageController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 发送视频
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "发送视频")
     @PostMapping("/sendVideoMessage")
     public Result sendVideoMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
@@ -130,11 +111,7 @@ public class WechatMessageController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 发送GIF表情
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "发送GIF表情")
     @PostMapping("/sendGifMessage")
     public Result sendGifMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
@@ -148,11 +125,7 @@ public class WechatMessageController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 发送链接消息
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "发送链接消息")
     @PostMapping("/sendLinkMessage")
     public Result sendLinkMessage(@RequestBody LinkMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
@@ -169,11 +142,7 @@ public class WechatMessageController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 发送名片消息
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "发送名片消息")
     @PostMapping("/sendCardMessage")
     public Result sendCardMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
@@ -187,11 +156,7 @@ public class WechatMessageController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 发送小程序
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "发送小程序")
     @PostMapping("/sendMiniMessage")
     public Result sendMiniMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
@@ -205,11 +170,7 @@ public class WechatMessageController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 发送xml消息
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "发送xml消息")
     @PostMapping("/sendXmlMessage")
     public Result sendXmlMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
@@ -223,11 +184,7 @@ public class WechatMessageController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 发送名片xml消息
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "发送名片xml消息")
     @PostMapping("/sendCardXmlMessage")
     public Result sendCardXmlMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
@@ -241,12 +198,7 @@ public class WechatMessageController {
         return RouteUtils.send(sMsg);
     }
 
-
-    /**
-     * 接收好友转账
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "接收好友转账")
     @PostMapping("/acceptBankTransfer")
     public Result acceptBankTransfer(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Update.class);
@@ -260,11 +212,7 @@ public class WechatMessageController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 退还好友转账
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "退还好友转账")
     @PostMapping("/refuseFriendWcpay")
     public Result refuseFriendWcpay(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Update.class);
@@ -278,11 +226,7 @@ public class WechatMessageController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 分页获取消息记录
-     * @param searchVo
-     * @return
-     */
+    @ApiOperation(value = "分页获取消息记录")
     @PostMapping("/records")
     public Result records(@RequestBody WechatMessageSearchVo searchVo) {
         Page<WechatMessage> messages = wechatMessageService.getRecordMsg(searchVo);

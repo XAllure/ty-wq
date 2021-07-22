@@ -11,25 +11,23 @@ import com.ty.wq.utils.ChannelUtils;
 import com.ty.wq.utils.MsgUtils;
 import com.ty.wq.utils.ReqVoUtils;
 import com.ty.wq.utils.WsTokenUtils;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @author Administrator
  */
 @RestController
 @RequestMapping("/client")
+@ApiIgnore
 public class ClientController {
 
     @Value("${spring.profiles.active}")
     private String active;
 
-    /**
-     * 往转发客户端发送数据
-     * @param sendMsg
-     * @param token
-     * @return
-     */
+    @ApiOperation(value = "往转发客户端发送数据")
     @PostMapping("/sendMsg/{token}")
     public Result addFriend(@RequestBody SendMsg sendMsg, @PathVariable String token) {
         System.out.println(active);

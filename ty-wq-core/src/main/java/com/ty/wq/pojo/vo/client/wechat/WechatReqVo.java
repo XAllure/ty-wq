@@ -1,6 +1,8 @@
 package com.ty.wq.pojo.vo.client.wechat;
 
 import com.ty.wq.pojo.vo.BaseReqVo;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,49 +19,54 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@ApiModel
 public class WechatReqVo extends BaseReqVo {
     private static final long serialVersionUID = -1L;
 
+    @ApiModelProperty("微信ID")
     @NotBlank(message = "微信ID不能为空", groups = {Update.class})
     private String wechatId;
 
-    /** 微信号 */
+    @ApiModelProperty("微信号")
     private String wechatNo;
 
+    @ApiModelProperty("微信昵称")
     @NotBlank(message = "微信昵称不能为空", groups = {Update.class})
     private String wechatNick;
 
-    /** 高清头像 */
+    @ApiModelProperty("高清头像")
     private String headPic;
 
-    /** 小头像 */
+    @ApiModelProperty("小头像")
     private String smallPic;
 
+    @ApiModelProperty("性别")
     @NotNull(message = "性别不能为空", groups = {Update.class})
     private Integer gender;
 
-    //@NotBlank(message = "请选择国家", groups = {Update.class})
+    @ApiModelProperty("国家")
     private String country;
 
-    //@NotBlank(message = "请选择省份", groups = {Update.class})
+    @ApiModelProperty("省份")
     private String province;
 
-    //@NotBlank(message = "请选择城市", groups = {Update.class})
+    @ApiModelProperty("城市")
     private String city;
 
-    /** 朋友圈个性签名 */
+    @ApiModelProperty("朋友圈个性签名")
     private String signature;
 
+    @ApiModelProperty("朋友圈背景图片")
     @NotBlank(message = "朋友圈背景图片不能为空", groups = {Update.class})
     private String snsPic;
 
-    /** 设备ID */
+    @ApiModelProperty("设备ID")
     private String deviceId;
 
-    /** 公司ID */
+    @ApiModelProperty("公司ID")
     private Long companyId;
 
-    /** 部门ID */
+    @ApiModelProperty("部门ID")
     private Long departmentId;
 
 }

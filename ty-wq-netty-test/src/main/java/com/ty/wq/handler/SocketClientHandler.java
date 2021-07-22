@@ -59,11 +59,16 @@ public class SocketClientHandler extends SimpleChannelInboundHandler<Object> {
         }else {
             //接收服务端的消息
             WebSocketFrame frame = (WebSocketFrame)msg;
+            // 打印请求日志
             //文本信息
             if (frame instanceof TextWebSocketFrame) {
                 Message message = MsgUtils.message((TextWebSocketFrame)msg);
                 if (message.getType().equals(MsgType.SEND_MSG)) {
                     SendMsg sendMsg = MsgUtils.convert(message.getData(), SendMsg.class);
+                    log.info("------------------------------ webSocket读取并处理消息 -----------------------------------");
+                    log.info("WebSocket[channelId-{}]请求参数", ctx.channel().id().asLongText());
+                    log.info("IP: {}", ctx.channel().remoteAddress());
+                    log.info("Parameter: {}", sendMsg);
                     QueueUtils.messages.offer(sendMsg);
                     return;
                 }

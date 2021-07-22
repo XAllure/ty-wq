@@ -101,28 +101,13 @@ public class WechatServiceImpl extends BaseServiceImpl<Wechat, WechatDao, Wechat
      */
     @Override
     public WechatRespVo getByWechatId(String wechatId) {
-        WechatRespVo vo = OrikaUtils.convert(findByWechatId(wechatId), WechatRespVo.class);
+        Wechat wechat = findByWechatId(wechatId);
+        if (wechat == null) {
+            throw new WqException(CodeEnum.ERROR_ACCOUNT.getCode(), "无该微信");
+        }
+        WechatRespVo vo = OrikaUtils.convert(wechat, WechatRespVo.class);
         setCd(vo);
         return vo;
-    }
-
-    /**
-     * 修改微信信息
-     * @param vo
-     */
-    @Override
-    public void updateSelf(WechatReqVo vo) {
-        Wechat wechat = findByWechatId(vo.getWechatId());
-        wechat.setWechatNick(vo.getWechatNick());
-        wechat.setHeadPic(vo.getHeadPic());
-        wechat.setSmallPic(vo.getSmallPic());
-        wechat.setGender(vo.getGender());
-        wechat.setCountry(vo.getCountry());
-        wechat.setProvince(vo.getProvince());
-        wechat.setCity(vo.getCity());
-        wechat.setSignature(vo.getSignature());
-        wechat.setSnsPic(vo.getSnsPic());
-        updateById(wechat);
     }
 
     /**

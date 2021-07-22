@@ -14,6 +14,8 @@ import com.ty.wq.service.client.WechatRoomMemberService;
 import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
 import com.ty.wq.utils.RouteUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,16 +29,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/wechat/room/member")
+@Api(tags = "微信群成员相关")
 public class WechatRoomMemberController {
 
     @Autowired
     private WechatRoomMemberService wechatRoomMemberService;
 
-    /**
-     * 获取单个普通群成员信息
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "获取单个普通群成员信息")
     @PostMapping("/getSingleChatRoomMembers")
     public Result getSingleChatRoomMembers(@RequestBody WechatRoomMemberReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Info.class);
@@ -45,11 +44,7 @@ public class WechatRoomMemberController {
         return Result.success(respVo);
     }
 
-    /**
-     * 踢群成员 当前微信必须有踢人权限
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "踢群成员 当前微信必须有踢人权限")
     @PostMapping("/delChatRoomMembers")
     public Result delChatRoomMembers(@RequestBody WechatRoomMemberReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Out.class);
@@ -68,6 +63,7 @@ public class WechatRoomMemberController {
      * @param vo
      * @return
      */
+    @ApiOperation(value = "修改我在本群的昵称")
     @PostMapping("/updateChatRoomDisplayName")
     public Result updateChatRoomDisplayName(@RequestBody WechatRoomMemberReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Update.class);
@@ -86,11 +82,7 @@ public class WechatRoomMemberController {
         return res;
     }
 
-    /**
-     * 发送40人以下群邀请 不需要好友同意即可直接拉入群
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "发送40人以下群邀请 不需要好友同意即可直接拉入群")
     @PostMapping("/sendChatroomLow")
     public Result sendChatroomLow(@RequestBody WechatRoomMemberReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Invite.class);
@@ -109,6 +101,7 @@ public class WechatRoomMemberController {
      * @param vo
      * @return
      */
+    @ApiOperation(value = "发送40人以上群邀请 需要好友同意")
     @PostMapping("/sendChatroomHigh")
     public Result sendChatroomHigh(@RequestBody WechatRoomMemberReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Invite.class);

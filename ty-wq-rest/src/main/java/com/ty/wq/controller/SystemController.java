@@ -8,6 +8,8 @@ import com.ty.wq.pojo.vo.client.user.LoginReqVo;
 import com.ty.wq.pojo.vo.client.user.LoginRespVo;
 import com.ty.wq.service.client.UserService;
 import com.ty.wq.utils.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import javax.validation.constraints.NotBlank;
 @RestController
 @RequestMapping("/system")
 @Slf4j
+@Api(tags = "系统相关")
 public class SystemController {
 
     @Autowired
@@ -60,11 +63,7 @@ public class SystemController {
         }
     }*/
 
-    /**
-     * 用户登录
-     * @param loginVo
-     * @return
-     */
+    @ApiOperation(value = "用户登录")
     @PostMapping("/login")
     public Result login(@RequestBody LoginReqVo loginVo) {
         ReqVoUtils.validated(loginVo, BaseReqVo.Login.class);
@@ -72,11 +71,7 @@ public class SystemController {
         return Result.success(loginRespVo);
     }
 
-    /**
-     *
-     * @param token
-     * @return
-     */
+    @ApiOperation(value = "用户退出登录")
     @PostMapping("/logout/{token}")
     public Result logout(@Valid @NotBlank(message = "参数不能为空") @PathVariable String token) {
         if (!WsTokenUtils.hasToken(token)) {
@@ -89,18 +84,5 @@ public class SystemController {
         WsTokenUtils.delUserWs(userId);
         return Result.success();
     }
-
-    @PostMapping("/delete")
-    public Result delete() {
-        for (String key : RedisUtils.getAllKeys(Constants.WQ_USER_LOGIN_KEY + "*")) {
-            RedisUtils.delete(key);
-        }
-        for (String key : RedisUtils.getAllKeys(Constants.WQ_USER_SERVER + "*")) {
-            RedisUtils.delete(key);
-        }
-        return Result.success();
-    }
-
-
 
 }

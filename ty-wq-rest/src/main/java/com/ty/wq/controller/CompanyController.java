@@ -5,6 +5,9 @@ import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.company.CompanyRespVo;
 import com.ty.wq.service.client.CompanyService;
 import com.ty.wq.utils.OrikaUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +16,13 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/company")
+@Api(tags = "公司相关")
 public class CompanyController {
 
     @Autowired
     private CompanyService companyService;
 
-    /**
-     * 按id获取
-     * @param id
-     * @return
-     */
+    @ApiOperation(value = "按id获取公司信息")
     @PostMapping("/info/{id}")
     public Result info(@PathVariable Long id) {
         Company company = companyService.findById(id);

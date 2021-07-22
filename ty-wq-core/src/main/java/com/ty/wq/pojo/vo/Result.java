@@ -1,6 +1,8 @@
 package com.ty.wq.pojo.vo;
 
 import com.ty.wq.enums.CodeEnum;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -9,16 +11,17 @@ import java.io.Serializable;
  * @author Administrator
  */
 @Data
+@ApiModel
 public class Result implements Serializable {
     private static final long serialVersionUID = 3558270675228629494L;
 
-    /** 错误码 */
+    @ApiModelProperty("错误码")
     private Integer code;
 
-    /** 错误信息 */
+    @ApiModelProperty("错误信息")
     private String msg;
 
-    /** 数据 */
+    @ApiModelProperty("数据")
     private Object data;
 
     /**

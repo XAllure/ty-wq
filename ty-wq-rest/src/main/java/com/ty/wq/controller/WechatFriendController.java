@@ -4,6 +4,7 @@ import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.OptionKey;
 import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.enums.WechatEnum;
+import com.ty.wq.pojo.po.client.WechatFriend;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendReqVo;
@@ -11,8 +12,11 @@ import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendRespVo;
 import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
 import com.ty.wq.pojo.vo.netty.Option;
 import com.ty.wq.service.client.WechatFriendService;
+import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
 import com.ty.wq.utils.RouteUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,38 +30,27 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/wechat/friend")
+@Api(tags = "微信好友相关")
 public class WechatFriendController {
 
     @Autowired
     private WechatFriendService wechatFriendService;
 
-    /**
-     * 获取普通好友列表
-     * @param wechatId 微信id
-     * @return
-     */
+    @ApiOperation(value = "获取普通好友列表")
     @PostMapping("/getContacts/{wechatId}")
     public Result getContacts(@Valid @NotBlank(message = "微信id参数错误") @PathVariable String wechatId) {
         List<WechatFriendRespVo> vos = wechatFriendService.getWechatFriends(wechatId);
         return Result.success(vos);
     }
 
-    /**
-     * 获取微信好友详细信息
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "获取微信好友详细信息")
     @PostMapping("/getSingleContact")
     public Result getSingleContact(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Info.class);
         return Result.success(wechatFriendService.getFriendInfo(vo));
     }
 
-    /**
-     * 任意普通微信反查详细信息
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "任意普通微信反查详细信息")
     @PostMapping("/updateContact")
     public Result updateContact(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Info.class);
@@ -70,10 +63,7 @@ public class WechatFriendController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 添加好友
-     * @return
-     */
+    @ApiOperation(value = "添加好友")
     @PostMapping("/addFriend")
     public Result addFriend(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Add.class);
@@ -89,7 +79,7 @@ public class WechatFriendController {
                 .add(OptionKey.WXID, vo.getFriendId())
                 .add(OptionKey.REMARK, vo.getRemark())
                 .add(OptionKey.SCENE, vo.getScene())
-                .add(OptionKey.ROOM_WXID, "")
+                .add(OptionKey.ROOM_WXID, vo.getChatRoomId())
                 .getOption());
         // 通知netty服务端
         Result res = RouteUtils.send(sendMsg);
@@ -99,11 +89,7 @@ public class WechatFriendController {
         return res;
     }
 
-    /**
-     * 删除好友
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "删除好友")
     @PostMapping("/delFriend")
     public Result delFriend(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Delete.class);
@@ -114,14 +100,16 @@ public class WechatFriendController {
                 .add(OptionKey.WXID, vo.getFriendId())
                 .getOption());
         // 通知netty服务端
-        return RouteUtils.send(sendMsg);
+        Result res = RouteUtils.send(sendMsg);
+        if (res.getCode().equals(CodeEnum.SUCCESS.getCode())) {
+            WechatFriend friend = wechatFriendService.getByWechatIdAndFriendId(vo.getWechatId(), vo.getFriendId());
+            friend.setStatus(WechatEnum.FRIEND_DELETED.getCode());
+            wechatFriendService.updateById(friend);
+        }
+        return res;
     }
 
-    /**
-     * 修改好友备注
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "修改好友备注")
     @PostMapping("/updateRemark")
     public Result updateRemark(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Update.class);
@@ -140,11 +128,7 @@ public class WechatFriendController {
         return res;
     }
 
-    /**
-     * 接受加好友请求
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "接受加好友请求")
     @PostMapping("/acceptFriend")
     public Result acceptFriend(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Update.class);
@@ -159,33 +143,25 @@ public class WechatFriendController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 通过手机号/微信号/QQ号查询任意微信号信息
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "通过手机号/微信号/QQ号查询任意微信号信息")
     @PostMapping("/searchContact")
     public Result searchContact(@RequestBody WechatFriendReqVo vo) {
-        ReqVoUtils.validated(vo, BaseReqVo.Info.class, BaseReqVo.Search.class);
+        ReqVoUtils.validated(vo, BaseReqVo.Info.class);
         SendMsg sMsg = new SendMsg();
-        sMsg.setApi(ApiType.ACCEPT_FRIEND);
+        sMsg.setApi(ApiType.SEARCH_CONTACT);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
-                .add(OptionKey.SEARCH, vo.getSearch())
+                .add(OptionKey.SEARCH, vo.getFriendId())
                 .getOption());
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 添加通过手机号/微信号/QQ号查询任意微信号信息
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "添加通过任意手机号/微信号/QQ号查询的联系人")
     @PostMapping("/addSearchContact")
     public Result addSearchContact(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Add.class);
         SendMsg sendMsg = new SendMsg();
-        sendMsg.setApi(ApiType.ADD_FRIEND);
+        sendMsg.setApi(ApiType.ADD_SEARCH_CONTACT);
         sendMsg.setSendId(vo.getWechatId());
         sendMsg.setOption(Option.option()
                 .add(OptionKey.V1, vo.getV1())
@@ -201,12 +177,7 @@ public class WechatFriendController {
         return res;
     }
 
-
-    /**
-     * 修改好友部分信息
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "修改好友部分信息")
     @PostMapping("/update")
     public Result update(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Update.class);
@@ -214,11 +185,7 @@ public class WechatFriendController {
         return Result.success();
     }
 
-    /**
-     * 置顶
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "置顶")
     @PostMapping("/top")
     public Result top(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Top.class);
@@ -236,11 +203,7 @@ public class WechatFriendController {
         return res;
     }
 
-    /**
-     * 免打扰
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "免打扰")
     @PostMapping("/disturb")
     public Result disturb(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Disturb.class);

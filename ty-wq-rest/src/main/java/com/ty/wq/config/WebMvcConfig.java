@@ -24,12 +24,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.addAllowedOriginPattern("*");
+        corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
         return corsConfiguration;
     }
+
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -44,6 +44,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private final String[] paths = new String[]{
             "/system/login",
             "/img/**",
+            "/swagger-resources/**",
     };
 
     @Override

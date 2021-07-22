@@ -48,6 +48,12 @@ public interface ApiType {
     /** 开启/关闭消息免打扰 */
     String MOD_RECV_NOTIFY = "modRecvNotify";
 
+    /** 通过手机号/微信号/QQ号查询任意微信号信息 */
+    String SEARCH_CONTACT = "searchContact";
+
+    /** 添加通过任意手机号/微信号/QQ号查询的联系人 */
+    String ADD_SEARCH_CONTACT = "addSearchContact";
+
     /** 创建群聊 */
     String CREATE_CHAT_ROOM = "createChatRoom";
 

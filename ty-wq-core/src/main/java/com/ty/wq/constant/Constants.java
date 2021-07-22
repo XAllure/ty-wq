@@ -7,6 +7,9 @@ import io.netty.util.AttributeKey;
  */
 public interface Constants {
 
+    /** 用户登录token头部 */
+    String WQ_TOKEN_HEADER = "WQ-LOGIN-TOKEN";
+
     /** 登录信息 */
     String WQ_USER_LOGIN_KEY = "WQ-USER-LOGIN-KEY:";
 

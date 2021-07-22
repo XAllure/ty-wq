@@ -9,12 +9,14 @@ import com.ty.wq.service.client.WechatService;
 import com.ty.wq.utils.ChannelUtils;
 import com.ty.wq.utils.ReqVoUtils;
 import io.netty.channel.Channel;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -23,16 +25,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/wechat")
+@ApiIgnore
 public class NeWechatController {
 
     @Autowired
     private WechatService wechatService;
 
-    /**
-     * 注册微信的channel
-     * @param reqVo
-     * @return
-     */
+    @ApiOperation(value = "微信登录时注册微信的channel", tags = "微信登录时注册微信的channel")
     @PostMapping("/login")
     public Result result(@RequestBody NeWechatReqVo reqVo) {
         if (reqVo.getUserId() == null) {
@@ -47,10 +46,11 @@ public class NeWechatController {
     }
 
     /**
-     * 退出微信登录 删除channel
+     * 退出微信登录，删除channel
      * @param reqVo
      * @return
      */
+    @ApiOperation(value = "退出微信登录，删除channel")
     @PostMapping("/logout")
     public Result logout(@RequestBody NeWechatReqVo reqVo) {
         if (reqVo.getUserId() == null) {

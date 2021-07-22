@@ -1,20 +1,23 @@
 package com.ty.wq.pojo.vo.netty.report;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
  * @author Administrator
  */
 @Data
+@ApiModel
 public class ChatRoomMembersVo {
 
-    /** 群的微信 ID */
+    @ApiModelProperty("群的微信ID")
     private String wxid;
 
-    /** 群成员数量 */
+    @ApiModelProperty("群成员数量")
     private Integer roomCount;
 
-    /** String 类型的用户列表 */
+    @ApiModelProperty("字符串类型的用户列表")
     private String userLists;
 
 }

@@ -34,7 +34,7 @@ public class InterceptorConfig implements HandlerInterceptor {
             return false;
         }
         // token 信息校验
-        String token = request.getHeader(Constants.WQ_USER_LOGIN_KEY);
+        String token = request.getHeader(Constants.WQ_TOKEN_HEADER);
         // token不存在或失效
         if (Objects.isNull(token) || !WsTokenUtils.hasToken(token)){
             //返回需要重新登录的信息

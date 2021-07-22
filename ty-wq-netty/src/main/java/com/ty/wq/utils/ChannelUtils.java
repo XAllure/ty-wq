@@ -203,7 +203,8 @@ public class ChannelUtils {
     public static synchronized Channel getClientChannel(String wechatId) {
         long count = INDEX.incrementAndGet();
         List<Channel> channels = getWechatClientChannels(wechatId);
-        return channels.get((int) (count % channels.size()));
+        int index = (int) (count % channels.size());
+        return channels.get(index);
     }
 
     /**

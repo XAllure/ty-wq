@@ -13,6 +13,8 @@ import com.ty.wq.pojo.vo.netty.Option;
 import com.ty.wq.service.client.WechatRoomService;
 import com.ty.wq.utils.ReqVoUtils;
 import com.ty.wq.utils.RouteUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,15 +27,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/wechat/room")
+@Api(tags = "微信群相关")
 public class WechatRoomController {
 
     @Autowired
     private WechatRoomService wechatRoomService;
 
-    /**
-     * 获取普通群列表
-     * @return
-     */
+    @ApiOperation(value = "获取普通群列表")
     @PostMapping("/getChatRooms")
     public Result getChatRooms(@RequestBody WechatRoomReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Get.class);
@@ -43,22 +43,14 @@ public class WechatRoomController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 获取普通群列表
-     * @param wechatId
-     * @return
-     */
+    @ApiOperation(value = "根据微信id获取普通群列表")
     @PostMapping("/getChatRooms/{wechatId}")
     public Result getChatRooms(@Valid @NotBlank(message = "微信id参数错误") @PathVariable String wechatId) {
         List<WechatRoomRespVo> vos = wechatRoomService.getChatRooms(wechatId);
         return Result.success(vos);
     }
 
-    /**
-     * 创建群聊
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "创建群聊")
     @PostMapping("/createChatRoom")
     public Result createChatRoom(@RequestBody WechatRoomReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Add.class);
@@ -71,11 +63,7 @@ public class WechatRoomController {
         return RouteUtils.send(sMsg);
     }
 
-    /**
-     * 退出并删除群
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "退出并删除群")
     @PostMapping("/quitDelChatRoom")
     public Result quitDelChatRoom(@RequestBody WechatRoomReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Delete.class);
@@ -91,11 +79,7 @@ public class WechatRoomController {
         return res;
     }
 
-    /**
-     * 修改群名称
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "修改群名称")
     @PostMapping("/updateChatRoomName")
     public Result updateChatRoomName(@RequestBody WechatRoomReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Delete.class);
@@ -114,11 +98,7 @@ public class WechatRoomController {
         return res;
     }
 
-    /**
-     * 接受群邀请
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "接受群邀请")
     @PostMapping("/acceptChatroomInvite")
     public Result acceptChatroomInvite(@RequestBody AcceptChatroomReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Invite.class);

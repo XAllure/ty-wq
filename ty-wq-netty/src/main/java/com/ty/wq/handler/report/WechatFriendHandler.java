@@ -55,6 +55,7 @@ public class WechatFriendHandler {
             if (friend != null) {
                 setFriend(rMsg.getCwxid(), vo, friend);
                 wechatFriendService.updateById(friend);
+                friend.setStatus(WechatEnum.FRIEND_NORMAL.getCode());
             } else {
                 // 无该好友
                 friend = new WechatFriend();
@@ -130,7 +131,7 @@ public class WechatFriendHandler {
         WechatFriendVo vo = OrikaUtils.convert(data, WechatFriendVo.class);
         WechatFriend friend = wechatFriendService.getByWechatIdAndFriendId(rMsg.getCwxid(), vo.getWxid());
         if (friend != null) {
-            friend.setStatus(WechatEnum.FRIEND_NEW.getCode());
+            friend.setStatus(WechatEnum.FRIEND_NORMAL.getCode());
             setFriend(rMsg.getCwxid(), vo, friend);
             wechatFriendService.updateById(friend);
         } else {

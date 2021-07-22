@@ -12,6 +12,8 @@ import com.ty.wq.service.client.UserService;
 import com.ty.wq.utils.AccessUtils;
 import com.ty.wq.utils.Md5Utils;
 import com.ty.wq.utils.ReqVoUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,36 +22,26 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/user")
+@Api(tags = "用户相关")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    /**
-     * 按id获取信息
-     * @param id
-     * @return
-     */
+    @ApiOperation(value = "按id获取用户信息")
     @PostMapping("/info/{id}")
     public Result info(@PathVariable Long id) {
         return Result.success(userService.getById(id));
     }
 
-    /**
-     * 获取个人信息
-     * @return
-     */
+    @ApiOperation(value = "获取个人信息")
     @PostMapping("/info")
     public Result info() {
         UserRespVo userRespVo = userService.getById(AccessUtils.userId());
         return Result.success(userRespVo);
     }
 
-    /**
-     * 修改个人信息
-     * @param userReqVo
-     * @return
-     */
+    @ApiOperation(value = "修改个人信息")
     @PostMapping("/update")
     public Result update(@RequestBody UserReqVo userReqVo) {
         ReqVoUtils.validated(userReqVo, BaseReqVo.Self.class);
@@ -57,11 +49,7 @@ public class UserController {
         return Result.success();
     }
 
-    /**
-     * 修改密码
-     * @param reqVo
-     * @return
-     */
+    @ApiOperation(value = "修改密码")
     @PostMapping("/password/update")
     public Result updatePassword(@RequestBody PasswordReqVo reqVo) {
         ReqVoUtils.validated(reqVo, BaseReqVo.Self.class);
@@ -80,11 +68,7 @@ public class UserController {
         return Result.success();
     }
 
-    /**
-     * 修改手机号
-     * @param vo
-     * @return
-     */
+    @ApiOperation(value = "修改手机号")
     @PostMapping("/phone/update")
     public Result updatePhone(@RequestBody PhoneReqVo vo) {
         // 从redis获取手机号缓存的验证码
