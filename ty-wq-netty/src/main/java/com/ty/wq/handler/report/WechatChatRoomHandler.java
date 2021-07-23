@@ -12,7 +12,6 @@ import com.ty.wq.pojo.po.client.WechatRoom;
 import com.ty.wq.pojo.po.client.WechatRoomMember;
 import com.ty.wq.pojo.vo.client.wechatMessage.ReceiveMsg;
 import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
-import com.ty.wq.pojo.vo.client.wechatRoom.WechatRoomRespVo;
 import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.pojo.vo.netty.Option;
@@ -62,7 +61,6 @@ public class WechatChatRoomHandler {
         // List<WechatRoom> wechatRooms = new ArrayList<>();
         // 暂时一个个循环判断
         for (ChatRoomVo roomVo : roomVos) {
-            getMembers(rMsg.getCwxid(), roomVo.getWxid());
             WechatRoom wechatRoom = wechatRoomService.findByWechatIdAndChatRoomId(rMsg.getCwxid(), roomVo.getWxid());
             // 已存在
             if (wechatRoom != null) {
@@ -78,6 +76,8 @@ public class WechatChatRoomHandler {
                 // 插入
                 wechatRoomService.insert(wechatRoom);
             }
+            // 获取群成员
+            getMembers(rMsg.getCwxid(), roomVo.getWxid());
             // wechatRooms.add(wechatRoom);
         }
         /*List<WechatRoomRespVo> respVos = OrikaUtils.converts(wechatRooms, WechatRoomRespVo.class);
@@ -110,12 +110,13 @@ public class WechatChatRoomHandler {
     public void chatRoomMemberAddHandler(ReceiveMsg rMsg) {
         JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
         ChatRoomVo roomVo = OrikaUtils.convert(data, ChatRoomVo.class);
-        getMembers(rMsg.getCwxid(), roomVo.getWxid());
         WechatRoom wechatRoom = wechatRoomService.findByWechatIdAndChatRoomId(rMsg.getCwxid(), roomVo.getWxid());
         // 赋值
         setWechatRoom(rMsg.getCwxid(), roomVo, wechatRoom);
         // 更新
         wechatRoomService.updateById(wechatRoom);
+        // 获取群成员
+        getMembers(rMsg.getCwxid(), roomVo.getWxid());
         // 发送邀请人邀请入群信息
         SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), JSON.parseArray(roomVo.getUserLists()));
     }
@@ -138,10 +139,18 @@ public class WechatChatRoomHandler {
         List<ChatRoomMemberVo> memberVos = OrikaUtils.converts(userLists, ChatRoomMemberVo.class);
         List<String> wechatIds = new ArrayList<>();
         for (ChatRoomMemberVo memberVo : memberVos) {
-            wechatIds.add(memberVo.getWxid());
+            // 如果被踢的成员是用户的微信
+            Wechat wechat = wechatService.findByWechatId(memberVo.getWxid());
+            if (wechat != null) {
+                wechatRoomService.quitDelChatRoom(rMsg.getCwxid(), roomVo.getWxid());
+            } else {
+                wechatIds.add(memberVo.getWxid());
+            }
         }
-        // 删除群成员
-        wechatRoomMemberService.deleteByWechatIdsAndChatRoomId(wechatIds, roomVo.getWxid());
+        if (wechatIds.size() > 0) {
+            // 删除群成员
+            wechatRoomMemberService.deleteByWechatIdsAndChatRoomId(wechatIds, roomVo.getWxid());
+        }
         // 通知
         SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), userLists);
     }
@@ -154,13 +163,13 @@ public class WechatChatRoomHandler {
     public void newChatRoomHandler(ReceiveMsg rMsg) {
         JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
         ChatRoomVo roomVo = OrikaUtils.convert(data, ChatRoomVo.class);
-        getMembers(rMsg.getCwxid(), roomVo.getWxid());
         WechatRoom wechatRoom = new WechatRoom();
         wechatRoom.setWechatId(rMsg.getCwxid());
         wechatRoom.setChatRoomId(roomVo.getWxid());
         setWechatRoom(rMsg.getCwxid(), roomVo, wechatRoom);
         // 插入
         wechatRoomService.insert(wechatRoom);
+        getMembers(rMsg.getCwxid(), roomVo.getWxid());
         // 通知
         SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), roomVo);
     }
@@ -188,14 +197,11 @@ public class WechatChatRoomHandler {
     private void setWechatRoom(String wechatId, ChatRoomVo roomVo, WechatRoom wechatRoom) {
         // 查询微信信息
         Wechat wechat = wechatService.findByWechatId(wechatId);
-        // 查询群主信息
-        WechatRoomMember owner = wechatRoomMemberService.getByWechatIdAndChatRoomId(roomVo.getOwner(), roomVo.getWxid());
         // 赋值
         wechatRoom.setChatRoomName(roomVo.getNick());
         wechatRoom.setRoomMemberCount(roomVo.getRoomCount());
         wechatRoom.setAvatar(roomVo.getHeadPic());
         wechatRoom.setOwner(roomVo.getOwner());
-        wechatRoom.setOwnerNickName(owner == null ? "":owner.getWechatNick());
         wechatRoom.setIsOwner(roomVo.getIsowner());
         wechatRoom.setCompanyId(wechat.getCompanyId());
         wechatRoom.setDepartmentId(wechat.getDepartmentId());

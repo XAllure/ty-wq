@@ -67,10 +67,12 @@ public class Wechat extends BasePo {
     @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "设备ID")
     private String deviceId;
 
+    @IsNotNull
     @Column( type = MySqlTypeConstant.BIGINT, comment = "公司ID")
     @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Long companyId;
 
+    @IsNotNull
     @Column( type = MySqlTypeConstant.BIGINT, comment = "部门ID")
     @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Long departmentId;

@@ -51,6 +51,14 @@ public class BaseServiceImpl<E extends BasePo,D extends BaseDao<E>, SV extends B
     @Override
     @Transactional(rollbackFor= Exception.class)
     public int inserts(Collection<E> entityList) {
+        for (E entity : entityList) {
+            entity.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            entity.setDeleted(0);
+            entity.setVersion(0);
+            if (Objects.isNull(entity.getStatus())) {
+                entity.setStatus(StatusEnum.NORMAL.getCode());
+            }
+        }
         return this.baseDao.insertBatchSomeColumn(entityList);
     }
 

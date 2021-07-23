@@ -36,6 +36,7 @@ public class WechatController extends BaseController<Wechat, WechatReqVo, Wechat
         Wechat wechat = OrikaUtils.convert(vo, Wechat.class);
         wechat.setIsOnline(WechatEnum.OFFLINE.getCode());
         wechat.setIsLogin(WechatEnum.LOGGED_OUT.getCode());
+        service.insert(wechat);
         return Result.success();
     }
 

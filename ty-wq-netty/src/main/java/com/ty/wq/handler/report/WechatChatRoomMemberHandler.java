@@ -7,11 +7,9 @@ import com.ty.wq.enums.WechatEnum;
 import com.ty.wq.pojo.po.client.WechatRoom;
 import com.ty.wq.pojo.po.client.WechatRoomMember;
 import com.ty.wq.pojo.vo.client.wechatMessage.ReceiveMsg;
-import com.ty.wq.pojo.vo.client.wechatRoomMember.WechatRoomMemberRespVo;
 import com.ty.wq.service.client.WechatRoomMemberService;
 import com.ty.wq.service.client.WechatRoomService;
 import com.ty.wq.utils.OrikaUtils;
-import com.ty.wq.utils.SendUtils;
 import com.ty.wq.pojo.vo.netty.report.ChatRoomMemberVo;
 import com.ty.wq.pojo.vo.netty.report.ChatRoomMembersVo;
 import lombok.extern.slf4j.Slf4j;
@@ -45,28 +43,31 @@ public class WechatChatRoomMemberHandler {
         ChatRoomMembersVo membersVo = OrikaUtils.convert(data, ChatRoomMembersVo.class);
         JSONArray array = JSON.parseArray(membersVo.getUserLists());
         List<ChatRoomMemberVo> memberVos = OrikaUtils.converts(array, ChatRoomMemberVo.class);
-        // List<WechatRoomMember> members = new ArrayList<>();
+        WechatRoom wechatRoom = wechatRoomService.findByWechatIdAndChatRoomId(rMsg.getCwxid(), membersVo.getWxid());
+        List<WechatRoomMember> members = new ArrayList<>();
         for (ChatRoomMemberVo memberVo : memberVos) {
-            WechatRoomMember member = wechatRoomMemberService.getByWechatIdAndChatRoomId(memberVo.getWxid(), membersVo.getWxid());
+            WechatRoomMember member = wechatRoomMemberService.getByRoomIdAndWechatIdAndChatRoomId(wechatRoom.getId(), memberVo.getWxid(), membersVo.getWxid());
             if (member != null) {
-                setChatRoomMembers(rMsg.getCwxid(), membersVo, memberVo, member);
+                setChatRoomMembers(wechatRoom, memberVo, member);
                 wechatRoomMemberService.updateById(member);
             } else {
                 member = new WechatRoomMember();
                 member.setWechatId(memberVo.getWxid());
                 member.setChatRoomId(membersVo.getWxid());
-                setChatRoomMembers(rMsg.getCwxid(), membersVo, memberVo, member);
-                wechatRoomMemberService.insert(member);
+                setChatRoomMembers(wechatRoom, memberVo, member);
+                members.add(member);
             }
-            // members.add(member);
+        }
+        // 批量插入
+        if (members.size() > 0) {
+            wechatRoomMemberService.inserts(members);
         }
         /*List<WechatRoomMemberRespVo> respVos = OrikaUtils.converts(members, WechatRoomMemberRespVo.class);
         SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), respVos);*/
     }
 
-    private void setChatRoomMembers(String wechatId, ChatRoomMembersVo membersVo, ChatRoomMemberVo memberVo, WechatRoomMember member) {
-        // 获取群主id
-        WechatRoom wechatRoom = wechatRoomService.findByWechatIdAndChatRoomId(wechatId, membersVo.getWxid());
+    private void setChatRoomMembers(WechatRoom wechatRoom, ChatRoomMemberVo memberVo, WechatRoomMember member) {
+        member.setRoomId(wechatRoom.getId());
         member.setOwnerWechatId(wechatRoom.getOwner());
         member.setWechatNo(memberVo.getAlias());
         member.setWechatNick(memberVo.getNick());
@@ -81,6 +82,10 @@ public class WechatChatRoomMemberHandler {
         member.setDepartmentId(wechatRoom.getDepartmentId());
         member.setStatus(WechatEnum.CHATROOM_MEMBER_NORMAL.getCode());
         member.setDeleted(0);
+        if (wechatRoom.getOwner().equals(memberVo.getWxid())) {
+            wechatRoom.setOwnerNickName(memberVo.getNick());
+            wechatRoomService.updateById(wechatRoom);
+        }
     }
 
 }

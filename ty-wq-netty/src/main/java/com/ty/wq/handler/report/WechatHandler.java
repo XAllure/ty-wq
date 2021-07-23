@@ -74,7 +74,7 @@ public class WechatHandler {
     }
 
     /**
-     * 获取微信普通好友
+     * 获取微信普通群
      * @param wechatId
      */
     private void getWechatRooms(String wechatId) {

@@ -26,12 +26,16 @@ public class WechatRoomMemberReqVo extends BaseReqVo {
 
     private static final long serialVersionUID = -1L;
 
+    @ApiModelProperty("群ID")
+    @NotNull(message = "群id不能为空", groups = {Info.class})
+    private Long roomId;
+
     @ApiModelProperty("群主微信ID")
     @NotBlank(message = "群主微信ID不能为空", groups = {Add.class})
     private String ownerWechatId;
 
-    @ApiModelProperty("群ID")
-    @NotBlank(message = "群ID不能为空", groups = {Add.class, Update.class, Info.class, Out.class, Invite.class})
+    @ApiModelProperty("微信群ID")
+    @NotBlank(message = "微信群ID不能为空", groups = {Add.class, Update.class, Info.class, Out.class, Invite.class})
     private String chatRoomId;
 
     @ApiModelProperty("微信ID")

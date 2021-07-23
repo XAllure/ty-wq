@@ -3,7 +3,6 @@ package com.ty.wq.service.client.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ty.wq.dao.client.WechatRoomDao;
 import com.ty.wq.enums.WechatEnum;
-import com.ty.wq.pojo.po.client.WechatRoomMember;
 import com.ty.wq.pojo.vo.client.wechatRoom.WechatRoomReqVo;
 import com.ty.wq.pojo.vo.client.wechatRoom.WechatRoomRespVo;
 import com.ty.wq.pojo.vo.client.wechatRoom.WechatRoomSearchVo;
@@ -61,12 +60,13 @@ public class WechatRoomServiceImpl extends BaseServiceImpl<WechatRoom, WechatRoo
 
     /**
      * 删除群
+     * @param wechatId
      * @param chatRoomId
      */
     @Override
-    public void deleteByChatRoomId(String chatRoomId) {
+    public void deleteByWechatIdAndChatRoomId(String wechatId, String chatRoomId) {
         QueryWrapper<WechatRoom> qw = new QueryWrapper<>();
-        qw.eq("chat_room_id", chatRoomId);
+        qw.eq("wechat_id", wechatId).eq("chat_room_id", chatRoomId);
         delete(qw);
     }
 
@@ -78,28 +78,13 @@ public class WechatRoomServiceImpl extends BaseServiceImpl<WechatRoom, WechatRoo
     @Override
     public void quitDelChatRoom(String wechatId, String chatRoomId) {
         WechatRoom wechatRoom = findByWechatIdAndChatRoomId(wechatId, chatRoomId);
-        wechatRoom.setStatus(WechatEnum.CHATROOM_DELETED.getCode());
-        // 删除群
-        deleteByChatRoomId(chatRoomId);
-        // 删除成员
-        wechatRoomMemberService.deleteByChatRoomId(wechatRoom.getChatRoomId());
-        /*// 如果自己是群主
-        if (wechatRoom.getOwner().equals(wechatId)) {
+        if (wechatRoom != null) {
             wechatRoom.setStatus(WechatEnum.CHATROOM_DELETED.getCode());
             // 删除群
-            deleteByChatRoomId(chatRoomId);
+            deleteByWechatIdAndChatRoomId(wechatId, chatRoomId);
             // 删除成员
-            wechatRoomMemberService.deleteByChatRoomId(wechatRoom.getChatRoomId());
-        } else {
-            // 如果自己不是群主
-            WechatRoomMember wechatRoomMember = wechatRoomMemberService.getByWechatIdAndChatRoomId(wechatId, chatRoomId);
-            wechatRoomMember.setStatus(WechatEnum.CHATROOM_DELETED.getCode());
-            wechatRoom.setStatus(WechatEnum.CHATROOM_DELETED.getCode());
-            // 删除群
-            delete(wechatRoom);
-            // 退出群聊
-            wechatRoomMemberService.delete(wechatRoomMember);
-        }*/
+            wechatRoomMemberService.deleteByRoomIdAndChatRoomId(wechatRoom.getId(), wechatRoom.getChatRoomId());
+        }
     }
 
     /**

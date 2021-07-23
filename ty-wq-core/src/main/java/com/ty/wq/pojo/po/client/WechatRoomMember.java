@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
+import com.gitee.sunchenbin.mybatis.actable.annotation.IsNotNull;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import com.ty.wq.pojo.po.BasePo;
@@ -22,10 +23,14 @@ public class WechatRoomMember extends BasePo {
 
     private static final long serialVersionUID = -371758925001449762L;
 
+    @IsNotNull
+    @Column( type = MySqlTypeConstant.BIGINT, comment = "微信群表的主键id")
+    private Long roomId;
+
     @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "拥有者微信ID")
     private String ownerWechatId;
 
-    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "群ID")
+    @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "微信群ID")
     private String chatRoomId;
 
     @Column( type = MySqlTypeConstant.VARCHAR, length = 128, comment = "微信id")

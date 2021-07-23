@@ -38,9 +38,10 @@ public interface WechatRoomService extends BaseService<WechatRoom, WechatRoomDao
 
     /**
      * 删除群
+     * @param wechatId
      * @param chatRoomId
      */
-    void deleteByChatRoomId(String chatRoomId);
+    void deleteByWechatIdAndChatRoomId(String wechatId, String chatRoomId);
 
     /**
      * 退出并删除群

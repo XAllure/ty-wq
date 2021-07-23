@@ -22,11 +22,12 @@ public interface WechatRoomMemberService extends BaseService<WechatRoomMember, W
 
     /**
      * 通过微信id和群id查询
+     * @param roomId
      * @param wechatId
      * @param chatRoomId
      * @return
      */
-    WechatRoomMember getByWechatIdAndChatRoomId(String wechatId, String chatRoomId);
+    WechatRoomMember getByRoomIdAndWechatIdAndChatRoomId(Long roomId, String wechatId, String chatRoomId);
 
     /**
      * 获取单个普通群成员信息
@@ -37,9 +38,10 @@ public interface WechatRoomMemberService extends BaseService<WechatRoomMember, W
 
     /**
      * 删除群时根据群id删除群成员
+     * @param roomId
      * @param chatRoomId
      */
-    void deleteByChatRoomId(String chatRoomId);
+    void deleteByRoomIdAndChatRoomId(Long roomId, String chatRoomId);
 
     /**
      * 根据微信id列表和群id删除成员

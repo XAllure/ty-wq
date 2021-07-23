@@ -24,14 +24,14 @@ public class WechatReqVo extends BaseReqVo {
     private static final long serialVersionUID = -1L;
 
     @ApiModelProperty("微信ID")
-    @NotBlank(message = "微信ID不能为空", groups = {Update.class})
+    @NotBlank(message = "微信ID不能为空", groups = {Add.class, Update.class})
     private String wechatId;
 
     @ApiModelProperty("微信号")
     private String wechatNo;
 
     @ApiModelProperty("微信昵称")
-    @NotBlank(message = "微信昵称不能为空", groups = {Update.class})
+    @NotBlank(message = "微信昵称不能为空", groups = {Add.class, Update.class})
     private String wechatNick;
 
     @ApiModelProperty("高清头像")
@@ -63,9 +63,11 @@ public class WechatReqVo extends BaseReqVo {
     @ApiModelProperty("设备ID")
     private String deviceId;
 
+    @NotNull(message = "请选择公司", groups = {Add.class, Update.class})
     @ApiModelProperty("公司ID")
     private Long companyId;
 
+    @NotNull(message = "请选择部门", groups = {Add.class, Update.class})
     @ApiModelProperty("部门ID")
     private Long departmentId;
 

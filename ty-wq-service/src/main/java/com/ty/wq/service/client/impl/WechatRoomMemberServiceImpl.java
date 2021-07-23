@@ -23,15 +23,16 @@ import java.util.List;
 public class WechatRoomMemberServiceImpl extends BaseServiceImpl<WechatRoomMember, WechatRoomMemberDao, WechatRoomMemberSearchVo> implements WechatRoomMemberService {
 
     /**
-     * 通过微信id和群id查询
+     * 通过微信id和微信群id查询
      * @param wechatId
      * @param chatRoomId
      * @return
      */
     @Override
-    public WechatRoomMember getByWechatIdAndChatRoomId(String wechatId, String chatRoomId) {
+    public WechatRoomMember getByRoomIdAndWechatIdAndChatRoomId(Long roomId, String wechatId, String chatRoomId) {
         QueryWrapper<WechatRoomMember> qw =new QueryWrapper<>();
-        qw.eq("wechat_id", wechatId)
+        qw.eq("room_id", roomId)
+                .eq("wechat_id", wechatId)
                 .eq("chat_room_id", chatRoomId)
                 .eq("status", WechatEnum.CHATROOM_MEMBER_NORMAL.getCode());
         return findOne(qw);
@@ -45,7 +46,8 @@ public class WechatRoomMemberServiceImpl extends BaseServiceImpl<WechatRoomMembe
     @Override
     public List<WechatRoomMember> getSingleChatRoomMembers(WechatRoomMemberReqVo vo) {
         QueryWrapper<WechatRoomMember> qw =new QueryWrapper<>();
-        qw.eq("chat_room_id", vo.getChatRoomId())
+        qw.eq("room_id", vo.getRoomId())
+                .eq("chat_room_id", vo.getChatRoomId())
                 .eq("status", WechatEnum.CHATROOM_MEMBER_NORMAL.getCode());
         return findList(qw);
     }
@@ -55,9 +57,9 @@ public class WechatRoomMemberServiceImpl extends BaseServiceImpl<WechatRoomMembe
      * @param chatRoomId
      */
     @Override
-    public void deleteByChatRoomId(String chatRoomId) {
+    public void deleteByRoomIdAndChatRoomId(Long roomId, String chatRoomId) {
         QueryWrapper<WechatRoomMember> qw = new QueryWrapper<>();
-        qw.eq("chat_room_id", chatRoomId);
+        qw.eq("room_id", roomId).eq("chat_room_id", chatRoomId);
         delete(qw);
     }
 
@@ -79,8 +81,13 @@ public class WechatRoomMemberServiceImpl extends BaseServiceImpl<WechatRoomMembe
      */
     @Override
     public void updateChatRoomDisplayName(WechatRoomMemberReqVo vo) {
-        WechatRoomMember member = getByWechatIdAndChatRoomId(vo.getWechatId(), vo.getChatRoomId());
-        member.setDisplayName(vo.getDisplayName());
-        updateById(member);
+        QueryWrapper<WechatRoomMember> qw = new QueryWrapper<>();
+        qw.eq("chat_room_id", vo.getChatRoomId())
+                .eq("wechat_id", vo.getWechatId());
+        List<WechatRoomMember> members = findList(qw);
+        for (WechatRoomMember member : members) {
+            member.setDisplayName(vo.getDisplayName());
+            updateById(member);
+        }
     }
 }
