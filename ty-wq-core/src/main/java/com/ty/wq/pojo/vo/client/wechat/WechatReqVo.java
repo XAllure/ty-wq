@@ -57,7 +57,6 @@ public class WechatReqVo extends BaseReqVo {
     private String signature;
 
     @ApiModelProperty("朋友圈背景图片")
-    @NotBlank(message = "朋友圈背景图片不能为空", groups = {Update.class})
     private String snsPic;
 
     @ApiModelProperty("设备ID")

@@ -131,9 +131,6 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
         }
         ReqVoUtils.validated(vo, BaseReqVo.Status.class);
         Po po = service.findById(vo.getId());
-        if (!vo.getStatus().equals(StatusEnum.NORMAL.getCode()) && !vo.getStatus().equals(StatusEnum.LOCKED.getCode())) {
-            return Result.error(CodeEnum.ERROR_STATUS);
-        }
         po.setStatus(vo.getStatus());
         service.updateById(po);
         return Result.success();
