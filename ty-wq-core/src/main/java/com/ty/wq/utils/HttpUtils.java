@@ -58,7 +58,6 @@ public class HttpUtils {
         return REST_TEMPLATE.postForObject(url,request,String.class);
     }
 
-
     /**
      * post请求
      * @param url
@@ -72,6 +71,23 @@ public class HttpUtils {
         }
         HttpEntity<String> request = new HttpEntity<>(params.toString(),headers);
         REST_TEMPLATE.postForObject(url, request, String.class);
+    }
+
+    /**
+     * 添加token请求头的post请求
+     * @param url
+     * @param token
+     * @param jsonObject
+     * @return
+     */
+    public static String post(String url, String token, JSONObject jsonObject){
+        HttpHeaders headers = new HttpHeaders();
+        MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
+        headers.setContentType(type);
+        headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+        headers.add(Constants.WQ_TOKEN_HEADER, token);
+        HttpEntity<String> request = new HttpEntity<>(jsonObject.toJSONString(),headers);
+        return REST_TEMPLATE.postForObject(url,request,String.class);
     }
 
 }

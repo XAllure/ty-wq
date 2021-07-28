@@ -133,8 +133,8 @@ public class WebSocketClient {
     }
 
     public void logout() {
-        String url = URL + "/system/logout/" + token;
-        String res = HttpUtils.post(url, new JSONObject());
+        String url = URL + "/system/logout";
+        String res = HttpUtils.post(url, token, new JSONObject());
         log.info("退出返回：" + res);
         clear();
     }

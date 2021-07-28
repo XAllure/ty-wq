@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author Administrator
@@ -34,7 +33,7 @@ public class ChannelUtils {
     public static final Map<String, List<Channel>> WECHAT_ID_CHANNEL = new ConcurrentHashMap<>();
 
     /** 存储微信id 与 转发客户端的映射 */
-    public static final Map<String, List<Channel>> WECHAT_ID_CLIENT_CHANNEL = new ConcurrentHashMap<>();
+    public static final Map<String, Channel> WECHAT_ID_CLIENT_CHANNEL = new ConcurrentHashMap<>();
 
     /**
      * 保存 Channel 对应的 token
@@ -172,54 +171,25 @@ public class ChannelUtils {
 
     /** 保存微信id和转发客户端的channel */
     public static synchronized void setWechatClientChannel(String wechatId, Channel channel) {
-        List<Channel> channels;
         if (StringUtils.isNotBlank(wechatId)) {
             if (WECHAT_ID_CLIENT_CHANNEL.containsKey(wechatId)) {
-                channels = getWechatClientChannels(wechatId);
-            } else {
-                channels = new ArrayList<>();
+                delClientByWechatId(wechatId);
+                WECHAT_ID_CLIENT_CHANNEL.put(wechatId, channel);
             }
-            channels.add(channel);
-            WECHAT_ID_CLIENT_CHANNEL.put(wechatId, channels);
         }
     }
 
     /** 获取微信id的转发客户端的channel */
-    public static synchronized List<Channel> getWechatClientChannels(String wechatId) {
-        List<Channel> channels = WECHAT_ID_CLIENT_CHANNEL.get(wechatId);
-        if (channels != null && channels.size() > 0) {
-            channels.removeIf(channel -> !channel.isActive() || !channel.isOpen());
-        }
-        return channels;
-    }
-
-    /** 高并发下使用 */
-    private static final AtomicLong INDEX = new AtomicLong(0);
-
-    /**
-     * 暂时作为客户端转发的channel
-     * @return
-     */
-    public static synchronized Channel getClientChannel(String wechatId) {
-        long count = INDEX.incrementAndGet();
-        List<Channel> channels = getWechatClientChannels(wechatId);
-        int index = (int) (count % channels.size());
-        return channels.get(index);
+    public static synchronized Channel getWechatClientChannel(String wechatId) {
+        return WECHAT_ID_CLIENT_CHANNEL.get(wechatId);
     }
 
     /**
      * 删除微信id对应的转发客户端的channel
      * @param wechatId
-     * @param channel
      */
-    public static synchronized void delClientByWechatIdAndChannel(String wechatId, Channel channel) {
-        List<Channel> channels = getWechatClientChannels(wechatId);
-        channels.removeIf(ch -> ch == channel);
-        if (channels.size() > 0) {
-            WECHAT_ID_CLIENT_CHANNEL.put(wechatId, channels);
-        } else {
-            WECHAT_ID_CLIENT_CHANNEL.remove(wechatId);
-        }
+    public static synchronized void delClientByWechatId(String wechatId) {
+        WECHAT_ID_CLIENT_CHANNEL.remove(wechatId);
     }
 
 }

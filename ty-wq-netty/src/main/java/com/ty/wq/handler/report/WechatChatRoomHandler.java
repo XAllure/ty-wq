@@ -99,7 +99,7 @@ public class WechatChatRoomHandler {
         MsgVo msgVo = new MsgVo();
         msgVo.setType(MsgType.SEND_MSG);
         msgVo.setData(sMsg);
-        MsgUtils.writeJson(ChannelUtils.getClientChannel(wechatId), Message.success(msgVo));
+        MsgUtils.writeJson(ChannelUtils.getWechatClientChannel(wechatId), Message.success(msgVo));
     }
 
     /**

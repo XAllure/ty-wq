@@ -1,9 +1,11 @@
 package com.ty.wq.handler;
 
+import com.ty.wq.constant.Action;
 import com.ty.wq.constant.MsgType;
 import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
 import com.ty.wq.pojo.vo.netty.Message;
 import com.ty.wq.socket.WebSocketClient;
+import com.ty.wq.task.GetWechatSomeInfoTask;
 import com.ty.wq.utils.MsgUtils;
 import com.ty.wq.utils.QueueUtils;
 import io.netty.channel.*;
@@ -63,20 +65,23 @@ public class SocketClientHandler extends SimpleChannelInboundHandler<Object> {
             //文本信息
             if (frame instanceof TextWebSocketFrame) {
                 Message message = MsgUtils.message((TextWebSocketFrame)msg);
-                if (message.getType().equals(MsgType.SEND_MSG)) {
-                    SendMsg sendMsg = MsgUtils.convert(message.getData(), SendMsg.class);
-                    log.info("------------------------------ webSocket读取并处理消息 -----------------------------------");
-                    log.info("WebSocket[channelId-{}]请求参数", ctx.channel().id().asLongText());
-                    log.info("IP: {}", ctx.channel().remoteAddress());
-                    log.info("Parameter: {}", sendMsg);
-                    QueueUtils.messages.offer(sendMsg);
-                    return;
-                }
+                // 心跳
                 if (message.getType().equals(MsgType.HEART_BEAT)) {
                     log.debug("心跳返回接收");
                     return;
                 }
-                log.info("客户端接收的消息是: {}", message);
+                log.info("------------------------------ webSocket读取并处理消息 -----------------------------------");
+                log.info("Parameter: {}", message);
+                // 微信消息轮询
+                if (message.getType().equals(MsgType.SEND_MSG)) {
+                    SendMsg sendMsg = MsgUtils.convert(message.getData(), SendMsg.class);
+                    QueueUtils.messages.offer(sendMsg);
+                    return;
+                }
+                if (message.getType().equals(Action.REPORT_LOGIN_USER)) {
+                    GetWechatSomeInfoTask.wechatId = String.valueOf(message.getData());
+                    return;
+                }
             }
             //二进制信息
             if (frame instanceof BinaryWebSocketFrame) {

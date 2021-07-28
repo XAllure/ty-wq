@@ -40,7 +40,7 @@ public class ClientController {
         MsgVo msgVo = new MsgVo();
         msgVo.setType(MsgType.SEND_MSG);
         msgVo.setData(sendMsg);
-        MsgUtils.writeJson(ChannelUtils.getClientChannel(sendMsg.getSendId()), Message.success(msgVo));
+        MsgUtils.writeJson(ChannelUtils.getWechatClientChannel(sendMsg.getSendId()), Message.success(msgVo));
         return Result.success();
     }
 

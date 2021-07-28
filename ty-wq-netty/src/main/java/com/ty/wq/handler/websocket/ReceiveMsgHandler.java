@@ -55,7 +55,7 @@ public class ReceiveMsgHandler {
                 }
                 // 上报退出登录事件
                 case Action.REPORT_LOGOUT: {
-                    wechatHandler.logoutHandler(channel, rMsg);
+                    wechatHandler.logoutHandler(rMsg);
                     break;
                 }
                 // 上报普通好友列表

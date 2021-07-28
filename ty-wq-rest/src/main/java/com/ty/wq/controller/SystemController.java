@@ -72,8 +72,9 @@ public class SystemController {
     }
 
     @ApiOperation(value = "用户退出登录")
-    @PostMapping("/logout/{token}")
-    public Result logout(@Valid @NotBlank(message = "参数不能为空") @PathVariable String token) {
+    @PostMapping("/logout")
+    public Result logout() {
+        String token = AccessUtils.userToken();
         if (!WsTokenUtils.hasToken(token)) {
             return Result.error(CodeEnum.ERROR_TOKEN);
         }

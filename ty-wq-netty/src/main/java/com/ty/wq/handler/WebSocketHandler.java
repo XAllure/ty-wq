@@ -1,5 +1,6 @@
 package com.ty.wq.handler;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ty.wq.constant.MsgType;
 import com.ty.wq.pojo.vo.netty.MsgVo;
 import com.ty.wq.utils.ChannelUtils;
@@ -69,8 +70,8 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
         if (StringUtils.isBlank(token)) {
             return;
         }
-        String url = RouteUtils.url("/system/logout/" + token);
-        HttpUtils.post(url, new LinkedHashMap<>());
+        String url = RouteUtils.url("/system/logout");
+        HttpUtils.post(url, token, new JSONObject());
     }
 
     @Override

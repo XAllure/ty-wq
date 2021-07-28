@@ -38,7 +38,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return new CorsFilter(source);
     }
 
-    /*@Resource
+    @Resource
     private InterceptorConfig interceptorConfig;
 
     private final String[] paths = new String[]{
@@ -53,7 +53,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // addPathPatterns 用于添加拦截规则，/**表示拦截所有请求
         // excludePathPatterns 用户排除拦截
         registry.addInterceptor(interceptorConfig).addPathPatterns("/**").excludePathPatterns(paths);
-    }*/
+    }
 
     @Value("${custom.img.path}")
     private String imgPath;

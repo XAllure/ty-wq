@@ -41,7 +41,7 @@ public class WsScanner implements Runnable {
                     data = "{" + data + "}";
                     // data 需要为空，或是格式为 username:"墨染",userNick:"红尘" 才行，这可以对应每一个Controller 的 @RequestBody 后的vo实体类， 单个字符加在链接后面
                     JSONObject json = JSON.parseObject(data);
-                    String res = HttpUtils.post(WebSocketClient.URL.concat(url), json);
+                    String res = HttpUtils.post(WebSocketClient.URL.concat(url), WebSocketClient.token, json);
                     log.info("发送信息返回：" + res);
                 }
                 // 否则发送 websocket 消息

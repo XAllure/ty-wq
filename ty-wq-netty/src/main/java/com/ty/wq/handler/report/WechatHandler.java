@@ -2,6 +2,7 @@ package com.ty.wq.handler.report;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.ty.wq.constant.Action;
 import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.MsgType;
 import com.ty.wq.pojo.po.client.Wechat;
@@ -39,7 +40,6 @@ public class WechatHandler {
         if (wechat != null) {
             // 保存当前微信对应的转发客户端channel
             ChannelUtils.setWechatClientChannel(rMsg.getCwxid(), channel);
-            log.info("保存当前微信对应的转发客户端channel[{}]", channel);
             // 同步个人微信信息
             wechat.setWechatNick(vo.getNick());
             wechat.setWechatNo(vo.getAlias());
@@ -48,18 +48,31 @@ public class WechatHandler {
             // 同步好友列表、群等
             getWechatFriend(wechat.getWechatId());
             getWechatRooms(wechat.getWechatId());
+            // 通知转发客户端登录的微信号
+            returnLogin(wechat.getWechatId(), channel);
         }
     }
 
     /**
-     * 上报退出登录事件
+     * 通知转发客户端登录的微信号
+     * @param wechatId
      * @param channel
+     */
+    private void returnLogin(String wechatId, Channel channel) {
+        MsgVo msgVo = new MsgVo();
+        msgVo.setType(Action.REPORT_LOGIN_USER);
+        msgVo.setData(wechatId);
+        MsgUtils.writeJson(channel, Message.success(msgVo));
+    }
+
+    /**
+     * 上报退出登录事件
      * @param rMsg
      */
     @Async
-    public void logoutHandler(Channel channel, ReceiveMsg rMsg) {
+    public void logoutHandler(ReceiveMsg rMsg) {
         log.info("用户[{}]退出微信", rMsg.getCwxid());
-        ChannelUtils.delClientByWechatIdAndChannel(rMsg.getCwxid(), channel);
+        ChannelUtils.delClientByWechatId(rMsg.getCwxid());
     }
 
     /**
@@ -92,7 +105,7 @@ public class WechatHandler {
         MsgVo msgVo = new MsgVo();
         msgVo.setType(MsgType.SEND_MSG);
         msgVo.setData(sMsg);
-        MsgUtils.writeJson(ChannelUtils.getClientChannel(sMsg.getSendId()), Message.success(msgVo));
+        MsgUtils.writeJson(ChannelUtils.getWechatClientChannel(sMsg.getSendId()), Message.success(msgVo));
     }
 
 }

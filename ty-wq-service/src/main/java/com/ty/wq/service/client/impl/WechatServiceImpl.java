@@ -52,20 +52,27 @@ public class WechatServiceImpl extends BaseServiceImpl<Wechat, WechatDao, Wechat
     @Override
     public List<WechatRespVo> login(WechatLoginReqVo wechatLoginReqVo) {
         List<WechatRespVo> vos = new ArrayList<>();
-        for (String weChatId : wechatLoginReqVo.getWechatIds()) {
-            Wechat wechat = findByWechatId(weChatId);
-            if (null != wechat && wechat.getStatus().equals(StatusEnum.NORMAL.getCode())) {
-                wechat.setIsLogin(WechatEnum.LOGGED_IN.getCode());
-                wechat.setIsOnline(WechatEnum.ONLINE.getCode());
-                wechat.setLoginTime(new Timestamp(System.currentTimeMillis()));
-                updateById(wechat);
-                WechatRespVo vo = OrikaUtils.convert(wechat, WechatRespVo.class);
-                setCd(vo);
-                vos.add(vo);
+        StringBuilder msg = new StringBuilder();
+        for (String wechatId : wechatLoginReqVo.getWechatIds()) {
+            Wechat wechat = findByWechatId(wechatId);
+            if (null != wechat) {
+                if (wechat.getStatus().equals(StatusEnum.NORMAL.getCode())) {
+                    wechat.setIsLogin(WechatEnum.LOGGED_IN.getCode());
+                    wechat.setIsOnline(WechatEnum.ONLINE.getCode());
+                    wechat.setLoginTime(new Timestamp(System.currentTimeMillis()));
+                    updateById(wechat);
+                    WechatRespVo vo = OrikaUtils.convert(wechat, WechatRespVo.class);
+                    setCd(vo);
+                    vos.add(vo);
+                } else {
+                    msg.append("微信[").append(wechat.getWechatNick()).append("]已被锁定;");
+                }
+            } else {
+                msg.append("微信[").append(wechatId).append("]不存在;");
             }
         }
         if (vos.size() == 0) {
-            throw new WqException(CodeEnum.ERROR.getCode(), "无可登录的微信");
+            throw new WqException(CodeEnum.ERROR.getCode(), msg.toString());
         }
         return vos;
     }
