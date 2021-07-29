@@ -25,6 +25,7 @@ public class TaskManager {
         routeConfig.reRegToRedis();
         log.info("----------------------------------------------------------------------------------------------------------------------------");
         log.info("路由的key{}", RedisUtils.getAllKeys(Constants.WQ_ROUTE_INFO + "*"));
+        log.info("用户登录的key{}", RedisUtils.getAllKeys(Constants.WQ_USER_LOGIN_KEY + "*"));
         log.info("----------------------------------------------------------------------------------------------------------------------------");
     }
 
