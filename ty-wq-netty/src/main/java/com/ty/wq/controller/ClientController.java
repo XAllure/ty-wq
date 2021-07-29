@@ -11,6 +11,7 @@ import com.ty.wq.utils.ChannelUtils;
 import com.ty.wq.utils.MsgUtils;
 import com.ty.wq.utils.ReqVoUtils;
 import com.ty.wq.utils.WsTokenUtils;
+import io.netty.channel.Channel;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -30,17 +31,18 @@ public class ClientController {
     @ApiOperation(value = "往转发客户端发送数据")
     @PostMapping("/sendMsg/{token}")
     public Result addFriend(@RequestBody SendMsg sendMsg, @PathVariable String token) {
-        System.out.println(active);
-        if (!"dev".equals(active)) {
-            if (!WsTokenUtils.hasToken(token)) {
-                return Result.error(CodeEnum.ERROR_TOKEN);
-            }
+        if (!WsTokenUtils.hasToken(token)) {
+            return Result.error(CodeEnum.ERROR_TOKEN);
         }
         ReqVoUtils.validated(sendMsg, BaseReqVo.Chat.class);
         MsgVo msgVo = new MsgVo();
         msgVo.setType(MsgType.SEND_MSG);
         msgVo.setData(sendMsg);
-        MsgUtils.writeJson(ChannelUtils.getWechatClientChannel(sendMsg.getSendId()), Message.success(msgVo));
+        Channel channel = ChannelUtils.getWechatClientChannel(sendMsg.getSendId());
+        if (channel == null) {
+            return Result.error(CodeEnum.ERROR_CLIENT);
+        }
+        MsgUtils.writeJson(channel, Message.success(msgVo));
         return Result.success();
     }
 

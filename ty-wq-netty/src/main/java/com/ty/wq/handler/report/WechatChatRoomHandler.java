@@ -139,7 +139,7 @@ public class WechatChatRoomHandler {
         List<ChatRoomMemberVo> memberVos = OrikaUtils.converts(userLists, ChatRoomMemberVo.class);
         List<String> wechatIds = new ArrayList<>();
         for (ChatRoomMemberVo memberVo : memberVos) {
-            // 如果被踢的成员是用户的微信
+            // 如果被删除的成员是用户的微信
             Wechat wechat = wechatService.findByWechatId(memberVo.getWxid());
             if (wechat != null) {
                 wechatRoomService.quitDelChatRoom(rMsg.getCwxid(), roomVo.getWxid());
@@ -161,6 +161,7 @@ public class WechatChatRoomHandler {
      */
     @Async
     public void newChatRoomHandler(ReceiveMsg rMsg) {
+        // 新创建的群 群昵称会为空
         JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
         ChatRoomVo roomVo = OrikaUtils.convert(data, ChatRoomVo.class);
         WechatRoom wechatRoom = new WechatRoom();
@@ -181,12 +182,11 @@ public class WechatChatRoomHandler {
     @Async
     public void chatRoomQuitHandler(ReceiveMsg rMsg) {
         JSONObject data = JSON.parseObject(String.valueOf(rMsg.getData()));
-        String chatRoomId = data.getString("roomWxid");
+        String chatRoomId = data.getString(OptionKey.ROOM_WXID);
         wechatRoomService.quitDelChatRoom(rMsg.getCwxid(), chatRoomId);
         // 通知
         SendUtils.send(rMsg.getCwxid(), rMsg.getAction(), chatRoomId);
     }
-
 
 
     /**

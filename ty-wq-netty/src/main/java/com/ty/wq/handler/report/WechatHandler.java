@@ -46,10 +46,10 @@ public class WechatHandler {
             wechat.setHeadPic(vo.getHeadPic());
             wechatService.updateById(wechat);
             // 同步好友列表、群等
-            getWechatFriend(wechat.getWechatId());
-            getWechatRooms(wechat.getWechatId());
+            getWechatFriend(wechat.getWechatId(), channel);
+            getWechatRooms(wechat.getWechatId(), channel);
             // 通知转发客户端登录的微信号
-            returnLogin(wechat.getWechatId(), channel);
+            returnLogin(rMsg.getCwxid(), channel);
         }
     }
 
@@ -79,33 +79,34 @@ public class WechatHandler {
      * 获取微信普通好友
      * @param wechatId
      */
-    private void getWechatFriend(String wechatId) {
+    private void getWechatFriend(String wechatId, Channel channel) {
         SendMsg sMsg = new SendMsg();
         sMsg.setApi(ApiType.GET_CONTACTS);
         sMsg.setSendId(wechatId);
-        send(sMsg);
+        send(channel, sMsg);
     }
 
     /**
      * 获取微信普通群
      * @param wechatId
      */
-    private void getWechatRooms(String wechatId) {
+    private void getWechatRooms(String wechatId, Channel channel) {
         SendMsg sMsg = new SendMsg();
         sMsg.setApi(ApiType.GET_CHAT_ROOMS);
         sMsg.setSendId(wechatId);
-        send(sMsg);
+        send(channel, sMsg);
     }
 
     /**
      * 往Netty客户端发送数据
+     * @param channel
      * @param sMsg
      */
-    private void send(SendMsg sMsg) {
+    private void send(Channel channel, SendMsg sMsg) {
         MsgVo msgVo = new MsgVo();
         msgVo.setType(MsgType.SEND_MSG);
         msgVo.setData(sMsg);
-        MsgUtils.writeJson(ChannelUtils.getWechatClientChannel(sMsg.getSendId()), Message.success(msgVo));
+        MsgUtils.writeJson(channel, Message.success(msgVo));
     }
 
 }

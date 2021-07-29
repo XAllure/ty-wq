@@ -174,8 +174,8 @@ public class ChannelUtils {
         if (StringUtils.isNotBlank(wechatId)) {
             if (WECHAT_ID_CLIENT_CHANNEL.containsKey(wechatId)) {
                 delClientByWechatId(wechatId);
-                WECHAT_ID_CLIENT_CHANNEL.put(wechatId, channel);
             }
+            WECHAT_ID_CLIENT_CHANNEL.put(wechatId, channel);
         }
     }
 

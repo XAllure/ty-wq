@@ -35,7 +35,7 @@ public class ApiController {
 
     @ApiOperation(value = "轮询消息")
     @GetMapping("/send_msg")
-    public Object friends() {
+    public Object sendMsg() {
         LinkedList<SendMsg> list = new LinkedList<>();
         int size = QueueUtils.messages.size();
         for (int i = 0; i < size; i++) {
