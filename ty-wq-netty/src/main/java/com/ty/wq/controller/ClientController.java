@@ -25,9 +25,6 @@ import springfox.documentation.annotations.ApiIgnore;
 @ApiIgnore
 public class ClientController {
 
-    @Value("${spring.profiles.active}")
-    private String active;
-
     @ApiOperation(value = "往转发客户端发送数据")
     @PostMapping("/sendMsg/{token}")
     public Result addFriend(@RequestBody SendMsg sendMsg, @PathVariable String token) {
