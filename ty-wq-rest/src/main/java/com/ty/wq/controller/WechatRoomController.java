@@ -1,5 +1,6 @@
 package com.ty.wq.controller;
 
+import com.ty.wq.anno.Permission;
 import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.OptionKey;
 import com.ty.wq.enums.CodeEnum;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/wechat/room")
 @Api(tags = "微信群相关")
+@Permission(prefix = "room")
 public class WechatRoomController {
 
     @Autowired
@@ -35,6 +37,7 @@ public class WechatRoomController {
 
     @ApiOperation(value = "获取普通群列表")
     @PostMapping("/getChatRooms")
+    @Permission("get")
     public Result getChatRooms(@RequestBody WechatRoomReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Get.class);
         SendMsg sMsg = new SendMsg();
@@ -45,6 +48,7 @@ public class WechatRoomController {
 
     @ApiOperation(value = "根据微信id获取普通群列表")
     @PostMapping("/getChatRooms/{wechatId}")
+    @Permission("get")
     public Result getChatRooms(@Valid @NotBlank(message = "微信id参数错误") @PathVariable String wechatId) {
         List<WechatRoomRespVo> vos = wechatRoomService.getChatRooms(wechatId);
         return Result.success(vos);
@@ -52,6 +56,7 @@ public class WechatRoomController {
 
     @ApiOperation(value = "创建群聊")
     @PostMapping("/createChatRoom")
+    @Permission("create")
     public Result createChatRoom(@RequestBody WechatRoomReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Add.class);
         SendMsg sMsg = new SendMsg();

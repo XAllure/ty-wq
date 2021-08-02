@@ -31,4 +31,11 @@ public interface PermissionService extends BaseService<Permission, PermissionDao
      */
     List<Permission> parentPermission();
 
+    /**
+     * 根据id集合获取子权限列表
+     * @param ids
+     * @return
+     */
+    List<Permission> findByIds(List<Long> ids);
+
 }

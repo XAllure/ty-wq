@@ -38,4 +38,20 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Permissio
         return findList(qw);
     }
 
+    /**
+     * 根据id集合获取子权限列表
+     * @param ids
+     * @return
+     */
+    @Override
+    public List<Permission> findByIds(List<Long> ids) {
+        QueryWrapper<Permission> qw = new QueryWrapper<>();
+        qw.in("id", ids)
+                .isNotNull("permission")
+                .ne("permission", "")
+                .ne("permission", "/")
+                .eq("status", StatusEnum.NORMAL.getCode());
+        return findList(qw);
+    }
+
 }

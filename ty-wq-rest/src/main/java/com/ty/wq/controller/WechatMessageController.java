@@ -3,6 +3,7 @@ package com.ty.wq.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ty.wq.anno.Permission;
 import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.OptionKey;
 import com.ty.wq.pojo.po.client.WechatMessage;
@@ -42,6 +43,7 @@ public class WechatMessageController {
 
     @ApiOperation(value = "发送文本消息")
     @PostMapping("/sendTextMessage")
+    @Permission("message:send:text")
     public Result sendTextMessage(@RequestBody WechatMessageReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Chat.class);
         SendMsg sMsg = new SendMsg();

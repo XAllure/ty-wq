@@ -3,9 +3,6 @@ package com.ty.wq.utils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ty.wq.pojo.vo.BaseSearchVo;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 /**
  * @author Administrator

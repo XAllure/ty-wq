@@ -13,6 +13,9 @@ public interface Constants {
     /** 登录信息 */
     String WQ_USER_LOGIN_KEY = "WQ-USER-LOGIN-KEY:";
 
+    /** 用户权限 */
+    String USER_PERMISSION_KEY = "WQ-USER-PERMISSION-KEY:";
+
     /** 短信信息 */
     String WQ_SMS_KEY = "WQ-SMS-KEY:";
 
@@ -32,7 +35,6 @@ public interface Constants {
 
     /**  */
     String CONTENT_TYPE_JSON = "application/json"
-
 
     ;
 

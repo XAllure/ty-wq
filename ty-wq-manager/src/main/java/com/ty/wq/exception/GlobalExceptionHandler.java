@@ -131,10 +131,11 @@ public class GlobalExceptionHandler {
         } else if (e instanceof AuthenticationException) {
             result = Result.error(CodeEnum.NO_AUTHENTICATION);
         } else if (e instanceof DuplicateKeyException) {
-            result = Result.error(CodeEnum.ERROR_SAME_DATA.getCode(),
-                    e.getCause().getMessage().substring(
-                            StringUtils.ordinalIndexOf(e.getCause().getMessage(), "'", 1) + 1,
-                            StringUtils.ordinalIndexOf(e.getCause().getMessage(), "'", 2)) + "不可用");
+            String msg = e.getCause().getMessage();
+            result = Result.error(CodeEnum.ERROR_SAME_DATA.getCode(), "【" +
+                    msg.substring(
+                            StringUtils.ordinalIndexOf(msg, "'", 1) + 1,
+                            StringUtils.ordinalIndexOf(msg, "'", 2)) + "】不可用");
         }
         try {
             CommonUtils.writeJson(result, response);

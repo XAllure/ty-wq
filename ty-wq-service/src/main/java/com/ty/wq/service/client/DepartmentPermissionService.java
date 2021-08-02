@@ -6,6 +6,8 @@ import com.ty.wq.service.base.BaseService;
 import com.ty.wq.pojo.vo.client.departmentPermission.DepartmentPermissionSearchVo;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 /**
  * @author Administrator
@@ -16,4 +18,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface DepartmentPermissionService extends BaseService<DepartmentPermission, DepartmentPermissionDao, DepartmentPermissionSearchVo> {
+
+    /**
+     * 根据部门id列表查询部门权限列表
+     * @param departmentIds
+     * @return
+     */
+    List<DepartmentPermission> findByDepartmentIds(List<Long> departmentIds);
+
 }

@@ -68,6 +68,8 @@ public class SystemController {
     public Result login(@RequestBody LoginReqVo loginVo) {
         ReqVoUtils.validated(loginVo, BaseReqVo.Login.class);
         LoginRespVo loginRespVo = userService.login(loginVo);
+        // 存储用户的权限
+        // WechatPermissionUtils.savePermissions(loginRespVo.getUser().getId());
         return Result.success(loginRespVo);
     }
 
