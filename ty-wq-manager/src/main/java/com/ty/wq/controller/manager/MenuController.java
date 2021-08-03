@@ -1,6 +1,6 @@
-package com.ty.wq.controller;
+package com.ty.wq.controller.manager;
 
-import com.ty.wq.controller.base.BaseController;
+import com.ty.wq.controller.BaseController;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.service.manager.MenuService;
 import org.springframework.web.bind.annotation.*;

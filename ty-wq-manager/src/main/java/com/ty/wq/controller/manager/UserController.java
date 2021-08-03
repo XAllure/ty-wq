@@ -1,9 +1,8 @@
-package com.ty.wq.controller;
+package com.ty.wq.controller.manager;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ty.wq.controller.base.BaseController;
+import com.ty.wq.controller.BaseController;
 import com.ty.wq.dao.client.UserDao;
-import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.pojo.po.client.User;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
@@ -11,7 +10,6 @@ import com.ty.wq.pojo.vo.client.user.UserReqVo;
 import com.ty.wq.pojo.vo.client.user.UserRespVo;
 import com.ty.wq.pojo.vo.client.user.UserSearchVo;
 import com.ty.wq.service.client.UserService;
-import com.ty.wq.shiro.ShiroUtils;
 import com.ty.wq.utils.GenerateUtils;
 import com.ty.wq.utils.Md5Utils;
 import com.ty.wq.utils.OrikaUtils;

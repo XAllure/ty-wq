@@ -1,17 +1,13 @@
-package com.ty.wq.controller;
+package com.ty.wq.controller.manager;
 
-import com.ty.wq.controller.base.BaseController;
-import com.ty.wq.pojo.vo.Result;
+import com.ty.wq.controller.BaseController;
 import com.ty.wq.service.manager.RoleService;
-import com.ty.wq.utils.OrikaUtils;
 import org.springframework.web.bind.annotation.*;
 import com.ty.wq.pojo.po.manager.Role;
 import com.ty.wq.pojo.vo.manager.role.RoleReqVo;
 import com.ty.wq.pojo.vo.manager.role.RoleRespVo;
 import com.ty.wq.pojo.vo.manager.role.RoleSearchVo;
 import com.ty.wq.dao.manager.RoleDao;
-
-import java.util.List;
 
 /**
  * @author Administrator

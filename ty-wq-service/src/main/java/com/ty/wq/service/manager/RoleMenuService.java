@@ -26,7 +26,7 @@ public interface RoleMenuService extends BaseService<RoleMenu, RoleMenuDao, Role
      * @param roleId 角色id
      * @return
      */
-    List<Long> getMenuIdByRoleId(Long roleId);
+    List<Long> getMenuIdsByRoleId(Long roleId);
 
     /**
      * 更新角色菜单

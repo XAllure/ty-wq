@@ -1,9 +1,9 @@
 package com.ty.wq.aspect;
 
-import com.ty.wq.anno.Permission;
+import com.ty.wq.anno.VxPermission;
 import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.exception.WqException;
-import com.ty.wq.utils.PermissionUtils;
+import com.ty.wq.utils.VxPermissionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -25,19 +25,19 @@ import java.util.List;
 @Aspect
 @Component
 @Slf4j
-public class PermissionAspect {
+public class VxPermissionAspect {
 
-    @Pointcut(value = "@annotation(com.ty.wq.anno.Permission)")
+    @Pointcut(value = "@annotation(com.ty.wq.anno.VxPermission)")
     private void pointcut() {}
 
-    @Before(value = "pointcut() && @annotation(permission)")
-    public void doBefore(JoinPoint joinPoint, Permission permission) {
+    @Before(value = "pointcut() && @annotation(vxPermission)")
+    public void doBefore(JoinPoint joinPoint, VxPermission vxPermission) {
         Object target = joinPoint.getTarget();
-        Permission wp = target.getClass().getAnnotation(Permission.class);
-        List<String> perms = Arrays.asList(permission.value());
+        VxPermission wp = target.getClass().getAnnotation(VxPermission.class);
+        List<String> perms = Arrays.asList(vxPermission.value());
         // 类上没有注解，直接判断方法上的权限
         if (wp == null || StringUtils.isBlank(wp.prefix())) {
-            if (!PermissionUtils.isPermitted(perms)) {
+            if (VxPermissionUtils.notPermitted(perms)) {
                 throw new WqException(CodeEnum.NO_AUTHORITY);
             }
         } else {
@@ -47,7 +47,7 @@ public class PermissionAspect {
             for (String perm : perms) {
                 permissions.add(prefix.concat(":").concat(perm));
             }
-            if (!PermissionUtils.isPermitted(permissions)) {
+            if (VxPermissionUtils.notPermitted(permissions)) {
                 throw new WqException(CodeEnum.NO_AUTHORITY);
             }
         }

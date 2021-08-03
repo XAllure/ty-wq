@@ -20,7 +20,7 @@ import java.util.*;
  */
 @Component
 @Slf4j
-public class PermissionUtils {
+public class VxPermissionUtils {
 
     @Autowired
     private UserDepartmentService userDepartmentService;
@@ -31,7 +31,7 @@ public class PermissionUtils {
     @Autowired
     private PermissionService permissionService;
 
-    public static PermissionUtils utils;
+    public static VxPermissionUtils utils;
 
     @PostConstruct
     public void init() {
@@ -45,7 +45,7 @@ public class PermissionUtils {
      * 将用户的权限保存到redis
      * @param userId
      */
-    public static void savePermissions(Long userId) {
+    public static void savePermission(Long userId) {
         // 获取用户的部门列表
         List<UserDepartment> userDepartments = utils.userDepartmentService.findByUserId(userId);
         if (userDepartments != null && !userDepartments.isEmpty()) {
@@ -78,6 +78,32 @@ public class PermissionUtils {
     }
 
     /**
+     * 删除用户权限
+     * @param userId
+     */
+    public static void delPermission(Long userId) {
+        RedisUtils.delete(Constants.USER_PERMISSION_KEY + userId);
+    }
+
+    /**
+     * 验证是否有权限
+     * @param perms
+     * @return
+     */
+    public static boolean isPermitted(List<String> perms) {
+        return getPermissions(AccessUtils.userId()).containsAll(perms);
+    }
+
+    /**
+     * 验证是否有权限
+     * @param perms
+     * @return
+     */
+    public static boolean notPermitted(List<String> perms) {
+        return !isPermitted(perms);
+    }
+
+    /**
      * 保存权限
      * @param userId
      * @param perms
@@ -94,15 +120,6 @@ public class PermissionUtils {
     private static ArrayList<?> getPermissions(Long userId) {
         Object permissions = RedisUtils.get(Constants.USER_PERMISSION_KEY + userId);
         return (ArrayList<?>) permissions;
-    }
-
-    /**
-     * 验证是否有权限
-     * @param perms
-     * @return
-     */
-    public static boolean isPermitted(List<String> perms) {
-        return getPermissions(AccessUtils.userId()).containsAll(perms);
     }
 
 }

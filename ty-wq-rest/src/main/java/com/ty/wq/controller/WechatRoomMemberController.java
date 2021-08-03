@@ -1,5 +1,6 @@
 package com.ty.wq.controller;
 
+import com.ty.wq.anno.VxPermission;
 import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.OptionKey;
 import com.ty.wq.enums.CodeEnum;
@@ -30,6 +31,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/wechat/room/member")
 @Api(tags = "微信群成员相关")
+@VxPermission(prefix = "room:member")
 public class WechatRoomMemberController {
 
     @Autowired

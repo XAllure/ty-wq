@@ -1,4 +1,4 @@
-package com.ty.wq.controller;
+package com.ty.wq.controller.manager;
 
 import com.ty.wq.pojo.po.manager.Admin;
 import com.ty.wq.pojo.vo.BaseReqVo;

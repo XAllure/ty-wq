@@ -2,9 +2,10 @@ package com.ty.wq.pojo.vo.client.departmentPermission;
 
 import com.ty.wq.pojo.vo.BaseReqVo;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-import java.sql.Timestamp;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Administrator
@@ -13,11 +14,14 @@ import java.sql.Timestamp;
  * @description:
  * @date 2021-06-21 03:41:49
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class DepartmentPermissionReqVo extends BaseReqVo {
+public class DepartmentPermissionReqVo implements Serializable {
 
     private static final long serialVersionUID = -1L;
 
+    @NotNull(message = "部门ID不能为空",groups = BaseReqVo.Update.class)
+    private Long departmentId;
+
+    private List<Long> permissionIds;
 
 }

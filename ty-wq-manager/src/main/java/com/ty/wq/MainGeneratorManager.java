@@ -1,6 +1,6 @@
 package com.ty.wq;
 
-import com.ty.wq.controller.base.BaseController;
+import com.ty.wq.controller.BaseController;
 import com.ty.wq.dao.BaseDao;
 import com.ty.wq.pojo.po.BasePo;
 import com.ty.wq.pojo.vo.BaseReqVo;

@@ -1,9 +1,10 @@
 package com.ty.wq.pojo.vo.client.departmentPermission;
 
 import com.ty.wq.pojo.vo.BaseRespVo;
+import com.ty.wq.pojo.vo.client.permission.PermissionRespVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @author Administrator
@@ -18,5 +19,8 @@ public class DepartmentPermissionRespVo extends BaseRespVo {
 
     private static final long serialVersionUID = -1L;
 
+    List<PermissionRespVo> permissions;
+
+    List<Long> permissionIds;
 
 }

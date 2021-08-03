@@ -1,6 +1,6 @@
-package com.ty.wq.controller;
+package com.ty.wq.controller.manager;
 
-import com.ty.wq.controller.base.BaseController;
+import com.ty.wq.controller.BaseController;
 import com.ty.wq.dao.client.DepartmentDao;
 import com.ty.wq.pojo.po.client.Department;
 import com.ty.wq.pojo.vo.Result;

@@ -1,9 +1,8 @@
-package com.ty.wq.controller.base;
+package com.ty.wq.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ty.wq.dao.BaseDao;
 import com.ty.wq.enums.CodeEnum;
-import com.ty.wq.enums.StatusEnum;
 import com.ty.wq.pojo.po.BasePo;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.BaseRespVo;

@@ -41,7 +41,6 @@ public class InterceptorConfig implements HandlerInterceptor {
             CommonUtils.writeJson(Result.error(CodeEnum.NEED_LOGIN), response);
             return false;
         }
-        log.info("请求token： {}",token);
         // 更新token时效
         WsTokenUtils.setExpire(token);
         return true;

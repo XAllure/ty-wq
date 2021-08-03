@@ -1,5 +1,6 @@
 package com.ty.wq.controller;
 
+import com.ty.wq.anno.VxPermission;
 import com.ty.wq.constant.ApiType;
 import com.ty.wq.constant.OptionKey;
 import com.ty.wq.enums.CodeEnum;
@@ -12,7 +13,6 @@ import com.ty.wq.pojo.vo.client.wechatFriend.WechatFriendRespVo;
 import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
 import com.ty.wq.pojo.vo.netty.Option;
 import com.ty.wq.service.client.WechatFriendService;
-import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
 import com.ty.wq.utils.RouteUtils;
 import io.swagger.annotations.Api;
@@ -31,6 +31,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/wechat/friend")
 @Api(tags = "微信好友相关")
+@VxPermission(prefix = "friend")
 public class WechatFriendController {
 
     @Autowired

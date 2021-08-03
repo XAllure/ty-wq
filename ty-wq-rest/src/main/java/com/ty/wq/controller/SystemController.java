@@ -1,6 +1,5 @@
 package com.ty.wq.controller;
 
-import com.ty.wq.constant.Constants;
 import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
@@ -13,9 +12,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 /**
  * @author Administrator
@@ -69,7 +65,7 @@ public class SystemController {
         ReqVoUtils.validated(loginVo, BaseReqVo.Login.class);
         LoginRespVo loginRespVo = userService.login(loginVo);
         // 存储用户的权限
-        // WechatPermissionUtils.savePermissions(loginRespVo.getUser().getId());
+        VxPermissionUtils.savePermission(loginRespVo.getUser().getId());
         return Result.success(loginRespVo);
     }
 
@@ -85,6 +81,8 @@ public class SystemController {
         WsTokenUtils.delToken(token);
         // 删除用户的服务器信息
         WsTokenUtils.delUserWs(userId);
+        // 删除用户权限信息
+        VxPermissionUtils.delPermission(userId);
         return Result.success();
     }
 

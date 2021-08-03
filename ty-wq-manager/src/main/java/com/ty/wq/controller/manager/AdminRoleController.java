@@ -1,4 +1,4 @@
-package com.ty.wq.controller;
+package com.ty.wq.controller.manager;
 
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
@@ -7,7 +7,6 @@ import com.ty.wq.service.manager.AdminRoleService;
 import com.ty.wq.service.manager.RoleService;
 import com.ty.wq.utils.OrikaUtils;
 import com.ty.wq.utils.ReqVoUtils;
-import io.swagger.annotations.ApiOperation;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

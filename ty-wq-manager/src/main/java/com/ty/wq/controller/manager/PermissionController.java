@@ -1,6 +1,6 @@
-package com.ty.wq.controller;
+package com.ty.wq.controller.manager;
 
-import com.ty.wq.controller.base.BaseController;
+import com.ty.wq.controller.BaseController;
 import com.ty.wq.dao.client.PermissionDao;
 import com.ty.wq.pojo.po.client.Permission;
 import com.ty.wq.pojo.vo.Result;

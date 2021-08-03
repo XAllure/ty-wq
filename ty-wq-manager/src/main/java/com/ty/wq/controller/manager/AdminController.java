@@ -1,8 +1,8 @@
-package com.ty.wq.controller;
+package com.ty.wq.controller.manager;
 import java.io.IOException;
 
 import com.google.zxing.WriterException;
-import com.ty.wq.controller.base.BaseController;
+import com.ty.wq.controller.BaseController;
 import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
@@ -13,7 +13,6 @@ import com.ty.wq.utils.*;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.ty.wq.pojo.po.manager.Admin;

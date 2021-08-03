@@ -1,4 +1,4 @@
-package com.ty.wq.controller;
+package com.ty.wq.controller.manager;
 
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
@@ -40,7 +40,7 @@ public class RoleMenuController {
     @PostMapping("/menu/{roleId}")
     public Result menuIds(@NonNull @PathVariable Long roleId){
         List<MenuRespVo> menuRespVos = menuService.allMenu();
-        List<Long> menuIds = roleMenuService.getMenuIdByRoleId(roleId);
+        List<Long> menuIds = roleMenuService.getMenuIdsByRoleId(roleId);
         RoleMenuRespVo roleMenuRespVo = new RoleMenuRespVo();
         roleMenuRespVo.setMenus(menuRespVos);
         roleMenuRespVo.setMenuIds(menuIds);
@@ -54,7 +54,7 @@ public class RoleMenuController {
      */
     @PostMapping("/menu/update")
     public Result update(@RequestBody RoleMenuReqVo reqVo){
-        ReqVoUtils.validated(reqVo, BaseReqVo.Add.class);
+        ReqVoUtils.validated(reqVo, BaseReqVo.Update.class);
         roleMenuService.updateRoleMenus(reqVo);
         return Result.success();
     }

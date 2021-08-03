@@ -1,5 +1,4 @@
 package com.ty.wq.service.manager.impl;
-import java.sql.Timestamp;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ty.wq.dao.manager.RoleMenuDao;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -39,7 +37,7 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenu, RoleMenuDao, 
     private AdminRoleService adminRoleService;
 
     @Override
-    public List<Long> getMenuIdByRoleId(Long roleId) {
+    public List<Long> getMenuIdsByRoleId(Long roleId) {
         QueryWrapper<RoleMenu> qw = new QueryWrapper<>();
         qw.eq("role_id", roleId);
         // 按角色id查找
@@ -56,16 +54,12 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenu, RoleMenuDao, 
         QueryWrapper<RoleMenu> qw = new QueryWrapper<>();
         qw.eq("role_id", reqVo.getRoleId());
         delete(qw);
-        if (!reqVo.getMenuIds().isEmpty() && reqVo.getMenuIds().size() > 0) {
+        if (reqVo.getMenuIds() != null && !reqVo.getMenuIds().isEmpty() && reqVo.getMenuIds().size() > 0) {
             List<RoleMenu> roleMenus = new ArrayList<>();
             for (Long menuId : reqVo.getMenuIds()) {
                 RoleMenu roleMenu = new RoleMenu();
                 roleMenu.setRoleId(reqVo.getRoleId());
                 roleMenu.setMenuId(menuId);
-                roleMenu.setStatus(StatusEnum.NORMAL.getCode());
-                roleMenu.setCreateTime(new Timestamp(System.currentTimeMillis()));
-                roleMenu.setDeleted(0);
-                roleMenu.setVersion(0);
                 roleMenus.add(roleMenu);
             }
             inserts(roleMenus);
@@ -77,7 +71,7 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenu, RoleMenuDao, 
         List<Long> roleIds = adminRoleService.getRoleIdsByAdminId(adminId);
         List<Long> menuIds = new ArrayList<>();
         for (Long roleId : roleIds) {
-            menuIds.addAll(getMenuIdByRoleId(roleId));
+            menuIds.addAll(getMenuIdsByRoleId(roleId));
         }
         // 去掉重复的菜单id
         HashSet<Long> ids = new HashSet<>(menuIds);
