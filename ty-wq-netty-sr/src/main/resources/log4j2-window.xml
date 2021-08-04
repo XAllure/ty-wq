@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="ERROR">
+
+    <!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+
+    <!--变量配置-->
+    <Properties>
+        <!-- 格式化输出：%date表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符-->
+        <!-- %logger{36} 表示 Logger 名字最长36个字符 -->
+        <property name="LOG_PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %green{[%-5level]} %cyan{[%logger{36}]} - %blue{%msg%n}"/>
+        <!-- 定义日志存储的路径，不要配置相对路径 -->
+        <property name="FILE_PATH" value="E:\\logs"/>
+        <property name="PROJECT_NAME" value="wq"/>
+        <property name="CHILD_PROJECT_NAME" value="netty-sr"/>
+        <property name="INFO_FILE_NAME" value="info"/>
+        <property name="ERROR_FILE_NAME" value="error"/>
+    </Properties>
+
+    <appenders>
+        <!--  输出控制台的配置 -->
+        <Console name="console" target="SYSTEM_OUT">
+            <!--  控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+            <ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!--  这个都知道是输出日志的格式 -->
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <!--配置自定义日志，按天输出-->
+        <RollingFile name="info" fileName="${FILE_PATH}/${PROJECT_NAME}/${CHILD_PROJECT_NAME}/info/${INFO_FILE_NAME}.log"
+                     filePattern="${FILE_PATH}/${PROJECT_NAME}/${CHILD_PROJECT_NAME}/info/${INFO_FILE_NAME}-%d{yyyy-MM-dd}.log">
+            <!--  控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+        </RollingFile>
+
+        <!-- 把系统所有的error全部打到这个文件里  -->
+        <File name="error" fileName="${FILE_PATH}/${PROJECT_NAME}/${CHILD_PROJECT_NAME}/error/${ERROR_FILE_NAME}.log">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </File>
+
+    </appenders>
+
+    <!-- 然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
+    <loggers>
+        <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
+        <logger name="org.springframework" level="INFO"></logger>
+        <logger name="org.mybatis" level="INFO"></logger>
+        <logger name="org.hibernate" level="INFO"></logger>
+        <logger name="org.quartz" level="INFO"></logger>
+
+        <root level="info">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="info"/>
+            <AppenderRef ref="error"/>
+        </root>
+
+        <!-- additivity="true" 的意思是会在控制台也输入一份-->
+        <!-- <logger name="weather" level="info" additivity="true">
+            <AppenderRef ref="weather"/>
+        </logger> -->
+
+        <logger name="error" level="error" additivity="false">
+            <AppenderRef ref="error"/>
+        </logger>
+
+    </loggers>
+</configuration>

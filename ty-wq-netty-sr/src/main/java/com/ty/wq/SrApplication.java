@@ -1,6 +1,5 @@
 package com.ty.wq;
 
-import com.ty.wq.scanner.WsScanner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,20 +7,16 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * 测试客户端
+ * 轮询回调客户端
  * @author Administrator
  */
 @EnableAsync
 @SpringBootApplication
 @EnableScheduling
-public class NettyTestApplication implements CommandLineRunner {
+public class SrApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(NettyTestApplication.class, args);
+        SpringApplication.run(SrApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) {
-        Thread thread = new Thread(new WsScanner());
-        thread.start();
-    }
 }

@@ -26,6 +26,7 @@ public class TaskManager {
         log.info("----------------------------------------------------------------------------------------------------------------------------");
         log.info("路由的key{}", RedisUtils.getAllKeys(Constants.WQ_ROUTE_INFO + "*"));
         log.info("用户登录的key{}", RedisUtils.getAllKeys(Constants.WQ_USER_LOGIN_KEY + "*"));
+        log.info("轮询回调客户端登录的key{}", RedisUtils.getAllKeys(Constants.SR_LOGIN_KEY + "*"));
         log.info("----------------------------------------------------------------------------------------------------------------------------");
     }
 

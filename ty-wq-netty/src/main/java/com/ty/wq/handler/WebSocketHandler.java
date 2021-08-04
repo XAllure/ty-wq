@@ -17,7 +17,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -66,8 +65,17 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
+        // 用户退出登录
         String token = ChannelUtils.getUserToken(ctx.channel());
+        // token为空
         if (StringUtils.isBlank(token)) {
+            // 轮询回调客户端退出登录
+            token = ChannelUtils.getSrToken(ctx.channel());
+            if (StringUtils.isNotBlank(token)) {
+                String url = RouteUtils.url("/system/sr/logout");
+                HttpUtils.post(url, token, new JSONObject());
+                return;
+            }
             return;
         }
         String url = RouteUtils.url("/system/logout");

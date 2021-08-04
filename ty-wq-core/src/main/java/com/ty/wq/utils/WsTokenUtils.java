@@ -13,9 +13,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class WsTokenUtils {
 
-    /** token保存时间86400秒，即1440分钟，24小时 */
-    private final static int TOKEN_EXPIRE = 86400;
-
     /**
      * 创建token
      * @return 返回token
@@ -51,7 +48,7 @@ public class WsTokenUtils {
      * @param userId
      */
     public static void saveToken(String token, Long userId){
-        saveToken(token, userId, TOKEN_EXPIRE);
+        saveToken(token, userId, Constants.TOKEN_EXPIRE);
     }
 
     /**
@@ -89,8 +86,8 @@ public class WsTokenUtils {
      * @param token
      */
     public static void setExpire(String token){
-        setExpire(Constants.WQ_USER_LOGIN_KEY.concat(token), TOKEN_EXPIRE, TimeUnit.SECONDS);
-        RedisUtils.setExpire(Constants.WQ_USER_SERVER + getUserId(token), TOKEN_EXPIRE, TimeUnit.SECONDS);
+        setExpire(Constants.WQ_USER_LOGIN_KEY.concat(token), Constants.TOKEN_EXPIRE, TimeUnit.SECONDS);
+        RedisUtils.setExpire(Constants.WQ_USER_SERVER + getUserId(token), Constants.TOKEN_EXPIRE, TimeUnit.SECONDS);
     }
 
     /**
@@ -107,7 +104,7 @@ public class WsTokenUtils {
      * @param wsServer
      */
     public static void saveUserWs(Long userId, WsServer wsServer) {
-        RedisUtils.setSeconds(Constants.WQ_USER_SERVER + userId, wsServer.getId(), TOKEN_EXPIRE);
+        RedisUtils.setSeconds(Constants.WQ_USER_SERVER + userId, wsServer.getId(), Constants.TOKEN_EXPIRE);
     }
 
     /**

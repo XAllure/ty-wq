@@ -1,5 +1,6 @@
 package com.ty.wq.controller;
 
+import com.ty.wq.constant.Constants;
 import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
@@ -83,6 +84,26 @@ public class SystemController {
         WsTokenUtils.delUserWs(userId);
         // 删除用户权限信息
         VxPermissionUtils.delPermission(userId);
+        return Result.success();
+    }
+
+    @ApiOperation(value = "轮询回调客户端登录")
+    @PostMapping("/sr/login")
+    public Result srLogin(@RequestBody LoginReqVo vo) {
+        ReqVoUtils.validated(vo, BaseReqVo.Login.class);
+        LoginRespVo respVo = userService.srLogin(vo);
+        return Result.success(respVo);
+    }
+
+    @ApiOperation(value = "轮询回调客户端退出登录")
+    @PostMapping("/sr/logout")
+    public Result srLogout() {
+        String token = AccessUtils.userToken();
+        String key = Constants.SR_LOGIN_KEY.concat(token);
+        if (!RedisUtils.hasKey(key)) {
+            return Result.error(CodeEnum.ERROR_TOKEN);
+        }
+        RedisUtils.delete(key);
         return Result.success();
     }
 

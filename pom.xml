@@ -11,6 +11,7 @@
         <module>ty-wq-manager</module>
         <module>ty-wq-netty</module>
         <module>ty-wq-netty-test</module>
+        <module>ty-wq-netty-sr</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

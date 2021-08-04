@@ -1,5 +1,5 @@
 server:
-  port: 20060
+  port: 20040
 
 #自定义信息
 com:
@@ -19,23 +19,6 @@ spring:
     username: ${com.ty.db.username}
     password: ${com.ty.db.password}
     type: com.alibaba.druid.pool.DruidDataSource
-
-  #redis配置
-  redis:
-    database: 2
-    host: 127.0.0.1
-    port: 6379
-    timeout: 10000s
-    lettuce:
-      pool:
-        max-active: 8
-        max-idle: 8
-        min-idle: 0
-        max-wait: -1
-  #热部署
-  devtools:
-    restart:
-      enabled: false
 
 #mybatis-plus配置
 mybatis:

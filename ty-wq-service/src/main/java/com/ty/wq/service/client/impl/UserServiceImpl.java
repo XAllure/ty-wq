@@ -17,6 +17,7 @@ import com.ty.wq.service.client.UserService;
 import com.ty.wq.service.base.impl.BaseServiceImpl;
 import com.ty.wq.utils.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +63,34 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
         return this.findOne(qw);
     }
 
+    /**
+     * 轮询回调客户端登录
+     * @param vo
+     * @return
+     */
+    @Override
+    public LoginRespVo srLogin(LoginReqVo vo) {
+        // 先指定账号 后转数据库
+        // 没有该账号
+        if (!"sr001".equals(vo.getUsername())) {
+            throw new WqException(CodeEnum.ERROR_ACCOUNT);
+        }
+        // 密码不匹配
+        if (!vo.getPassword().equals(DigestUtils.md5Hex("123456"))) {
+            throw new WqException(CodeEnum.ERROR_PASSWORD);
+        }
+        // 获取服务器信息
+        WsServer ws = getServer();
+        // 创建token
+        String token = WsTokenUtils.createToken(GenerateUtils.generateString(18));
+        LoginRespVo respVo = new LoginRespVo();
+        respVo.setToken(token);
+        respVo.setServer(ws);
+        RedisUtils.setSeconds(Constants.SR_LOGIN_KEY.concat(token), 1L, Constants.TOKEN_EXPIRE);
+        log.info("为轮询回调客户端[{}]保存的服务器信息为: {}", vo.getUsername(), RedisUtils.get(Constants.WQ_SERVER_INFO + 1));
+        return respVo;
+    }
+
     @Override
     public LoginRespVo login(LoginReqVo vo) {
         User user = this.findByUsername(vo.getUsername());
@@ -78,18 +107,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
             throw new WqException(CodeEnum.ERROR_PASSWORD);
         }
         user.setLoginTime(new Timestamp(System.currentTimeMillis()));
-        // 获取 NettyWebSocket 服务器信息(这里使用策略模式 1--轮询，2--推荐，3--随机，4--权重)
-        long count = index.incrementAndGet();
-        Set<String> allKeys = RedisUtils.getAllKeys(Constants.WQ_SERVER_INFO.concat("*"));
-        if (allKeys.isEmpty()) {
-            throw new WqException(CodeEnum.NOT_WS_SERVER);
-        }
-        List<String> keys = new ArrayList<>(allKeys);
-        String key = keys.get((int) (count % keys.size()));
         // 获取服务器信息
-        WsServer ws = (WsServer) RedisUtils.get(key);
-        ws.setHport(null);
-        ws.setNip(null);
+        WsServer ws = getServer();
         // 创建token
         String token = WsTokenUtils.createToken(user.getSalt());
         LoginRespVo respVo = new LoginRespVo();
@@ -101,7 +120,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
         // 保存用户服务器的信息
         WsTokenUtils.saveUserWs(user.getId(), ws);
         log.info("为用户[{}]创建的token为: {}", user.getUsername(), token);
-        log.info("为用户[{}]保存的服务器信息为: {}", user.getUsername(), WsTokenUtils.getUserWs(user.getId()));
+        log.info("为用户[{}]分配的服务器信息为: {}", user.getUsername(), ws);
         updateById(user);
         return respVo;
     }
@@ -128,6 +147,22 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDao, UserSearchVo
         user.setAvatar(vo.getAvatar());
         user.setUpdateBy(user.getUsername());
         updateById(user);
+    }
+
+    public WsServer getServer() {
+        // 获取 NettyWebSocket 服务器信息(这里使用策略模式 1--轮询，2--推荐，3--随机，4--权重)
+        long count = index.incrementAndGet();
+        Set<String> allKeys = RedisUtils.getAllKeys(Constants.WQ_SERVER_INFO.concat("*"));
+        if (allKeys.isEmpty()) {
+            throw new WqException(CodeEnum.NOT_WS_SERVER);
+        }
+        List<String> keys = new ArrayList<>(allKeys);
+        String key = keys.get((int) (count % keys.size()));
+        // 获取服务器信息
+        WsServer ws = (WsServer) RedisUtils.get(key);
+        ws.setHport(null);
+        ws.setNip(null);
+        return ws;
     }
 
     public void setCd(UserRespVo vo) {

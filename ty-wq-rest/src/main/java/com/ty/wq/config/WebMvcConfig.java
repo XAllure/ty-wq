@@ -43,6 +43,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private final String[] paths = new String[]{
             "/system/login",
+            "/system/sr/login",
+            "/system/sr/logout",
             "/system/del",
             "/img/**",
             "/swagger-resources/**",

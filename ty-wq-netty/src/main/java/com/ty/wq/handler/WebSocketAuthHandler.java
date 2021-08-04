@@ -32,9 +32,15 @@ public class WebSocketAuthHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.info("------------------------------ webSocket读取并处理消息 -----------------------------------");
         Channel channel = ctx.channel();
         MsgVo msgVo = MsgUtils.msgVo((TextWebSocketFrame) msg);
+        // 如果是心跳检测
+        if (msgVo.getType().equals(MsgType.HEART_BEAT)) {
+            // 传给下一个handler处理
+            super.channelRead(ctx, msg);
+            return;
+        }
+        log.info("------------------------------ webSocket读取并处理消息 -----------------------------------");
         // 如果是登录类型
         if (msgVo.getType().equals(MsgType.LOGIN)) {
             // 进行登录
@@ -42,18 +48,21 @@ public class WebSocketAuthHandler extends ChannelInboundHandlerAdapter {
             ctx.flush();
             return;
         }
-        // 如果是心跳检测
-        if (msgVo.getType().equals(MsgType.HEART_BEAT)) {
-            // 传给下一个handler处理
-            super.channelRead(ctx, msg);
+        // 如果是登录类型
+        if (msgVo.getType().equals(MsgType.SR_LOGIN)) {
+            // 进行登录
+            loginHandler.srHandler(channel, msgVo);
+            ctx.flush();
             return;
         }
         // 如果没有登录，则提醒用户登录
         if (StringUtils.isBlank(ChannelUtils.getUserToken(channel))) {
-            log.info("用户[{}]没有登录， 提醒用户登录！！！", channel.id().asLongText());
-            MsgUtils.writeJson(channel, Message.error(MsgType.LOGIN, CodeEnum.SERVER_NOT_LOGIN));
-            ctx.flush();
-            return;
+            if (StringUtils.isBlank(ChannelUtils.getSrToken(channel))) {
+                log.info("用户[{}]没有登录， 提醒用户登录！！！", channel.id().asLongText());
+                MsgUtils.writeJson(channel, Message.error(MsgType.LOGIN, CodeEnum.SERVER_NOT_LOGIN));
+                ctx.flush();
+                return;
+            }
         }
         // 否则的话就直接传给下一个 handler 处理, 并删除该 handler（也可不删除，只是重复验证会影响性能）
         // 移除该handler

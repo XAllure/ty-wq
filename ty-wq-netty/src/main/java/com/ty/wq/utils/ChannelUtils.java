@@ -20,19 +20,28 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class ChannelUtils {
 
-    /** 用户连接 netty 进行登录时, channel 绑定的 token 属性 */
+    /** 用户连接netty进行登录时,channel绑定的token属性 */
     public static final AttributeKey<String> USER_TOKEN = AttributeKey.valueOf("token");
 
-    /** 用户连接 netty 进行登录时, channel 绑定的 userId 属性 */
+    /** 用户连接netty进行登录时,channel绑定的userId属性 */
     public static final AttributeKey<String> USER_ID = AttributeKey.valueOf("userId");
 
-    /** 定义一个Map结构, 存储 userID 映射到 channel */
+    /** 定义一个Map结构,存储userID映射到channel */
     public static final Map<Long, Channel> USER_ID_CHANNEL = new ConcurrentHashMap<>();
 
-    /** 存储微信id 与 用户的 Channel 的映射，即同一个微信有几个用户登录，存储这些用户的 Channel*/
+    /** 存储微信id与用户的Channel的映射，即同一个微信有几个用户登录，存储这些用户的Channel*/
     public static final Map<String, List<Channel>> WECHAT_ID_CHANNEL = new ConcurrentHashMap<>();
 
-    /** 存储微信id 与 转发客户端的映射 */
+    /** 询回调客户端连接netty进行登录时,channel绑定的srToken属性 */
+    public static final AttributeKey<String> SR_TOKEN = AttributeKey.valueOf("srToken");
+
+    /** 询回调客户端连接netty进行登录时,channel绑定的srId属性 */
+    public static final AttributeKey<String> SR_ID = AttributeKey.valueOf("srId");
+
+    /** 定义一个Map结构,存储srId映射到轮询回调客户端channel */
+    public static final Map<Long, Channel> SR_ID_CHANNEL = new ConcurrentHashMap<>();
+
+    /** 存储微信id与轮询回调客户端的映射 */
     public static final Map<String, Channel> WECHAT_ID_CLIENT_CHANNEL = new ConcurrentHashMap<>();
 
     /**
@@ -114,7 +123,11 @@ public class ChannelUtils {
      */
     public static synchronized void exit(ChannelHandlerContext ctx) {
         Channel channel = ctx.channel();
-        delUserChannel(channel);
+        if (getUserId(channel) != null) {
+            delUserChannel(channel);
+        } else if (getSrId(channel) != null) {
+            delSrChannel(channel);
+        }
         ctx.close();
     }
 
@@ -190,6 +203,62 @@ public class ChannelUtils {
      */
     public static synchronized void delClientByWechatId(String wechatId) {
         WECHAT_ID_CLIENT_CHANNEL.remove(wechatId);
+    }
+
+    /**
+     * 保存轮询客户端Channel 对应的 srToken
+     * 保存轮询客户端Channel 对应的 srId
+     * @param srId
+     * @param channel
+     */
+    public static synchronized void setSrClientChannel(Long srId, String srToken, Channel channel) {
+        if (SR_ID_CHANNEL.containsKey(srId)) {
+            Channel oldChannel = SR_ID_CHANNEL.get(srId);
+            String oldToken = oldChannel.attr(SR_TOKEN).get();
+            if (!srToken.equals(oldToken)) {
+                RedisUtils.delete(Constants.SR_LOGIN_KEY.concat(oldToken));
+                oldChannel.close();
+            } else {
+                return;
+            }
+        }
+        channel.attr(SR_TOKEN).set(srToken);
+        channel.attr(SR_ID).set(String.valueOf(srId));
+        SR_ID_CHANNEL.put(srId, channel);
+    }
+
+    /**
+     * 通过轮询客户端channel 获取 srToken
+     * @param channel
+     * @return
+     */
+    public static synchronized String getSrToken(Channel channel) {
+        return channel.attr(SR_TOKEN).get();
+    }
+
+    /**
+     * 通过轮询客户端channel获取 srId
+     * @param channel
+     * @return
+     */
+    public static synchronized Long getSrId(Channel channel) {
+        String srId = channel.attr(SR_ID).get();
+        if (StringUtils.isBlank(srId)) {
+            return null;
+        }
+        return Long.valueOf(srId);
+    }
+
+    /**
+     * 删除 srId 对应的 Channel
+     * @param channel
+     */
+    public static synchronized void delSrChannel(Channel channel) {
+        Long srId = getSrId(channel);
+        if (srId != null) {
+            SR_ID_CHANNEL.remove(srId);
+            log.info("删除 srId[{}] 对应的 Channel", srId);
+        }
     }
 
 }

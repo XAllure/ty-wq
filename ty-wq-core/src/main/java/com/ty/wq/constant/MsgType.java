@@ -6,11 +6,11 @@ package com.ty.wq.constant;
  */
 public interface MsgType {
 
-    /** netty客户端登录服务器 */
-    String CLIENT_LOGIN = "ClientLogin";
-
     /** 登录服务器 */
     String LOGIN = "Login";
+
+    /** 轮询回调客户端登录服务器 */
+    String SR_LOGIN = "SrLogin";
 
     /** 微信消息回调 */
     String RECEIVE_MSG = "ReceiveMsg";

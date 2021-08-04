@@ -4,7 +4,7 @@ import com.ty.wq.constant.Action;
 import com.ty.wq.constant.MsgType;
 import com.ty.wq.pojo.vo.client.wechatMessage.SendMsg;
 import com.ty.wq.pojo.vo.netty.Message;
-import com.ty.wq.socket.WebSocketClient;
+import com.ty.wq.socket.SrWebSocketClient;
 import com.ty.wq.task.GetWechatSomeInfoTask;
 import com.ty.wq.utils.MsgUtils;
 import com.ty.wq.utils.QueueUtils;
@@ -21,10 +21,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class SocketClientHandler extends SimpleChannelInboundHandler<Object> {
+public class SrSocketClientHandler extends SimpleChannelInboundHandler<Object> {
 
     @Autowired
-    private WebSocketClient webSocketClient;
+    private SrWebSocketClient srWebSocketClient;
 
     //握手的状态信息
     private WebSocketClientHandshaker handshaker;
@@ -110,16 +110,12 @@ public class SocketClientHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         log.info("客户端{}断开连接", ctx.channel().id().asShortText());
-        webSocketClient.logout();
+        srWebSocketClient.logout();
         super.channelInactive(ctx);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        Channel channel = ctx.channel();
-        log.error("客户端[" + channel.remoteAddress() + "]异常");
-        log.error("异常原因：" + cause);
-        cause.printStackTrace();
         ctx.close();
         super.exceptionCaught(ctx, cause);
     }

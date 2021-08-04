@@ -33,6 +33,13 @@ public interface UserService extends BaseService<User, UserDao, UserSearchVo> {
     User findByUsername(String username);
 
     /**
+     * 轮询回调客户端登录
+     * @param vo
+     * @return
+     */
+    LoginRespVo srLogin(LoginReqVo vo);
+
+    /**
      * 登录
      * @param vo
      * @return
