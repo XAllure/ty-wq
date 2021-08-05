@@ -76,10 +76,7 @@ public class WechatRoomController {
         sMsg.setOption(Option.option()
                 .add(OptionKey.ROOM_WXID, vo.getChatRoomId())
                 .getOption());
-        // 通知netty服务端
-        Result res = RouteUtils.send(sMsg);
-        // wechatRoomService.quitDelChatRoom(vo.getWechatId(), vo.getChatRoomId());
-        return res;
+        return RouteUtils.send(sMsg);
     }
 
     @ApiOperation(value = "修改群名称")
