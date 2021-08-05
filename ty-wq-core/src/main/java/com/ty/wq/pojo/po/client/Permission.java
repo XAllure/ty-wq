@@ -24,7 +24,7 @@ public class Permission extends BasePo {
 
     @Unique
     @IsNotNull
-    @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "名称")
+    @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "权限名称")
     private String name;
 
     @Column(type = MySqlTypeConstant.BIGINT, comment = "父权限ID")

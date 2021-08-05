@@ -23,7 +23,7 @@ public class Department extends BasePo {
     private static final long serialVersionUID = 5601124505851038358L;
 
     @IsNotNull
-    @Column(type = MySqlTypeConstant.VARCHAR, length = 30, comment = "用户名")
+    @Column(type = MySqlTypeConstant.VARCHAR, length = 30, comment = "公司名称")
     private String name;
 
     @Column(type = MySqlTypeConstant.BIGINT, comment = "父部门ID'")

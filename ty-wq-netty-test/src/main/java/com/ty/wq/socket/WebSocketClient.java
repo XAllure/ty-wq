@@ -28,12 +28,14 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.net.URI;
+import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -103,24 +105,41 @@ public class WebSocketClient {
     }
 
     public void login() {
-        LoginReqVo loginReqVo = new LoginReqVo();
-        loginReqVo.setUsername("墨染");
-        loginReqVo.setPassword(DigestUtils.md5Hex("123456"));
-        JSONObject json = OrikaUtils.convert(loginReqVo, JSONObject.class);
-        String res = HttpUtils.post(URL.concat("/system/login"), json);
-        // log.info("路由登录返回：" + res);
-        JSONObject jsonObject = JSON.parseObject(res);
-        Result result = OrikaUtils.convert(jsonObject, Result.class);
-        // log.info("转为result：" + result);
-        JSONObject data = JSON.parseObject(String.valueOf(result.getData()));
-        // log.info("转为data：" + data);
-        String token = data.getString("token");
-        WebSocketClient.token = token;
-        log.info("获取token：" + token);
-        server = OrikaUtils.convert(data.getJSONObject("server"), WsServer.class);
-        log.info("获取server：" + server);
-        user = data.getJSONObject("user").toJavaObject(UserRespVo.class);
-        log.info("获取user：" + user);
+        LoginReqVo vo = new LoginReqVo();
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            try {
+                System.out.println("请输入用户名");
+                String username = scanner.nextLine();
+                System.out.println("请输入密码");
+                String password = scanner.nextLine();
+                if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
+                    continue;
+                }
+                vo.setUsername(username);
+                vo.setPassword(DigestUtils.md5Hex(password));
+                JSONObject json = OrikaUtils.convert(vo, JSONObject.class);
+                String res = HttpUtils.post(URL.concat("/system/login"), json);
+                JSONObject jsonObject = JSON.parseObject(res);
+                Result result = OrikaUtils.convert(jsonObject, Result.class);
+                if (result.getCode() == 0) {
+                    JSONObject data = JSON.parseObject(String.valueOf(result.getData()));
+                    String token = data.getString("token");
+                    WebSocketClient.token = token;
+                    log.info("获取token：" + token);
+                    server = OrikaUtils.convert(data.getJSONObject("server"), WsServer.class);
+                    log.info("获取server：" + server);
+                    user = data.getJSONObject("user").toJavaObject(UserRespVo.class);
+                    log.info("获取user：" + user);
+                    break;
+                } else {
+                    System.out.println(result.getMsg());
+                }
+            } catch (Exception e) {
+                log.info("出错了");
+                e.printStackTrace();
+            }
+        }
     }
 
     public void loginServer() {
