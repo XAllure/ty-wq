@@ -86,7 +86,7 @@ public class WsTokenUtils {
      * @param token
      */
     public static void setExpire(String token){
-        setExpire(Constants.WQ_USER_LOGIN_KEY.concat(token), Constants.TOKEN_EXPIRE, TimeUnit.SECONDS);
+        setExpire(token, Constants.TOKEN_EXPIRE, TimeUnit.SECONDS);
         RedisUtils.setExpire(Constants.WQ_USER_SERVER + getUserId(token), Constants.TOKEN_EXPIRE, TimeUnit.SECONDS);
     }
 
