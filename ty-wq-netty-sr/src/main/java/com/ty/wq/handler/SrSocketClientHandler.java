@@ -79,6 +79,7 @@ public class SrSocketClientHandler extends SimpleChannelInboundHandler<Object> {
                 }
                 if (message.getType().equals(Action.REPORT_LOGIN_USER)) {
                     GetWechatSomeInfoTask.wechatId = String.valueOf(message.getData());
+                    log.info("客户端登录的微信号为：{}", GetWechatSomeInfoTask.wechatId);
                     return;
                 }
             }

@@ -40,17 +40,27 @@ public class WechatHandler {
         if (wechat != null) {
             // 保存当前微信对应的转发客户端channel
             ChannelUtils.setWechatClientChannel(rMsg.getCwxid(), channel);
+            // 通知转发客户端登录的微信号
+            returnLogin(rMsg.getCwxid(), channel);
             // 同步个人微信信息
             wechat.setWechatNick(vo.getNick());
             wechat.setWechatNo(vo.getAlias());
             wechat.setHeadPic(vo.getHeadPic());
             wechatService.updateById(wechat);
             // 同步好友列表、群等
-            getWechatFriend(wechat.getWechatId(), channel);
-            getWechatRooms(wechat.getWechatId(), channel);
-            // 通知转发客户端登录的微信号
-            returnLogin(rMsg.getCwxid(), channel);
+            getWechatFriends(rMsg.getCwxid(), channel);
+            getWechatRooms(rMsg.getCwxid(), channel);
         }
+    }
+
+    /**
+     * 上报退出登录事件
+     * @param rMsg
+     */
+    @Async
+    public void logoutHandler(ReceiveMsg rMsg) {
+        log.info("用户[{}]退出微信", rMsg.getCwxid());
+        ChannelUtils.delClientByWechatId(rMsg.getCwxid());
     }
 
     /**
@@ -66,20 +76,10 @@ public class WechatHandler {
     }
 
     /**
-     * 上报退出登录事件
-     * @param rMsg
-     */
-    @Async
-    public void logoutHandler(ReceiveMsg rMsg) {
-        log.info("用户[{}]退出微信", rMsg.getCwxid());
-        ChannelUtils.delClientByWechatId(rMsg.getCwxid());
-    }
-
-    /**
      * 获取微信普通好友
      * @param wechatId
      */
-    private void getWechatFriend(String wechatId, Channel channel) {
+    private void getWechatFriends(String wechatId, Channel channel) {
         SendMsg sMsg = new SendMsg();
         sMsg.setApi(ApiType.GET_CONTACTS);
         sMsg.setSendId(wechatId);

@@ -20,6 +20,11 @@ spring:
     password: ${com.ty.db.password}
     type: com.alibaba.druid.pool.DruidDataSource
 
+  #热部署
+  devtools:
+    restart:
+      enabled: false
+
 #mybatis-plus配置
 mybatis:
   table:

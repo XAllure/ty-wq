@@ -41,6 +41,10 @@ public class WechatFriendController {
     @PostMapping("/getContacts/{wechatId}")
     public Result getContacts(@Valid @NotBlank(message = "微信id参数错误") @PathVariable String wechatId) {
         List<WechatFriendRespVo> vos = wechatFriendService.getWechatFriends(wechatId);
+        /*SendMsg sMsg = new SendMsg();
+        sMsg.setApi(ApiType.GET_CONTACTS);
+        sMsg.setSendId(wechatId);
+        RouteUtils.send(sMsg);*/
         return Result.success(vos);
     }
 
