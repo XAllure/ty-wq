@@ -10,13 +10,14 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @author Administrator
  */
 @RestController
 @RequestMapping("/company")
-@Api(tags = "公司相关")
+@ApiIgnore
 public class CompanyController {
 
     @Autowired

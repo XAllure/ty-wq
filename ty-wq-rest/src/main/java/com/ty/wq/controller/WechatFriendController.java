@@ -68,7 +68,7 @@ public class WechatFriendController {
         return RouteUtils.send(sMsg);
     }
 
-    @ApiOperation(value = "添加好友")
+    @ApiOperation(value = "添加好友(不支持通过查询添加，即 scene = 15)")
     @PostMapping("/addFriend")
     public Result addFriend(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Add.class);
@@ -161,7 +161,7 @@ public class WechatFriendController {
         return RouteUtils.send(sMsg);
     }
 
-    @ApiOperation(value = "添加通过任意手机号/微信号/QQ号查询的联系人")
+    @ApiOperation(value = "添加通过任意手机号/微信号/QQ号查询的联系人(不支持，不可用)")
     @PostMapping("/addSearchContact")
     public Result addSearchContact(@RequestBody WechatFriendReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Add.class);
