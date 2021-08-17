@@ -33,8 +33,9 @@ public class UserController extends BaseController<User, UserReqVo, UserRespVo, 
      * @param reqVo
      * @return
      */
-    @PostMapping("/insert")
-    public Result insert(@RequestBody UserReqVo reqVo) {
+    @Override
+    @PostMapping("/add")
+    public Result add(@RequestBody UserReqVo reqVo) {
         ReqVoUtils.validated(reqVo, BaseReqVo.Add.class);
         User user = OrikaUtils.convert(reqVo, User.class);
         user.setSalt(GenerateUtils.generateString(20));

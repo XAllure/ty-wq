@@ -24,7 +24,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Permissio
     @Override
     public List<Permission> allPermission() {
         QueryWrapper<Permission> qw = new QueryWrapper<>();
-        qw.orderByAsc("sort");
+        qw.eq("status", StatusEnum.NORMAL.getCode()).orderByAsc("sort");
         return findList(qw);
     }
 
@@ -33,8 +33,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Permissio
         QueryWrapper<Permission> qw = new QueryWrapper<>();
         qw.ne("status", StatusEnum.LOCKED.getCode())
                 .isNull("permission")
-                .or().eq("permission", "")
-                .or().eq("permission", "/");
+                .or().eq("permission", "");
         return findList(qw);
     }
 
@@ -49,7 +48,6 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Permissio
         qw.in("id", ids)
                 .isNotNull("permission")
                 .ne("permission", "")
-                .ne("permission", "/")
                 .eq("status", StatusEnum.NORMAL.getCode());
         return findList(qw);
     }

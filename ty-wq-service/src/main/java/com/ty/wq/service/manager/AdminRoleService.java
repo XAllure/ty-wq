@@ -28,6 +28,13 @@ public interface AdminRoleService extends BaseService<AdminRole, AdminRoleDao, A
     List<Long> getRoleIdsByAdminId(Long adminId);
 
     /**
+     * 根据角色ID获取管理员ID
+     * @param roleId
+     * @return
+     */
+    List<Long> getAdminIdsByRoleId(Long roleId);
+
+    /**
      * 修改管理员角色
      * @param adminRoleReqVo
      */

@@ -62,10 +62,18 @@ public class ShiroUtils {
         SecurityUtils.getSubject().logout();
     }
 
+    public static boolean isPermitted(String permission){
+        return getSubject().isPermitted(permission);
+    }
+
+    public static boolean isPermittedAll(String... permissions){
+        return getSubject().isPermittedAll(permissions);
+    }
+
     /**
      * 重新赋值权限
      * @param shiroRealm 自定义的realm
-     * @param username  用户名
+     * @param username 用户名
      */
     public static void reloadAuthorizing(ShiroRealm shiroRealm, String username){
         Subject subject = SecurityUtils.getSubject();
@@ -76,4 +84,19 @@ public class ShiroUtils {
         shiroRealm.clearAuthorization(subject.getPrincipals());
         subject.releaseRunAs();
     }
+
+    /**
+     * 重新赋值权限
+     * @param shiroRealm 自定义的realm
+     * @param admin 管理员信息
+     */
+    public static void reloadAuthorizing(ShiroRealm shiroRealm, Admin admin){
+        Subject subject = SecurityUtils.getSubject();
+        String realmName = subject.getPrincipals().getRealmNames().iterator().next();
+        SimplePrincipalCollection simplePrincipalCollection = new SimplePrincipalCollection(admin, realmName);
+        subject.runAs(simplePrincipalCollection);
+        shiroRealm.clearAuthorization(subject.getPrincipals());
+        subject.releaseRunAs();
+    }
+
 }

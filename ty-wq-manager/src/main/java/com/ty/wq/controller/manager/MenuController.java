@@ -1,5 +1,6 @@
 package com.ty.wq.controller.manager;
 
+import com.ty.wq.anno.RePermission;
 import com.ty.wq.controller.BaseController;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.service.manager.MenuService;
@@ -19,6 +20,7 @@ import com.ty.wq.dao.manager.MenuDao;
  */
 @RestController
 @RequestMapping("/menu")
+@RePermission(prefix = "menu")
 public class MenuController extends BaseController<Menu, MenuReqVo, MenuRespVo, MenuSearchVo, MenuDao, MenuService> {
 
     /**
@@ -26,6 +28,7 @@ public class MenuController extends BaseController<Menu, MenuReqVo, MenuRespVo, 
      * @return
      */
     @PostMapping("/parent")
+    @RePermission("parent")
     public Result parent(){
         return Result.success(service.parentMenu());
     }
@@ -36,6 +39,7 @@ public class MenuController extends BaseController<Menu, MenuReqVo, MenuRespVo, 
      */
     @Override
     @GetMapping("/all")
+    @RePermission("list")
     public Result all(){
         return Result.success(service.allMenu());
     }

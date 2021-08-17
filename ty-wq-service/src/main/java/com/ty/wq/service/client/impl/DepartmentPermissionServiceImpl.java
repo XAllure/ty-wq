@@ -26,7 +26,6 @@ public class DepartmentPermissionServiceImpl extends BaseServiceImpl<DepartmentP
 
     /**
      * 根据部门id获取权限id集合
-     *
      * @param departmentId
      * @return
      */

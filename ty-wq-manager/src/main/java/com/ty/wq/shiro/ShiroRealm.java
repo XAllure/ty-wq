@@ -3,9 +3,14 @@ package com.ty.wq.shiro;
 import com.ty.wq.enums.StatusEnum;
 import com.ty.wq.exception.VerifyCodeException;
 import com.ty.wq.pojo.po.manager.Admin;
+import com.ty.wq.pojo.po.manager.Authority;
+import com.ty.wq.service.manager.AdminRoleService;
 import com.ty.wq.service.manager.AdminService;
+import com.ty.wq.service.manager.AuthorityService;
+import com.ty.wq.service.manager.RoleAuthorityService;
 import com.ty.wq.utils.GoogleAuthenticatorUtils;
 import lombok.SneakyThrows;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -17,6 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * @author Administrator
@@ -28,18 +36,50 @@ public class ShiroRealm extends AuthorizingRealm implements Serializable {
     @Autowired
     private AdminService adminService;
 
+    @Autowired
+    private AdminRoleService adminRoleService;
+
+    @Autowired
+    private AuthorityService authorityService;
+
+    @Autowired
+    private RoleAuthorityService roleAuthorityService;
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        Object primaryPrincipal = principalCollection.getPrimaryPrincipal();
+        Object principal = principalCollection.getPrimaryPrincipal();
         Admin admin;
-        if (primaryPrincipal instanceof Admin){
+        if (principal instanceof Admin){
             //拿到user对象
-            admin = (Admin) primaryPrincipal;
+            admin = (Admin) principal;
         }else {
-            admin = adminService.findByUsername(primaryPrincipal.toString());
+            admin = adminService.findByUsername(principal.toString());
         }
-
+        if ("admin".equals(admin.getUsername())) {
+            List<Authority> authorities = authorityService.getAll();
+            for (Authority authority : authorities) {
+                if (StringUtils.isNotBlank(authority.getPermission())) {
+                    info.addStringPermission(authority.getPermission());
+                }
+            }
+            return info;
+        }
+        List<Long> roleIds = adminRoleService.getRoleIdsByAdminId(admin.getId());
+        List<Long> authIds = new ArrayList<>();
+        for (Long roleId : roleIds) {
+            authIds.addAll(roleAuthorityService.findAuthIdsByRoleId(roleId));
+        }
+        //去掉重复的权限id
+        HashSet<Long> hs = new HashSet<>(authIds);
+        //清空
+        authIds.clear();
+        //重新赋值
+        authIds.addAll(hs);
+        List<Authority> authorities = authorityService.findChildrenByIds(authIds);
+        for (Authority authority : authorities) {
+            info.addStringPermission(authority.getPermission());
+        }
         return info;
     }
 

@@ -1,5 +1,6 @@
 package com.ty.wq.controller.manager;
 
+import com.ty.wq.anno.RePermission;
 import com.ty.wq.controller.BaseController;
 import com.ty.wq.dao.client.WechatDao;
 import com.ty.wq.enums.WechatEnum;
@@ -22,7 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/wechat")
+@RePermission(prefix = "wechat")
 public class WechatController extends BaseController<Wechat, WechatReqVo, WechatRespVo, WechatSearchVo, WechatDao, WechatService> {
+
+    WechatController() {
+        methodAll = false;
+    }
 
     /**
      * 添加微信
@@ -31,6 +37,7 @@ public class WechatController extends BaseController<Wechat, WechatReqVo, Wechat
      */
     @Override
     @PostMapping("/add")
+    @RePermission("add")
     public Result add(@RequestBody WechatReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Add.class);
         Wechat wechat = OrikaUtils.convert(vo, Wechat.class);

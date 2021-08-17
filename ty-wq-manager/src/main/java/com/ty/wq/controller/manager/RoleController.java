@@ -1,5 +1,6 @@
 package com.ty.wq.controller.manager;
 
+import com.ty.wq.anno.RePermission;
 import com.ty.wq.controller.BaseController;
 import com.ty.wq.service.manager.RoleService;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,11 @@ import com.ty.wq.dao.manager.RoleDao;
  */
 @RestController
 @RequestMapping("/role")
+@RePermission(prefix = "role")
 public class RoleController extends BaseController<Role, RoleReqVo, RoleRespVo, RoleSearchVo, RoleDao, RoleService> {
 
-
+    RoleController() {
+        methodAll = false;
+    }
 
 }

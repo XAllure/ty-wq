@@ -1,6 +1,7 @@
 package com.ty.wq.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ty.wq.anno.RePermission;
 import com.ty.wq.dao.BaseDao;
 import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.pojo.po.BasePo;
@@ -63,6 +64,7 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
      * @return
      */
     @GetMapping("/all")
+    @RePermission(value = "list")
     public Result all(){
         if (!methodAll) {
             return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
@@ -77,6 +79,7 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
      * @return
      */
     @GetMapping("/list/condition")
+    @RePermission(value = "list")
     public Result listByCondition(SV sv){
         if (!methodList) {
             return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
@@ -91,6 +94,7 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
      * @return
      */
     @PostMapping("/add")
+    @RePermission(value = "add")
     public Result add(@RequestBody ReqVo reqVo) {
         if (!methodAdd) {
             return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
@@ -107,6 +111,7 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
      * @return
      */
     @PostMapping("/update")
+    @RePermission(value = "update")
     public Result update(@RequestBody ReqVo reqVo) {
         if (!methodUpdate) {
             return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
@@ -124,6 +129,7 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
      * @return
      */
     @PostMapping("/status/update")
+    @RePermission(value = "status:update")
     public Result updateStatus(@RequestBody StatusReqVo vo){
         if (!methodStatus) {
             return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
@@ -141,6 +147,7 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
      * @return
      */
     @PostMapping("/delete/{id}")
+    @RePermission(value = "delete")
     public Result delete(@Valid @Min(value = 1, message = "id不能小于1") @PathVariable Long id){
         if (!methodDelete) {
             return Result.error(CodeEnum.METHOD_NOT_SUPPORT);
@@ -155,6 +162,7 @@ public class BaseController<Po extends BasePo, ReqVo extends BaseReqVo, RespVo e
      * @return
      */
     @PostMapping("/deleteBatch")
+    @RePermission(value = "deleteBatch")
     public Result deleteBatch(@RequestBody @Validated @NotEmpty(message = "请选择要删除的数据") List<Long> ids){
         if (!methodDeleteBatch) {
             return Result.error(CodeEnum.METHOD_NOT_SUPPORT);

@@ -1,5 +1,6 @@
 package com.ty.wq.controller.manager;
 
+import com.ty.wq.anno.RePermission;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.manager.role.RoleRespVo;
@@ -24,6 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin")
+@RePermission(prefix = "admin")
 public class AdminRoleController {
 
     @Autowired
@@ -38,6 +40,7 @@ public class AdminRoleController {
      * @return
      */
     @PostMapping("/roles/{adminId}")
+    @RePermission("roles")
     public Result adminRoles(@NonNull @PathVariable Long adminId){
         List<RoleRespVo> roleRespVos = OrikaUtils.converts(roleService.getAllNormalRole(), RoleRespVo.class);
         List<Long> roleIds = adminRoleService.getRoleIdsByAdminId(adminId);
@@ -51,6 +54,7 @@ public class AdminRoleController {
      * @return
      */
     @PostMapping("/role/update")
+    @RePermission("role:update")
     public Result update(@RequestBody AdminRoleReqVo adminRoleReqVo){
         ReqVoUtils.validated(adminRoleReqVo, BaseReqVo.Add.class);
         adminRoleService.updateAdminRoles(adminRoleReqVo);

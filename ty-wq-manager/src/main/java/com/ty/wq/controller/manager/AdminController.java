@@ -2,6 +2,7 @@ package com.ty.wq.controller.manager;
 import java.io.IOException;
 
 import com.google.zxing.WriterException;
+import com.ty.wq.anno.RePermission;
 import com.ty.wq.controller.BaseController;
 import com.ty.wq.enums.CodeEnum;
 import com.ty.wq.pojo.vo.BaseReqVo;
@@ -32,11 +33,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("/admin")
+@RePermission(prefix = "admin")
 public class AdminController extends BaseController<Admin, AdminReqVo, AdminRespVo, AdminSearchVo, AdminDao, AdminService> {
 
     AdminController() {
         methodAll = false;
-        methodAdd = false;
     }
 
     /**
@@ -56,8 +57,10 @@ public class AdminController extends BaseController<Admin, AdminReqVo, AdminResp
      * @param reqVo
      * @return
      */
-    @PostMapping("/insert")
-    public Result insert(@RequestBody AdminReqVo reqVo) {
+    @Override
+    @PostMapping("/add")
+    @RePermission("add")
+    public Result add(@RequestBody AdminReqVo reqVo) {
         ReqVoUtils.validated(reqVo, BaseReqVo.Add.class);
         Admin admin = OrikaUtils.convert(reqVo, Admin.class);
         admin.setSalt(GenerateUtils.generateString(20));
@@ -73,6 +76,7 @@ public class AdminController extends BaseController<Admin, AdminReqVo, AdminResp
      * @return
      */
     @PostMapping("/password/reset/{id}")
+    @RePermission("password:reset")
     public Result reset(@PathVariable @Validated(value = BaseReqVo.Reset.class) Long id) {
         Admin admin = service.findById(id);
         admin.setPassword(ShiroUtils.md5(DigestUtils.md5Hex(ShiroUtils.DEFAULT_PASSWORD), admin.getSalt()));
@@ -85,6 +89,7 @@ public class AdminController extends BaseController<Admin, AdminReqVo, AdminResp
      * @return
      */
     @PostMapping("/info")
+    @RePermission("info")
     public Result info() {
         AdminRespVo respVo = OrikaUtils.convert(service.findById(ShiroUtils.getAdminId()), AdminRespVo.class);
         return Result.success(respVo);
@@ -95,6 +100,7 @@ public class AdminController extends BaseController<Admin, AdminReqVo, AdminResp
      * @return
      */
     @PostMapping("/qrCode/update")
+    @RePermission("qrCode:update")
     public Result updateQrCode() {
         return Result.success(GoogleAuthenticatorUtils.createSecretKey());
     }
@@ -105,6 +111,7 @@ public class AdminController extends BaseController<Admin, AdminReqVo, AdminResp
      * @return
      */
     @PostMapping("/info/update")
+    @RePermission("info:update")
     public Result updateInfo(@RequestBody AdminReqVo adminReqVo) {
         ReqVoUtils.validated(adminReqVo, BaseReqVo.Self.class);
         Admin admin = service.findById(ShiroUtils.getAdminId());
@@ -120,6 +127,7 @@ public class AdminController extends BaseController<Admin, AdminReqVo, AdminResp
      */
     @SneakyThrows
     @PostMapping("/password/update")
+    @RePermission("password:update")
     public Result updatePassword(@RequestBody PasswordReqVo reqVo) {
         ReqVoUtils.validated(reqVo, BaseReqVo.Self.class);
         if (!reqVo.getPassword().equals(reqVo.getConfirmPassword())) {

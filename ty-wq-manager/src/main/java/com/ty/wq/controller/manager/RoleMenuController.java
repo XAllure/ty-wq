@@ -1,5 +1,6 @@
 package com.ty.wq.controller.manager;
 
+import com.ty.wq.anno.RePermission;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.manager.menu.MenuRespVo;
@@ -7,12 +8,13 @@ import com.ty.wq.service.manager.MenuService;
 import com.ty.wq.service.manager.RoleMenuService;
 import com.ty.wq.shiro.ShiroUtils;
 import com.ty.wq.utils.ReqVoUtils;
-import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.ty.wq.pojo.vo.manager.roleMenu.RoleMenuReqVo;
 import com.ty.wq.pojo.vo.manager.roleMenu.RoleMenuRespVo;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -24,6 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/role")
+@RePermission(prefix = "role")
 public class RoleMenuController {
 
     @Autowired
@@ -38,7 +41,8 @@ public class RoleMenuController {
      * @return
      */
     @PostMapping("/menu/{roleId}")
-    public Result menuIds(@NonNull @PathVariable Long roleId){
+    @RePermission("menu")
+    public Result menuIds(@Valid @NotNull(message = "角色ID不能为空") @PathVariable Long roleId){
         List<MenuRespVo> menuRespVos = menuService.allMenu();
         List<Long> menuIds = roleMenuService.getMenuIdsByRoleId(roleId);
         RoleMenuRespVo roleMenuRespVo = new RoleMenuRespVo();
@@ -53,6 +57,7 @@ public class RoleMenuController {
      * @return
      */
     @PostMapping("/menu/update")
+    @RePermission("menu:update")
     public Result update(@RequestBody RoleMenuReqVo reqVo){
         ReqVoUtils.validated(reqVo, BaseReqVo.Update.class);
         roleMenuService.updateRoleMenus(reqVo);
@@ -64,6 +69,7 @@ public class RoleMenuController {
      * @return
      */
     @PostMapping("/menus")
+    @RePermission("menus")
     public Result menus() {
         List<MenuRespVo> menuRespVos = roleMenuService.getAdminRolesMenu(ShiroUtils.getAdminId());
         return Result.success(menuRespVos);

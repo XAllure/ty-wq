@@ -1,4 +1,4 @@
-package com.ty.wq.pojo.po.client;
+package com.ty.wq.pojo.po.manager;
 
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -12,15 +12,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 权限表
+ * 权限
  * @author Administrator
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Table("permission")
-public class Permission extends BasePo {
+@Table("authority")
+public class Authority extends BasePo {
 
-    private static final long serialVersionUID = 2428599904346805092L;
+    private static final long serialVersionUID = -1035451497747903595L;
 
     @Unique
     @IsNotNull

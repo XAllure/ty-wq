@@ -35,21 +35,37 @@ public class AdminRoleServiceImpl extends BaseServiceImpl<AdminRole, AdminRoleDa
         QueryWrapper<AdminRole> qw = new QueryWrapper<>();
         qw.eq("admin_id", adminId);
         List<AdminRole> adminRoles = findList(qw);
-        List<Long> adminRoleIds = new ArrayList<>();
+        List<Long> roleIds = new ArrayList<>();
         for (AdminRole adminRole : adminRoles) {
-            adminRoleIds.add(adminRole.getRoleId());
+            roleIds.add(adminRole.getRoleId());
         }
         // 排除被禁用的角色
-        if (!adminRoleIds.isEmpty()){
+        if (!roleIds.isEmpty()){
             QueryWrapper<Role> roleQw = new QueryWrapper<>();
-            roleQw.in("id", adminRoleIds).ne("status", StatusEnum.LOCKED.getCode());
+            roleQw.in("id", roleIds).ne("status", StatusEnum.LOCKED.getCode());
             List<Role> roles = roleService.findList(roleQw);
-            adminRoleIds.clear();
+            roleIds.clear();
             for (Role role : roles) {
-                adminRoleIds.add(role.getId());
+                roleIds.add(role.getId());
             }
         }
-        return adminRoleIds;
+        return roleIds;
+    }
+
+    /**
+     * 根据角色ID获取管理员ID
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<Long> getAdminIdsByRoleId(Long roleId) {
+        QueryWrapper<AdminRole> qw = new QueryWrapper<>();
+        qw.eq("role_id", roleId).eq("status", StatusEnum.NORMAL.getCode());
+        List<Long> adminIds = new ArrayList<>();
+        for (AdminRole adminRole : findList(qw)) {
+            adminIds.add(adminRole.getAdminId());
+        }
+        return adminIds;
     }
 
     @Override
@@ -63,10 +79,6 @@ public class AdminRoleServiceImpl extends BaseServiceImpl<AdminRole, AdminRoleDa
                 AdminRole adminRole = new AdminRole();
                 adminRole.setAdminId(reqVo.getAdminId());
                 adminRole.setRoleId(roleId);
-                adminRole.setStatus(StatusEnum.NORMAL.getCode());
-                adminRole.setCreateTime(new Timestamp(System.currentTimeMillis()));
-                adminRole.setDeleted(0);
-                adminRole.setVersion(0);
                 adminRoles.add(adminRole);
             }
             inserts(adminRoles);
