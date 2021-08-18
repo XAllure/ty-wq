@@ -44,7 +44,6 @@ public enum CodeEnum {
 
     ERROR_CLIENT(115,"客户端不存在"),
 
-
     NO_AUTHENTICATION(401,"认证失败"),
 
     NO_AUTHORITY(403,"您没有该操作权限"),

@@ -1,5 +1,6 @@
 package com.ty.wq.controller.manager;
 
+import com.ty.wq.anno.RePermission;
 import com.ty.wq.controller.BaseController;
 import com.ty.wq.dao.client.DepartmentDao;
 import com.ty.wq.pojo.po.client.Department;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/department")
+@RePermission(prefix = "department")
 public class DepartmentController extends BaseController<Department, DepartmentReqVo, DepartmentRespVo, DepartmentSearchVo, DepartmentDao, DepartmentService> {
 
     DepartmentController(){
@@ -30,6 +32,7 @@ public class DepartmentController extends BaseController<Department, DepartmentR
      */
     @Override
     @GetMapping("/all")
+    @RePermission("list")
     public Result all() {
         return Result.success(service.getAll());
     }
@@ -40,6 +43,7 @@ public class DepartmentController extends BaseController<Department, DepartmentR
      * @return
      */
     @PostMapping("/company/{companyId}")
+    @RePermission("company:id")
     public Result byCompany(@PathVariable Long companyId) {
         List<DepartmentRespVo> respVos = OrikaUtils.converts(service.getDepartmentByCompanyId(companyId), DepartmentRespVo.class);
         return Result.success(respVos);

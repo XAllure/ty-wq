@@ -1,5 +1,6 @@
 package com.ty.wq.controller.manager;
 
+import com.ty.wq.anno.RePermission;
 import com.ty.wq.pojo.vo.BaseReqVo;
 import com.ty.wq.pojo.vo.Result;
 import com.ty.wq.pojo.vo.client.departmentPermission.DepartmentPermissionReqVo;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/department/permission")
+@RePermission(prefix = "department:permission")
 public class DepartmentPermissionController {
 
     @Autowired
@@ -34,6 +36,7 @@ public class DepartmentPermissionController {
      * @return
      */
     @PostMapping("/ids/{departmentId}")
+    @RePermission("ids")
     public Result getPermissionIds(@NonNull @PathVariable Long departmentId) {
         List<PermissionRespVo> permissions = OrikaUtils.converts(permissionService.allPermission(), PermissionRespVo.class);
         List<Long> permissionIds = departmentPermissionService.getPermIdsByDepartmentId(departmentId);
@@ -49,6 +52,7 @@ public class DepartmentPermissionController {
      * @return
      */
     @PostMapping("/update")
+    @RePermission("update")
     public Result update(@RequestBody DepartmentPermissionReqVo vo) {
         ReqVoUtils.validated(vo, BaseReqVo.Update.class);
         departmentPermissionService.updateDepartmentPerms(vo);

@@ -1,5 +1,6 @@
 package com.ty.wq.controller.manager;
 
+import com.ty.wq.anno.RePermission;
 import com.ty.wq.controller.BaseController;
 import com.ty.wq.dao.client.PermissionDao;
 import com.ty.wq.pojo.po.client.Permission;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
+ * 部门的权限
  * @author Administrator
  */
 @RestController
 @RequestMapping("/permission")
+@RePermission(prefix = "permission")
 public class PermissionController extends BaseController<Permission, PermissionReqVo, PermissionRespVo, PermissionSearchVo, PermissionDao, PermissionService> {
 
     /**
@@ -29,6 +32,7 @@ public class PermissionController extends BaseController<Permission, PermissionR
      */
     @Override
     @GetMapping("/all")
+    @RePermission("list")
     public Result all() {
         List<Permission> permissions = service.allPermission();
         List<PermissionRespVo> respVos = OrikaUtils.converts(permissions, PermissionRespVo.class);
@@ -40,6 +44,7 @@ public class PermissionController extends BaseController<Permission, PermissionR
      * @return
      */
     @PostMapping("/parent")
+    @RePermission("parent")
     public Result parent() {
         List<Permission> parentPerms = service.parentPermission();
         List<PermissionRespVo> respVos = OrikaUtils.converts(parentPerms, PermissionRespVo.class);

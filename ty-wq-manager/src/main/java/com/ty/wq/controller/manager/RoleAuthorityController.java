@@ -1,5 +1,6 @@
 package com.ty.wq.controller.manager;
 
+import com.ty.wq.anno.RePermission;
 import com.ty.wq.controller.BaseController;
 import com.ty.wq.pojo.po.manager.Admin;
 import com.ty.wq.pojo.vo.BaseReqVo;
@@ -33,7 +34,8 @@ import java.util.List;
  * @date 2021-08-17 05:15:34
  */
 @RestController
-@RequestMapping("/role/authority")
+@RequestMapping("/role")
+@RePermission(prefix = "role")
 public class RoleAuthorityController {
 
     @Autowired
@@ -51,7 +53,13 @@ public class RoleAuthorityController {
     @Autowired
     private ShiroRealm shiroRealm;
 
-    @PostMapping("/authorityIds/{roleId}")
+    /**
+     * 根据角色ID获取权限ID集合
+     * @param roleId
+     * @return
+     */
+    @PostMapping("/authority/authorityIds/{roleId}")
+    @RePermission("authority:authorityIds")
     public Result authorityIds(@Valid @NotNull(message = "角色ID不能为空") @PathVariable Long roleId) {
         List<AuthorityRespVo> authorityRespVos = OrikaUtils.converts(authorityService.getAll(), AuthorityRespVo.class);
         List<Long> authorityIds = roleAuthorityService.findAuthIdsByRoleId(roleId);
@@ -66,7 +74,8 @@ public class RoleAuthorityController {
      * @param reqVo
      * @return
      */
-    @PostMapping("/update")
+    @PostMapping("/authority/update")
+    @RePermission("authority:update")
     public Result update(@RequestBody RoleAuthorityReqVo reqVo) {
         ReqVoUtils.validated(reqVo, BaseReqVo.Add.class);
         roleAuthorityService.updateRoleAuth(reqVo);

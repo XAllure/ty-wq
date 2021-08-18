@@ -22,7 +22,6 @@ public class Authority extends BasePo {
 
     private static final long serialVersionUID = -1035451497747903595L;
 
-    @Unique
     @IsNotNull
     @Column(type = MySqlTypeConstant.VARCHAR, length = 50, comment = "权限名称")
     private String name;
