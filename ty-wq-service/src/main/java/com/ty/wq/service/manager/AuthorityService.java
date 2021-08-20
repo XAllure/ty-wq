@@ -27,6 +27,12 @@ public interface AuthorityService extends BaseService<Authority, AuthorityDao, A
     List<Authority> getAll();
 
     /**
+     * 查询所有可用的权限
+     * @return
+     */
+    List<Authority> getAllNormal();
+
+    /**
      * 查询父权限
      * @return
      */

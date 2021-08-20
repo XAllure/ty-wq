@@ -57,7 +57,7 @@ public class ShiroRealm extends AuthorizingRealm implements Serializable {
             admin = adminService.findByUsername(principal.toString());
         }
         if ("admin".equals(admin.getUsername())) {
-            List<Authority> authorities = authorityService.getAll();
+            List<Authority> authorities = authorityService.getAllNormal();
             for (Authority authority : authorities) {
                 if (StringUtils.isNotBlank(authority.getPermission())) {
                     info.addStringPermission(authority.getPermission());

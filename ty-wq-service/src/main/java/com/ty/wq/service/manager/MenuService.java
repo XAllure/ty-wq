@@ -33,4 +33,10 @@ public interface MenuService extends BaseService<Menu, MenuDao, MenuSearchVo> {
      */
     List<MenuRespVo> allMenu();
 
+    /**
+     * 查询所有可用菜单
+     * @return
+     */
+    List<MenuRespVo> allNormalMenu();
+
 }

@@ -29,6 +29,18 @@ public class AuthorityServiceImpl extends BaseServiceImpl<Authority, AuthorityDa
     @Override
     public List<Authority> getAll() {
         QueryWrapper<Authority> qw = new QueryWrapper<>();
+        qw.orderByAsc("sort");
+        return findList(qw);
+    }
+
+    /**
+     * 查询所有可用的权限
+     *
+     * @return
+     */
+    @Override
+    public List<Authority> getAllNormal() {
+        QueryWrapper<Authority> qw = new QueryWrapper<>();
         qw.eq("status", StatusEnum.NORMAL.getCode()).orderByAsc("sort");
         return findList(qw);
     }

@@ -2,6 +2,7 @@ package com.ty.wq.service.manager.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ty.wq.dao.manager.MenuDao;
+import com.ty.wq.enums.StatusEnum;
 import com.ty.wq.pojo.vo.manager.menu.MenuRespVo;
 import com.ty.wq.pojo.vo.manager.menu.MenuSearchVo;
 import com.ty.wq.pojo.po.manager.Menu;
@@ -33,6 +34,17 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDao, MenuSearchVo
     public List<MenuRespVo> allMenu() {
         QueryWrapper<Menu> qw = new QueryWrapper<>();
         qw.orderByAsc("sort");
+        return OrikaUtils.converts(findList(qw), MenuRespVo.class);
+    }
+
+    /**
+     * 查询所有可用菜单
+     * @return
+     */
+    @Override
+    public List<MenuRespVo> allNormalMenu() {
+        QueryWrapper<Menu> qw = new QueryWrapper<>();
+        qw.eq("status", StatusEnum.NORMAL.getCode()).orderByAsc("sort");
         return OrikaUtils.converts(findList(qw), MenuRespVo.class);
     }
 

@@ -43,7 +43,7 @@ public class RoleMenuController {
     @PostMapping("/menu/{roleId}")
     @RePermission("menu")
     public Result menuIds(@Valid @NotNull(message = "角色ID不能为空") @PathVariable Long roleId){
-        List<MenuRespVo> menuRespVos = menuService.allMenu();
+        List<MenuRespVo> menuRespVos = menuService.allNormalMenu();
         List<Long> menuIds = roleMenuService.getMenuIdsByRoleId(roleId);
         RoleMenuRespVo roleMenuRespVo = new RoleMenuRespVo();
         roleMenuRespVo.setMenus(menuRespVos);

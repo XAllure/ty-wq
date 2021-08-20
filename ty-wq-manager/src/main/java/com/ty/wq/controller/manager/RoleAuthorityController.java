@@ -61,7 +61,7 @@ public class RoleAuthorityController {
     @PostMapping("/authority/authorityIds/{roleId}")
     @RePermission("authority:authorityIds")
     public Result authorityIds(@Valid @NotNull(message = "角色ID不能为空") @PathVariable Long roleId) {
-        List<AuthorityRespVo> authorityRespVos = OrikaUtils.converts(authorityService.getAll(), AuthorityRespVo.class);
+        List<AuthorityRespVo> authorityRespVos = OrikaUtils.converts(authorityService.getAllNormal(), AuthorityRespVo.class);
         List<Long> authorityIds = roleAuthorityService.findAuthIdsByRoleId(roleId);
         RoleAuthorityRespVo respVo = new RoleAuthorityRespVo();
         respVo.setAuthorityIds(authorityIds);
