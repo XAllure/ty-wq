@@ -23,10 +23,7 @@ public interface OptionKey {
     /**v2*/
     String V2 = "v2";
 
-    /** 创建群聊的好友的微信id列表字段 */
-    String WXID_LISTS = "wxidLists";
-
-    /** 踢群成员字段 */
+    /** 创建群聊的好友的微信id列表字段/踢群成员字段 */
     String WXID_LIST = "wxidList";
 
     /** 群名称字段等 */

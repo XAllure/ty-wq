@@ -69,8 +69,8 @@ public class WechatRoomReqVo extends BaseReqVo {
     @ApiModelProperty("部门ID")
     private Long departmentId;
 
-    @ApiModelProperty("要添加群聊的人员的微信id(由于群聊必须至少3个人, 因此必须包含至少2个好友的wxid)")
+    @ApiModelProperty("要添加群聊的人员的微信id，创建的群成员列表第一个要放上创建者的微信ID")
     @NotEmpty(message = "请选择要添加群聊的人员，至少2个好友", groups = {Add.class})
-    private List<String> wxidLists;
+    private List<String> wxidList;
 
 }

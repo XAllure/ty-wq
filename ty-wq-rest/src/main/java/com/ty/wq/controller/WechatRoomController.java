@@ -52,7 +52,7 @@ public class WechatRoomController {
         return Result.success(vos);
     }
 
-    @ApiOperation(value = "创建群聊")
+    @ApiOperation(value = "创建群聊，创建的群成员列表第一要要放上创建者的微信ID")
     @PostMapping("/createChatRoom")
     @VxPermission("create")
     public Result createChatRoom(@RequestBody WechatRoomReqVo vo) {
@@ -61,7 +61,7 @@ public class WechatRoomController {
         sMsg.setApi(ApiType.CREATE_CHAT_ROOM);
         sMsg.setSendId(vo.getWechatId());
         sMsg.setOption(Option.option()
-                .add(OptionKey.WXID_LISTS, vo.getWxidLists())
+                .add(OptionKey.WXID_LIST, vo.getWxidList())
                 .getOption());
         return RouteUtils.send(sMsg);
     }

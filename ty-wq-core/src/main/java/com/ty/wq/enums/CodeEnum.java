@@ -42,7 +42,7 @@ public enum CodeEnum {
 
     ERROR_SAME_DATA(114,"原数据或已存在"),
 
-    ERROR_CLIENT(115,"客户端不存在"),
+    ERROR_CLIENT(115,"轮询回调客户端不存在"),
 
     NO_AUTHENTICATION(401,"认证失败"),
 

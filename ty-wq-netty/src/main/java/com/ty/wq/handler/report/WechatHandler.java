@@ -76,7 +76,7 @@ public class WechatHandler {
     }
 
     /**
-     * 获取微信普通好友
+     * 获取微信普通好友列表
      * @param wechatId
      */
     private void getWechatFriends(String wechatId, Channel channel) {
@@ -84,6 +84,8 @@ public class WechatHandler {
         sMsg.setApi(ApiType.GET_CONTACTS);
         sMsg.setSendId(wechatId);
         send(channel, sMsg);
+        log.error("获取微信普通好友列表的微信id：{}", wechatId);
+        System.out.println("获取微信普通好友列表的微信id：{}" + wechatId);
     }
 
     /**

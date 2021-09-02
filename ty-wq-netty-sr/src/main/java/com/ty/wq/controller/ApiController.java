@@ -34,8 +34,7 @@ public class ApiController {
     @GetMapping("/send_msg")
     public Object sendMsg() {
         LinkedList<SendMsg> list = new LinkedList<>();
-        int size = QueueUtils.messages.size();
-        for (int i = 0; i < size; i++) {
+        if (!QueueUtils.messages.isEmpty()) {
             list.add(QueueUtils.messages.poll());
         }
         return list;
